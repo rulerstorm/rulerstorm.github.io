@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> C++的本质 · Rock's personal notebook</title><meta name="description" content="C++的本质 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">C++的本质</h1><div class="post-time">Dec 22, 2015</div><div class="post-content"><p>此笔记为C++之父2014年的讲座『the essence of C++』。讲了cpp的本质以及近年来cpp11及14的改进。</p>
+<a id="more"></a>
+<h4 id="CPP的设计用途"><a href="#CPP的设计用途" class="headerlink" title="CPP的设计用途"></a>CPP的设计用途</h4><ul>
+<li>系统编程</li>
+<li>嵌入式系统</li>
+<li>资源限制的系统</li>
+</ul>
+<h4 id="CPP的抽象层级"><a href="#CPP的抽象层级" class="headerlink" title="CPP的抽象层级"></a>CPP的抽象层级</h4><p>「轻量级」抽象的编程语言，希望用最小的代价实现抽象。</p>
+<hr>
+<h4 id="关于「资源管理」"><a href="#关于「资源管理」" class="headerlink" title="关于「资源管理」"></a>关于「资源管理」</h4><p>任何资源（包括内存、文件、socket、锁、线程等）都应该使用一个<code>handle</code>来管理。</p>
+<h5 id="什么是handle？"><a href="#什么是handle？" class="headerlink" title="什么是handle？"></a>什么是handle？</h5><blockquote>
+<p>A resource should be owned by a “handle”<br>A “handle” should present a well-defined and useful abstraction<br>E.g. a vector, string, file, thread</p>
+</blockquote>
+<p>handle就是一个代理，由handle去持有资源、管理资源。外界持有handle就可以了。<br>这样做主要是为了贯彻<code>RAII</code>的资源管理方式（Resource Acquisition Is Initialization），即「资源的handle在<code>初始化</code>时持有这个资源，在<code>析构</code>时释放资源」</p>
+<h5 id="为啥需要handle？"><a href="#为啥需要handle？" class="headerlink" title="为啥需要handle？"></a>为啥需要handle？</h5><p>直接持有资源会容易在特殊情况下难以「释放」。例如：<br>1.中途抛出异常<br>2.中途退出函数<br>3.多线程间共享资源</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">2</span>);</span><br><span class="line"><span class="comment">//其他代码</span></span><br><span class="line">delet p;</span><br><span class="line"><span class="comment">//此时中间的代码如果抛异常，则内存泄露</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//好的写法</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<h5 id="CPP标准库中设计好的handle"><a href="#CPP标准库中设计好的handle" class="headerlink" title="CPP标准库中设计好的handle"></a>CPP标准库中设计好的handle</h5><ul>
+<li>STL中的vector、list、thread等</li>
+<li><code>shared_ptr</code>(引用计数)、<code>unique_ptr</code>(不带引用计数)</li>
+<li>….</li>
+</ul>
+<h5 id="那什么时候用裸的指针？"><a href="#那什么时候用裸的指针？" class="headerlink" title="那什么时候用裸的指针？"></a>那什么时候用<code>裸的指针</code>？</h5><p>仅在handle的内部。<br>「注」裸的数组也是不推荐使用的，容易被攻击，且没有越界检查。</p>
+<hr>
+<h4 id="一个困扰的问题：如何从函数中传出大量数据？"><a href="#一个困扰的问题：如何从函数中传出大量数据？" class="headerlink" title="一个困扰的问题：如何从函数中传出大量数据？"></a>一个困扰的问题：如何从函数中传出大量数据？</h4><p>对于「工厂函数」或者其他要创造出新变量的函数，都需要在函数结束后返回一大堆<code>新的</code>数据。处理方式主要有以下几种：</p>
+<ul>
+<li>返回函数的局部变量（错误方法，堆内存在函数执行后被销毁）</li>
+<li>返回new出来地址的指针（有问题，谁有责任去释放这块内存？）</li>
+<li>返回new出来地址的引用（问题更大，外面的哥们儿怎么释放它？）</li>
+<li>预先准备好一个变量，作为「传出参数」（很丑，UNIX中常用）<br>在C++11，解决了这个问题。解决方式是：<code>移动构造函数</code>(move constructor)</li>
+</ul>
+<h5 id="啥是「移动」？"><a href="#啥是「移动」？" class="headerlink" title="啥是「移动」？"></a>啥是「移动」？</h5><p>从设计初衷的角度看，首先避免<code>拷贝一份然后把原来的销毁</code>这种消耗资源的方式。其次对于传递指针地址的方式，主要问题也是出在「资源管理」。所以对于这样的资源如果用handle，只需要把handle持有的资源转移过去。这样copy的只是handle，代价小。</p>
+<h5 id="所以移动的「前提」你要是一个handle。"><a href="#所以移动的「前提」你要是一个handle。" class="headerlink" title="所以移动的「前提」你要是一个handle。"></a>所以移动的「前提」你要是一个handle。</h5><hr>
+<h4 id="关于垃圾回收"><a href="#关于垃圾回收" class="headerlink" title="关于垃圾回收"></a>关于垃圾回收</h4><p>垃圾回收的问题主要如下：</p>
+<ol>
+<li>不可预测</li>
+<li>性能开销</li>
+<li>只管理内存，不管理其他资源（锁、线程等）<br>「注」：C++11开始也支持垃圾回收了。STL</li>
+</ol>
+<hr>
+<h4 id="关于泛型"><a href="#关于泛型" class="headerlink" title="关于泛型"></a>关于泛型</h4><ul>
+<li>是一种廉价的（non-overhead）元编程</li>
+<li>CPP14给泛型增加了类似于<code>协议</code>或者<code>接口</code>的功能</li>
+<li>改善了泛型的错误提示</li>
+</ul>
+<hr>
+<p>最后，附上链接：<a href="https://www.youtube.com/watch?v=86xWVb4XIyE" target="_blank" rel="external">https://www.youtube.com/watch?v=86xWVb4XIyE</a></p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/01/29/雅思课笔记/" class="prev">上一篇</a><a href="/2015/12/15/面试算法笔记/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

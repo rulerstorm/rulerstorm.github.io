@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> iOS毛玻璃效果 · Rock's personal notebook</title><meta name="description" content="iOS毛玻璃效果 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">iOS毛玻璃效果</h1><div class="post-time">Nov 10, 2015</div><div class="post-content"><p>自从iOS8，apple官方开放了「毛玻璃」特效的API，用起来有点奇怪。</p>
+<a id="more"></a>
+<p>方法如下：</p>
+<ol>
+<li>要使用UIView的子类<code>UIVisualEffectView</code></li>
+<li>这个view的<code>backgroundColor</code>必须是<code>clearColor</code>，否则无效</li>
+<li>这个view的subView都会被模糊，如果只想背景模糊，其他部件需要与之平级，不要添加为它的subView！</li>
+<li>所以需要一个容器view用来存放这个view和其他部件，这个容器也应该是clearColor，注意alpha不要小于1，否则所有子view都会受影响。</li>
+<li>设置这个view的<code>effect</code>属性，值为：<code>[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]</code>。注意有light，dark，extraLight三种可选。</li>
+<li>如果觉得默认的太透明了，想要一点<code>白底</code>，请不要改变上述的颜色。正确做法是在毛玻璃特效的后面（平级）加入一个半透明的view（alpha0.3），这个view的颜色设置为乳白色或者灰色会有不错的效果。</li>
+</ol>
+<p>[注意]带有毛玻璃特效的view最好不要参与动画，特效在动画中不会被渲染，只有停下来才有效果。如果有动画会一下次出现背景比较突兀。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2015/12/02/牛顿迭代法/" class="prev">上一篇</a><a href="/2015/10/22/app服务端搭建/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> JS_CheatSheet · Rock's personal notebook</title><meta name="description" content="JS_CheatSheet - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">JS_CheatSheet</h1><div class="post-time">Jul 9, 2015</div><div class="post-content"><p>以下是犀牛书前几章的笔记。基本涵盖了js的主要语言特性，并没有包含高级特性。以后有需要再深入。</p>
+<a id="more"></a>
+<h4 id="小细节"><a href="#小细节" class="headerlink" title="小细节"></a>小细节</h4><ol>
+<li>js 区分大小写，而html不区分</li>
+<li>js中所有的数字都是IEEE754的<code>64位</code>浮点数。「注意」浮点数舍入。</li>
+<li>数组下标是<code>32位</code>无符号整数。</li>
+</ol>
+<h4 id="未定义的变量"><a href="#未定义的变量" class="headerlink" title="未定义的变量"></a>未定义的变量</h4><p>未定义的变量看上去像全局变量，实际上不是，它被自动生成为全局对象的<code>属性</code>。</p>
+<h4 id="对于字符"><a href="#对于字符" class="headerlink" title="对于字符"></a>对于字符</h4><p>采用<code>UTF-16</code>编码，通常每个字符用16bit表示，超出16bit的不分，则用32个bit表示。对字符变量取<code>.length</code>时，每16bit为1。即通常一个字符的长度为1，如果该字符超出UTF-16的范围，则长度为2。<br>「另外」js中可以采用<code>\u0008</code>这样的unicode编码直接表示某字符。</p>
+<h4 id="包装对象"><a href="#包装对象" class="headerlink" title="包装对象"></a>包装对象</h4><p>对于<code>字符串</code>、<code>数字</code>、<code>布尔值</code>三种「原始类型」，在调用其属性或方法时，解释器会调用<code>String()</code>、<code>Number()</code>、<code>Boolean()</code>构造函数，生成一个「临时」的包装对象，然后用这个对象进行属性或方法调用。作用于这个临时对象的操作并不对原来那个值产生影响，需小心。</p>
+<h4 id="偷懒的类型转化"><a href="#偷懒的类型转化" class="headerlink" title="偷懒的类型转化"></a>偷懒的类型转化</h4><p>x + ‘’     =》 转字符串<br>+x   =》 转数字<br>!!x   =》  转布尔值</p>
+<h5 id="值得注意的类型转化"><a href="#值得注意的类型转化" class="headerlink" title="值得注意的类型转化"></a>值得注意的类型转化</h5><p>字符串转布尔：非空串即true<br>字符串转数字：有字母则NaN，空串为0<br>Object转布尔：恒为true<br>Object转数字：恒为NaN</p>
+<h4 id="对象到原始值的转化"><a href="#对象到原始值的转化" class="headerlink" title="对象到原始值的转化"></a>对象到原始值的转化</h4><p><code>toSting()</code>转为sting，<code>valueOf()</code>转为number<br>「注」如果一个对象没有toString方法，或者这个方法无效（原封不动返回对象而不是原始值）。此时解释器会尝试调用valueOf方法，先转成数字，再转成字符串。对于valueOf也是这样，转不动的时候会去尝试调用toString。。。好无奈</p>
+<h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>没有块级作用域，只有<code>函数作用域</code>。即在函数内无论何处定义都可用。<br>「变量名提前」，即在同一个作用域内，后面定义的变量前面就能用了。但注意提前的只是<code>声明</code>，初始化仍然是在后面。</p>
+<h4 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h4><p>可以调用上一层函数作用域里面的对象。由链表一层一层向上找。</p>
+<p>「具体实现」：作用域链是对象的链表，每个节点代表一个函数作用域。变量的作用域由函数的<code>定义</code>位置决定，但是只有在在函数<code>执行</code>时，才会开始拓展作用域链。具体步骤是：创建一个对象，包含这个函数内定义的所有局部变量，然后把这个对象作为链表指向上一个节点（这是由函数的定义位置决定的）。</p>
+<p>再谈「闭包」：</p>
+<ol>
+<li>我们为什么要用闭包？希望解决的问题是：再次调用函数时，希望能从上一次的状态继续。或者说，希望保存函数的<code>状态</code>。于是有了方法1:全局变量。缺点：乱，不好维护。于是有了方法2：把状态变量直接挂载到函数上，作为一个属性（函数也是对象）。缺点：缺乏私有的访问限制。于是我们终于有了方法3：闭包。所以闭包解决的问题，只不过是让这个状态变量私有化。<code>松本行弘</code>认为，闭包与Class都是把函数与变量封装起来，他们的关系就像一个硬币的正反面，只是实现方式不同罢了。</li>
+<li>机理。js与c不同，函数的调用并不在<code>栈空间</code>，而是创建一个<code>临时对象</code>存放局部变量。如果没有其他变量引用这个对象，在函数执行完毕后该对象会被垃圾回收。而闭包就是把局部定义的函数返回出去，让外界引用持有，于是整个函数生成的临时对象都会存活下来。</li>
+<li>要注意的有两点：1：由于每次函数执行都会生成一个临时对象，所以那些临时变量间互不干扰，分别处于同级别的<code>不同的</code>作用域链。2：要时刻注意闭包虽然把变量封闭在函数里面了，但是这些变量并没有固化静态快照。</li>
+<li>现在看来，闭包在功能是为了封装隔离某些函数多次调用时需要保存的状态变量。其实在class机制完全的语言里，只要把那些变量设为private就可以实现，只是js的类机制比较弱，用作用域链实现隔离。</li>
+</ol>
+<h4 id="属性访问表达式"><a href="#属性访问表达式" class="headerlink" title="属性访问表达式"></a>属性访问表达式</h4><p>要访问一个对象的属性，可以是点语法，也可以在方括号里面写属性的名称字符串。<br>「注意」方括号里面无论是什么，先转字符串！所以即使是数组下标，也是先把数字转成字符串去查找的。</p>
+<h4 id="「相等」的判定"><a href="#「相等」的判定" class="headerlink" title="「相等」的判定"></a>「相等」的判定</h4><ol>
+<li><code>==</code>允许类型转化，<code>===</code>不允许类型转化</li>
+<li>对象的比较，比较的是指针。</li>
+<li>字符串的比较，比较的是unicode码，码不同，即使字符相同也不等</li>
+<li><code>NaN</code>与任何值都不相等，它和自己也不等。</li>
+<li>数字与其他类型比较均转化为数字再比较</li>
+</ol>
+<h4 id="eval-函数"><a href="#eval-函数" class="headerlink" title="eval()函数"></a>eval()函数</h4><p>eval函数把参数字符串作为代码来执行，并可调用eval位置的上下文。<br>如果给eval函数取别名，调用别名函数时，则操作全局上下文（局部变量不可见）</p>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h4><p>switch的行为类似于c语言。「注意」case的判定不做类型转化，即<code>===</code>。</p>
+<h4 id="JS的对象"><a href="#JS的对象" class="headerlink" title="JS的对象"></a>JS的对象</h4><p>js的<code>对象</code>就是<code>「字典」</code>。<br>js的继承是对象的继承，而不是class的继承。<br>对象的「prototype」就是<code>构造函数</code>的<code>prototype</code>属性<br>对象的「class」就是「构造函数」<code>（有待验证）</code></p>
+<p>「例子」一个数组[1, 2]，Array就是它的类，<code>Array.prototype</code>就是它的原型。对于数组的各种方法均定义在Array.prototype中。</p>
+<h4 id="属性的特性（property-attribute）"><a href="#属性的特性（property-attribute）" class="headerlink" title="属性的特性（property attribute）"></a>属性的特性（property attribute）</h4><ol>
+<li><code>writable</code>—可写。（可修改）</li>
+<li><code>enumerable</code>—可枚举。</li>
+<li><code>configurable</code>—可配置。（就是能否更改这些属性）</li>
+</ol>
+<h4 id="属性的检测"><a href="#属性的检测" class="headerlink" title="属性的检测"></a>属性的检测</h4><ol>
+<li><code>x.hasOwnProperty()</code>—检测自有属性</li>
+<li><code>in</code>运算符—-检测包括继承的属性</li>
+<li><code>x.propertyIsEnumerable()</code>—检测可枚举的<code>自有</code>属性<br>「啥叫可枚举」用for-in遍历对象时，会遍历到的属性就是enumerable的</li>
+</ol>
+<h4 id="delete运算符"><a href="#delete运算符" class="headerlink" title="delete运算符"></a>delete运算符</h4><p>删除对象对属性的<code>引用</code>。通常可以删除某个属性，但是如果其子属性也被其他对象引用，并不会被立刻销毁。<br>另外，delete不能销毁继承来的属性。</p>
+<p><code>Object.Keys()</code>与<code>Object.getOwnPropertyNames()</code>的区别？<br>第一个会追溯原型链，第二个不会。</p>
+<h4 id="关于「数组」值得注意的地方"><a href="#关于「数组」值得注意的地方" class="headerlink" title="关于「数组」值得注意的地方"></a>关于「数组」值得注意的地方</h4><ol>
+<li>直接量的语法中，最后一个逗号<code>,</code>是可以选的。[,]是空数组</li>
+<li>数组的索引是32位整数。</li>
+<li>数组与普通对象的区别？维护一个length，索引为<code>unsigned_int32_t</code></li>
+<li>「省略值」仍旧有key，而value是<code>undefined</code>。这不代表没有元素。</li>
+<li>for-in不会遍历到省略值的key。</li>
+</ol>
+<h4 id="关于「函数」值得注意的地方"><a href="#关于「函数」值得注意的地方" class="headerlink" title="关于「函数」值得注意的地方"></a>关于「函数」值得注意的地方</h4><ol>
+<li>调用函数时，解释器并不检查传入的参数。</li>
+<li>函数也是<code>对象</code>，可以有属性，存点状态什么的。</li>
+</ol>
+<h4 id="函数的「arguments」属性"><a href="#函数的「arguments」属性" class="headerlink" title="函数的「arguments」属性"></a>函数的「arguments」属性</h4><ol>
+<li>它是一个<code>类数组</code>（行为看上去像数组），下标访问得到实际传入的参数</li>
+<li><code>arguments.length</code>代表传入的<code>实参</code>数量，<code>arguments.callee.length</code>代表函数定义时的<code>形参</code>数量。</li>
+<li><code>callee</code>属性代表当前函数</li>
+<li><code>caller</code>属性代表调用本函数的函数</li>
+<li>「注意」callee和caller在<code>严格模式</code>下不可用。</li>
+</ol>
+</div></article></div></section><footer><div class="paginator"><a href="/2015/08/23/ipa重签名/" class="prev">上一篇</a><a href="/2015/05/27/IOS开发笔记/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

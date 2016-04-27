@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 配置一台真正的服务器 · Rock's personal notebook</title><meta name="description" content="配置一台真正的服务器 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">配置一台真正的服务器</h1><div class="post-time">Feb 5, 2015</div><div class="post-content"><p>由于需要准备和校外的朋友一起测试app，总需要一台公网服务器。与其去租用免费的公共服务器资源，我更乐意试试把实验室的电脑配置成一台服务器。</p>
+<a id="more"></a>
+<p>思路很简单：</p>
+<ol>
+<li>需要一个公网ip，学校的电信宽带可以提供，但是前提是有WiFi。</li>
+<li>ip需要固定，可以通过配置实现。</li>
+<li>需要一台装有linux的电脑。</li>
+</ol>
+<p>但是实现却没想象那么简单：</p>
+<h4 id="Ubuntu的双系统安装"><a href="#Ubuntu的双系统安装" class="headerlink" title="Ubuntu的双系统安装"></a>Ubuntu的双系统安装</h4><p>我还是需要保留windows的编译环境的，所以必须在不破坏原有win7的情况下安装双系统。恩，简单的，分区，然后制作ubuntu的启动u盘，重启，安装。。。<br>然后让我选分区「挂载点」，好几个，然后是「系统引导分区」。。。懵了<br>虽然Mac作为UNIX已经用了很久，但是真正的Linux还真是没装过。。。于是上网随便看了个教程<br>哦，要把多个文件夹挂载到多个分区，ok！装好了！<br>然后win7没了。。。。</p>
+<p>痛苦完以后，拿起「鸟哥」补基础，总结如下：</p>
+<h5 id="设备的命名"><a href="#设备的命名" class="headerlink" title="设备的命名"></a>设备的命名</h5><p>对于SATA设备（包括USB），一般会挂载到<code>/dev</code>下，然后根据硬件被系统的加载顺序，按顺序分配sda,sdb,sdc….sdp，动态分配。而一个硬盘的分区，则是sda1,sda2,…按照数字分</p>
+<h5 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h5><p>分区表位于硬盘的第一个扇区，大小是64字节。所以只能写4个分区项目，为了解决分区不够多的事情呢，把4个分区这样设定：3个可以做「主分区」（最多3个），另一个是「扩展分区」。这个扩展分区呢，可以再被分为多个「逻辑分区」，但是有如下限制：</p>
+<ol>
+<li>扩展分区最多只有1个</li>
+<li>逻辑分区的数量可以有很多，但是都必须是在扩展分区里面切切切</li>
+<li>逻辑分区不能和主分区合并，否则需要重新对整个扩展分区进行格式化</li>
+<li>逻辑分区的编号从5开始，1-4留给主分区<br>所以呢，一般会把逻辑分区放到最后，否则要是主分区已经3个了，就不能再分区了。。。</li>
+</ol>
+<h5 id="启动项"><a href="#启动项" class="headerlink" title="启动项"></a>启动项</h5><p>在第一个扇区内，除了分区表，还有重要的「主引导记录」（Master Boot Recoder），它主要是指向第一个分区的「引导加载程序」（loader）和后面分区的「引导记录」。相当于一个list。<br>对于有操作系统的分区，或者有启动项的分区，第一个扇区必须写如引导记录，里面记录了loader。而开机的时候，默认只会读<code>第一个分区的第一个扇区</code>，就是如果MBR里面没有把后面分区加到list里面，那么就不会去读后面分区的引导记录了。。。<br>于是就有了双系统，装了一个干掉一个的情况。新的系统一般只会去修改MBR，而不会把别人的引导记录加到list里面。于是我们要做的事情，就是把ubuntu的引导写入到<code>后面分区</code>的引导扇区中，而不是写到整个磁盘（MBR），然后，再进入win7，去把ubuntu的引导记录加入到MBR的list中，大功告成！</p>
+<hr>
+<h4 id="公网ip的实现"><a href="#公网ip的实现" class="headerlink" title="公网ip的实现"></a>公网ip的实现</h4><p>unbuntu装好之后，发现一件很囧的事情，无线网卡没有驱动了。。<br>用的是360WiFi，查了一下似乎装驱动不容易，还是选择了在win里面装虚拟机。<br>但是虚拟机的ip怎么和主机一样呢？<br>答案是NAT，然后在虚拟机里面设置<code>端口映射</code>。顺便检验一下网络理论。<br>在VMware workstation 11内，<code>编辑》虚拟网络编辑器》NAT模式的NAT设置</code>就可以找到选项<br>把主机（网关）ip的80端口，全都映射到内网虚拟机ip的80端口，实现穿透。<br>然后装上Apache测试，用手机访问主机的ip，显示虚拟机的Apache页面，it works！</p>
+<h4 id="ubuntu系统ip的固定"><a href="#ubuntu系统ip的固定" class="headerlink" title="ubuntu系统ip的固定"></a>ubuntu系统ip的固定</h4><p>修改<code>/etc/network/interface</code>文件<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet <span class="keyword">static</span></span><br><span class="line">address <span class="number">192.168</span>.xxx.xxx</span><br><span class="line">netmask <span class="number">255.255</span>.255.0</span><br><span class="line">network <span class="number">192.168</span>.xxx.0</span><br><span class="line">broadcast <span class="number">192.168</span>.xxx.255</span><br><span class="line">gateway <span class="number">192.168</span>.xxx.1</span><br></pre></td></tr></table></figure></p>
+<p>修改<code>/etc/resolv.conf</code>文件</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nameserver <span class="number">202</span><span class="selector-class">.xxx</span><span class="selector-class">.xxx</span><span class="selector-class">.xxx</span> (your_DNS_server)</span><br></pre></td></tr></table></figure>
+<p>重启网络<br><code>sudo /etc/init.d/networking restart</code></p>
+<p>[注]<code>nm-tool</code>可在ubuntu下查询网络信息，包括DNS</p>
+<h4 id="ubuntu的LAMP安装"><a href="#ubuntu的LAMP安装" class="headerlink" title="ubuntu的LAMP安装"></a>ubuntu的LAMP安装</h4><p>想不到与Mac上差别竟然挺大，不但启动命令不一样，连配置文件的名字都可以不一样。折腾了蛮久，这些配置文件真实太诡异了，经常改了几行就跑不起来了。<br>MySQL的配置文件my.cnf令我印象深刻，仅仅是把这个文件的权限加到777，就可以让整个MySQL毫无征兆地跑不起来！！<br>现在我改这种文件都吓得先cp一份了，一不小心就弄坏了。</p>
+<h4 id="Mysql数据库的迁移"><a href="#Mysql数据库的迁移" class="headerlink" title="Mysql数据库的迁移"></a>Mysql数据库的迁移</h4><p>这个数据库的迁移几乎是每次都有出问题，问题都在字符集。这次导入导出都是utf8，可是读到页面里面却变成了乱码，而新写入的数据又没问题。<br>检查了很久，终于发现是PHP连接的时候没有强制指定utf8，各个操作系统差别真是不小！</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2015/02/07/《C和指针》读书笔记/" class="prev">上一篇</a><a href="/2015/01/27/重学「计算机网络」/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

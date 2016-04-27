@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 牛顿迭代法 · Rock's personal notebook</title><meta name="description" content="牛顿迭代法 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">牛顿迭代法</h1><div class="post-time">Dec 2, 2015</div><div class="post-content"><p>牛顿迭代法求平方根，一直知其然不知其所以然。为啥这个公式算出来能逼近？为啥逼近的就是根？今天认真学了一下，总算有点直观认知。</p>
+<a id="more"></a>
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><p>求方程根的近似解。</p>
+<h4 id="直观解释"><a href="#直观解释" class="headerlink" title="直观解释"></a>直观解释</h4><ol>
+<li>首先，我们想要求的是「函数与x轴的交点」。</li>
+<li>好，根据泰勒展开理论，「函数的切线」是「函数」的近似，于是<code>「切线与x轴的交点」</code>是「函数与x轴交点」的一个近似。也就是说这个切线的交点（新x），会更接近函数与x轴的交点。</li>
+<li>每次迭代，就是在该点去计算「切线与x轴交点」得到一个新的近似值的过程。</li>
+</ol>
+<h4 id="理论证明"><a href="#理论证明" class="headerlink" title="理论证明"></a>理论证明</h4><p>根据泰勒展开式，y = f(x0)+f’(x0)(x-x0)+<code>o(x)</code><br>而在x0处的切线为：y = f(x0)+f’(x0)(x-x0)<br>这两式说明切线与函数本身<code>在小范围内的差别</code>是一个高阶无穷小。于是我们去掉后面的无穷小，用切线替代原来的函数，得到它的根，就是与x轴的交点：</p>
+<blockquote>
+<p>x = x0-f(x0)/f’(x0)</p>
+</blockquote>
+<p>这就是牛顿迭代法的「迭代公式」。<br>[注]泰勒展开的几何意义为函数的分解，理论上所有项加起来以后就是原来函数。</p>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><p>能化解为「方程根」问题的情况，比如求「极值」，转化为「导函数」的根。</p>
+<h4 id="方法失效"><a href="#方法失效" class="headerlink" title="方法失效"></a>方法失效</h4><p>不能有<code>「重根」</code>。<br>重根的情况就是「函数与x轴相切」，相切出导数趋近于0。可以直观得看出牛顿法在这种情况并不收敛。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><p>选一个更好的「初始值」会有利于更快得到比较接近的结果。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2015/12/15/面试算法笔记/" class="prev">上一篇</a><a href="/2015/11/10/iOS毛玻璃效果/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

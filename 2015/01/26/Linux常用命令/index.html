@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Linux常用命令 · Rock's personal notebook</title><meta name="description" content="Linux常用命令 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Linux常用命令</h1><div class="post-time">Jan 26, 2015</div><div class="post-content"><h4 id="xargs命令"><a href="#xargs命令" class="headerlink" title="xargs命令"></a>xargs命令</h4><p>xargs代表construct argument lists and invoke utility<br>[用途：]</p>
+<ol>
+<li>有些命令的输入必须是命令行（如果可以是stdin，那可以用管道），用xargs可以把stdin的输入转化为命令行参数，加在目标命令后面</li>
+<li>参数太长时，xargs会把参数分批次传送给目标命令</li>
+</ol>
+<p>［常用格式：］<br><code>参数源命令 | xargs 目标命令</code></p>
+<p>［例子：］<br><code>ls -a | xargs cat</code>   —  这个相当于<code>cat ./*</code>，输出文件夹下每个文件的内容<br>注意不同于<code>ls -a | cat</code>，这样只会输出ls -a的内容，而没有每个文件的内容</p>
+<hr>
+<h4 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h4><p>grep代表globally search a regular expression and print，用于全局正则搜索<br>［常用格式：］<br><code>grep 参数 “your_pattern” target_path</code></p>
+<p>［注意］</p>
+<ol>
+<li>默认输出为stdout</li>
+<li>匹配单元为行，所以不能跨行匹配</li>
+<li>默认会输出匹配成功的整行</li>
+<li>需要高级正则表达式时，请用<code>egrep</code>！</li>
+</ol>
+<p>［重要参数］<br><code>-l</code> 只输出匹配成功的文件名<br><code>-i</code> 忽略大小写<br><code>-v</code> 反向匹配，即输出不匹配的行<br><code>-n</code> 输出时包含行号<br><code>-r</code> 递归子文件夹</p>
+<hr>
+<h4 id="sed-命令"><a href="#sed-命令" class="headerlink" title="sed 命令"></a>sed 命令</h4><p>sed代表stream editor，常用于文本替换。<br>［常用格式：］<br><code>sed ’s/正则模式/替换内容/g’ target.txt</code><br>注释：</p>
+<ol>
+<li><code>s</code>代表替换</li>
+<li><code>g</code>代表<code>对所有的匹配全部替换</code>，不加g代表只替换<code>第一个匹配</code></li>
+<li><code>g</code>可以换成<code>d</code>，表示<code>删除</code>含有匹配的该行</li>
+</ol>
+<p>［注意］：</p>
+<ol>
+<li>默认输出为标准输出，所以上面这个命令只会把替换结果打印到屏幕上。如果需要<code>直接替换</code>文本内容（危险！），需要<code>-i备份后缀</code>，<br>例如：<br><code>sed  -i.bak ’s/正则模式/替换内容/g’ target.txt</code>  — 备份文件为：原文件.bak<br><code>sed  -i.ss ’s/正则模式/替换内容/g’ target.txt</code>  — 备份文件为：原文件.ss</li>
+<li>正则匹配时，先回把文本按照行分裂开来，和grep相同</li>
+<li>正则模式中，［小括号()］和［花括号{}］需要加<code>转义字符\</code></li>
+<li>有些老版本的sed默认不开启正则，需要<code>-e</code></li>
+<li>警告：此命令博大精深，man文档极其复杂，暂无需深入。</li>
+</ol>
+<p>［重要用法］<br><code>grep old_pattern -rl target_dir | xargs sed -i.bak &#39;s/old_pattern/new_pattern/g&#39;</code><br>搜索该文件夹内 所有含有模式的文件，用sed进行替换。<br>注意xargs是必须的</p>
+<p><code>sed -i.bakup.md &#39;s/\([^ ].\{0,3\}$\)/\1     /g&#39; *.md</code><br>对当前文件夹下的md文件操作，对于行尾空格少于四个的行，给他加四个空格。（写博客用的）<br>注释：匹配模式为<code>[^ ].{0,3}</code>，即<code>最后四个字符里面有[非空格]</code>。后面有个<code>\1</code>反向引用，所以给前面加了小括号。<br>感觉还可以优化。</p>
+<hr>
+<h4 id="awk-命令"><a href="#awk-命令" class="headerlink" title="awk 命令"></a>awk 命令</h4><p>awk不是谁的缩写，而是三个发明者的名字缩写。。。<br>[用途]<br>awk的主要用于格式化文本（有固定分隔符）的文本处理。与sed相比，擅长对文本分列处理（csv？）。awk是一门编程语言，也是复杂的不行，先从简单入手。</p>
+<p>[基本思想]<br>awk和grep一样，对于文件，以<code>行</code>为单位依次处理文本，然后会对行「按照分隔符」进行分列，然后用<code>$1</code>表示<code>第1列</code>，<code>$2</code>表示<code>第2列</code>，注意<code>$0</code>表示<code>整行</code>。</p>
+<p>[常用格式：]<br><code>awk &#39;/pattern/ {command1; command2; ...}&#39; input_file</code><br>注释：</p>
+<ol>
+<li><code>/pattern/</code> 表示「匹配这个模式的行」才会执行命令</li>
+<li><code>command</code>表示命令，如：<code>print $1</code> 打印每行第一列</li>
+<li><code>input_file</code> 可以没有，可以是从管道输入</li>
+</ol>
+<p>［重要参数］<br><code>-F</code> – 指定分列的「分隔符」（默认是<code>空格</code>或<code>Tab</code>）<br><code>BEGIN{command}</code> – 可以指定在<code>开始前</code>执行命令<br><code>END{command}</code> – 指定在对所有行操作<code>结束后</code>执行命令<br>完整格式：<br><code>awk -F&#39;xx&#39; &#39;BEGIN{command} /pattern/ {command1; command2; ...} END{command}&#39;</code></p>
+<p>例子：<br><code>printf &#39;1 \n 2 \n 3&#39; | awk &#39;/[0-9]/ { sum += $1} END {print sum}&#39;</code><br><code>printf &#39;1:2:3&#39; | awk -F&#39;:&#39; &#39;{print $2}&#39;</code><br><code>printf &#39;1:2:3&#39; | awk &#39;BEGIN{RS=&quot;:&quot;} {print}&#39;</code>   //把<code>:</code>作为记录分隔符（分行），默认是<code>\n</code>，现在手动指定为<code>:</code>。</p>
+<p>综合一下：<br><code>printf &#39;1:2:3&#39; | awk &#39;BEGIN{RS=&quot;:&quot;; sum=10} {sum += $1} END{print sum}&#39;</code></p>
+</div></article></div></section><footer><div class="paginator"><a href="/2015/01/27/重学「计算机网络」/" class="prev">上一篇</a><a href="/2015/01/10/约瑟夫问题/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

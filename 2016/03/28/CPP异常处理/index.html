@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> CPP异常处理 · Rock's personal notebook</title><meta name="description" content="CPP异常处理 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">CPP异常处理</h1><div class="post-time">Mar 28, 2016</div><div class="post-content"><p>对于可以预计的问题，相对于原始的<code>if判断</code>与<code>返回值</code>方法，异常处理机制的主要目的，是「把问题的<code>检测</code>与<code>处理</code>分离」，相互独立以后，可以降低耦合度，且相互不需要知道内部细节。</p>
+<a id="more"></a>
+<h4 id="栈展开-stack-unwinding"><a href="#栈展开-stack-unwinding" class="headerlink" title="栈展开(stack unwinding)"></a>栈展开(stack unwinding)</h4><p>每个函数/代码块（function/block）被调用时，会把局部变量压栈。<br>然而当异常被throw后，当前栈就直接释放，搜寻是否有匹配的catch。<br>如果当前的try块的catch不能匹配，则再<code>退栈</code>，返回上一层函数，搜索匹配的catch。直到有catch接住这个异常为止。<br>这个过程就是栈展开。<br>我们需要注意的是：</p>
+<ol>
+<li>退栈的情况和<code>函数调用</code>完毕后的退栈情况一样，不要传出局部变量的引用或指针</li>
+<li>抛出异常时，代码的行为类似于<code>return</code>，后面的代码都不执行。于是才用RAII管理资源是必须的。</li>
+<li>[不重要]退栈的过程中清理局部变量，会调用析构函数。所以，析构函数一般不抛异常。如果你要抛，自己处理掉。否则直接terminate。</li>
+</ol>
+<h4 id="异常对象"><a href="#异常对象" class="headerlink" title="异常对象"></a>异常对象</h4><p>异常对象可以是标准库里面的exception类型，也可以是任意的类型。因为退栈，局部变量都会被销毁，这个对象要能让很多层以外的调用者知道是什么东西出了问题。<br>STL里面的类型大致分两种：runtime_error和logic_error<br>runtime主要是溢出、越界。指运行时错误。<br>logic主要是参数错误、范围错误。指代码的错误。</p>
+<p><code>「注意」</code>为了满足退栈后别人还能访问到这个对象的特性，异常对象被存放在编译器管理的内存空间中。在catch语句结束后销毁。</p>
+<h4 id="异常的捕获"><a href="#异常的捕获" class="headerlink" title="异常的捕获"></a>异常的捕获</h4><p>可以说，catch是一种特殊的函数。根据被抛出的异常对象的类型，编译器裁决是否符合catch函数对参数的要求。catch语句与普通的<code>函数调用</code>的主要区别如下：<br>函数调用裁决时，允许最大限度的<code>类型转化</code>。而catch则非常严格，只允许<strong>子类到父类</strong>、<strong>变量到常量</strong>、<strong>数组函数名转指针</strong>这三种类型转化。<br>另外：</p>
+<ol>
+<li>异常对象的形参，和函数形参相似，也是使用「拷贝初始化」的方式初始化的。所以，这个异常类如果是自己定义的，必须小心「拷贝构造」函数。</li>
+<li>和函数调用一样，<code>引用类型</code>的参数会直接操作全局的异常对象。</li>
+</ol>
+<h4 id="额外的主题"><a href="#额外的主题" class="headerlink" title="额外的主题"></a>额外的主题</h4><p><strong>rethrowing</strong><br>对于不能完全处理的异常，可以处理一部分，然后再向上抛。语法就是只写一个<code>throw;</code><br><strong>捕获所有异常</strong><br>catch函数类型要求严格，想要一个函数接住所有，这样：<code>catch(...)</code>。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2016/03/21/博客迁移/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

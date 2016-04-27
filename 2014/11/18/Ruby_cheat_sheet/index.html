@@ -1,0 +1,59 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Ruby_cheat_sheet · Rock's personal notebook</title><meta name="description" content="Ruby_cheat_sheet - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Ruby_cheat_sheet</h1><div class="post-time">Nov 18, 2014</div><div class="post-content"><p>基础部分</p>
+<a id="more"></a>
+<ol>
+<li>puts和print的区别：puts会自动换行，print不会</li>
+<li>一切皆是对象，连普通数字也是对象</li>
+<li>以大写字母命名的变量，会被认为是常量（修改它会有警告）,前面加<code>@</code>符号的是全局变量</li>
+<li>【迭代子】类似于迭代器，但是却是元素本身<ul>
+<li><code>容器.each{ |Name| puts Name}</code></li>
+<li><code>容器.collcet{。。。}</code>  //collect表示对迭代子操作后，把结果对其赋值</li>
+</ul>
+</li>
+<li>数字、字符串的互相转换<ul>
+<li>对象.to_s  =》   转为string</li>
+<li>对象.to_i   =》  转为int</li>
+<li>对象.to_f   =》  转为float</li>
+<li>对象.to_a   =》  转为数组。例子：<code>(1..9).to_a.each{ |e| puts e}</code>打印1-9</li>
+<li>字符串对象.to_sym  =》  转为<code>符号</code>。（符号是特殊的字符串?<code>有待深究</code>）</li>
+</ul>
+</li>
+<li>字符串拼接（插值）：<br> newString = “this is a raw string plus #{ <code>otherObj</code> }”</li>
+<li>数组：1.容量动态增长 2.类型不限制 3. <code>数组&lt;&lt;元素</code>代表push_back<ul>
+<li><code>加法</code>拼接数组。<code>减法</code>去掉相同元素。</li>
+<li><code>include?()</code>方法    =》  检查是否存在元素。</li>
+<li><code>first</code>和<code>last</code>方法  =》  返回最初和最后元素。</li>
+<li><code>reverse</code>方法   =》  反转数组。</li>
+</ul>
+</li>
+<li>字符串数组:<ul>
+<li><code>数组.join</code>方法   =》  把所有元素合成一个长字符串</li>
+<li><code>字符串.split</code>方法 =》  把字符串分割成数组</li>
+</ul>
+</li>
+<li>字典（hash）<ul>
+<li>字典.keys   =》  返回key数组</li>
+<li>字典.values =》  返回value数组</li>
+<li>字典.delet(key) =》  删除key键值的元素</li>
+<li><code>字典.delet_if { |key value| value &lt; 25 }</code>  =》  删除value小于25的元素</li>
+</ul>
+</li>
+<li>花括号<code>{}</code>和<code>do-end</code>块，本质上都是匿名函数/代码块。</li>
+</ol>
+<p>[注]<code>花括号</code>和<code>do-end块</code>是等价的，例如：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">容器.each <span class="keyword">do</span> |Name|</span><br><span class="line">    puts Name</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><p><code>单引号</code>和<code>双引号</code>的区别</p>
+<ul>
+<li>单引号中所有字符都是<code>字面值</code>，就是无视转义字符</li>
+<li>单引号中，不支持字符串拼接（插值）</li>
+</ul>
+</li>
+<li><p>函数</p>
+<ul>
+<li>可以定义<code>参数</code>的默认值</li>
+<li>不必指明<code>返回值</code>，函数中最后一个语句的值就是返回值。 （当然也可以写return）</li>
+</ul>
+</li>
+<li><p>一个例子：<code>(&#39;a&#39;..&#39;z&#39;).to_a.shuffle[0..7].join</code>功能是随机输出一个八位的字母</p>
+</li>
+</ol>
+</div></article></div></section><footer><div class="paginator"><a href="/2014/12/03/LAMP精要/" class="prev">上一篇</a><a href="/2014/10/24/Git笔记--单人仓库/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

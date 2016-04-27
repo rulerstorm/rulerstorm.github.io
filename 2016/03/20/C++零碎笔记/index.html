@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> C++零碎笔记 · Rock's personal notebook</title><meta name="description" content="C++零碎笔记 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">C++零碎笔记</h1><div class="post-time">Mar 20, 2016</div><div class="post-content"><p>补充零碎的cpp笔记。</p>
+<a id="more"></a>
+<h4 id="堆和栈"><a href="#堆和栈" class="headerlink" title="堆和栈"></a>堆和栈</h4><ul>
+<li>局部变量的内存分配在栈上，出了大括号自动清理。</li>
+<li>new出来的变量分配在堆上，需要手动释放。</li>
+</ul>
+<blockquote>
+<p>问：既然栈内存可以自动释放，为啥还要堆呢？<br>因为每个函数的栈大小，是在<code>编译期</code>就确定下来的，代码写好就钉死了。（这也是为什么申明数组时不可以使用变量）这个函数执行结束后，把这块固定大小的栈空间释放掉。所以，对于需要在<code>运行时</code>确定大小的空间，就要有一个灵活的堆来管理。</p>
+</blockquote>
+<h4 id="构造函数的调用顺序"><a href="#构造函数的调用顺序" class="headerlink" title="构造函数的调用顺序"></a>构造函数的调用顺序</h4><p>由于「子类包含父类」，或者说，父类是子类的前面一部分。于是，构造时，从里面开始，先调用父类，再调用子类。<br>同理，对于一个类里面「持有」另一个类的情况，也是先构造里面的类。<br>同理，对于析构函数，先析构外面的子类，再析构里面。</p>
+<h4 id="操作符重载若干问题"><a href="#操作符重载若干问题" class="headerlink" title="操作符重载若干问题"></a>操作符重载若干问题</h4><ol>
+<li>操作符重载可以写在类里，也可以写在全局。但是优先调用全局的。</li>
+<li>对于「指针」操作符的重载（即<code>-&gt;</code>），语法规定就是返回一个raw pointer类型（<code>*</code>，或者说是地址）。不要追问<code>为什么这个-&gt;不是唤起重载函数用掉了吗？为什么又能继续作用到后面的东西呢？</code>，因为这是语法规定。</li>
+<li>对于<code>i++</code>的重载，就是有一个「虚置」的int放在那里，用来区分<code>++i</code>的重载函数。语法规定，没理由。</li>
+</ol>
+<h4 id="再谈explicit关键字"><a href="#再谈explicit关键字" class="headerlink" title="再谈explicit关键字"></a>再谈explicit关键字</h4><p>要知道，编译器的主要工作，是尽可能帮你通过编译。（真的嘛？…）<br>作为<code>弱类型</code>语言，C++编译器会寻找各种「隐式类型转化」来帮助代码通过编译。一个明显的例子就是当你把一个int放到申明参数为double的函数里面去时，代码不会报错。<br>当你写了一个class，他的构造函数只有<code>一个参数</code>，或者其他的参数都有默认值时，编译器会根据代码需要，自动帮你把符合构造函数的变量，给他套上这个构造函数。正是因为这样的特性，编译器有时会意外得帮你做出你不需要的转化。而「explicit」的意思就是：明确的、显式的。意思就是只有我明确写了我要调用这个构造函数时，你才调用。否则别帮我自作多情。</p>
+<blockquote>
+<p>那，为啥只有<code>一个参数</code>的构造函数才有这种问题呢？<br>答，很显然，你俩参数，出了显式调用，还能咋自动？</p>
+</blockquote>
+<h4 id="泛型编程若干"><a href="#泛型编程若干" class="headerlink" title="泛型编程若干"></a>泛型编程若干</h4><p><strong>概述：</strong><br>模板有三种：<code>函数模板</code>、<code>类模板</code>、<code>成员模板</code>。<br>其中，仅有类模板需要在绑定时显示绑定模板参数，其余两个可以编译时自动推断。</p>
+<blockquote>
+<p>问：有了类模板不就行了，还要成员模板干啥呢？<br>答：首先要明确：成员模板–指的是成员函数是一个「模板函数」。<br>也就是说，即使在模板类绑定了参数以后，仍然允许其成员函数接受泛型参数。（即构造函数参数类型未定）。<br>如果只用类模板，在class的参数绑定以后，函数参数的类型也绑定了，不能改了。<br>_<br>用途：多用在STL的<code>copy构造函数</code>。比如，希望可以支持<code>用子类copy初始化父类</code>。虽然把参数定义为父类指针也可以做到这件事情，但是要知道，父类本身就是一个类模板，类型未定，在写这个函数的时候是不能决定参数类型的。</p>
+</blockquote>
+<p><strong>关于「模板模板参数」</strong><br>意思是，参数本身是一个<code>未绑定的</code>「模板类」。已经绑定的模板类作为参数不属于模板模板参数。<br>暂时并不能理解这样做的好处，可能是强制根据其他参数自动绑定。</p>
+<hr>
+<h4 id="虚表与虚指针"><a href="#虚表与虚指针" class="headerlink" title="虚表与虚指针"></a>虚表与虚指针</h4></div></article></div></section><footer><div class="paginator"><a href="/2016/03/21/博客迁移/" class="prev">上一篇</a><a href="/2016/02/14/内存对齐浅析/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

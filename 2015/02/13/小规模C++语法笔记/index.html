@@ -1,0 +1,89 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 小规模C++语法笔记 · Rock's personal notebook</title><meta name="description" content="小规模C++语法笔记 - Rock Lu"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/u/1565858217" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/rulerstorm" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/impress/index.html" target="_self" class="nav-list-link">TEST</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">小规模C++语法笔记</h1><div class="post-time">Feb 13, 2015</div><div class="post-content"><p>之前虽然有系统学过C++，但还是低估了<code>Primer</code>的事无巨细。在加上C++11的诸多变化，两三天根本看不完，还是不花太多时间复习语法了，先写起来吧~这里把这三天回顾的要点记录下来。</p>
+<a id="more"></a>
+<h4 id="小Tips"><a href="#小Tips" class="headerlink" title="小Tips"></a>小Tips</h4><ol>
+<li>无符号类型和有符号类型计算时，都化成无符号类型。所以切勿混用。</li>
+<li>字符串字面值相邻，且中间仅有<code>空白字符</code>时，被编译成一个整体字符串常量</li>
+<li>局部变量与全局变量重名时，在其生存期内覆盖全局变量，出了生存期消亡，全局变量在此期间不受影响。</li>
+<li>常量（字面值）在编译期，全部替换成对应的值。</li>
+</ol>
+<h4 id="关于-符号"><a href="#关于-符号" class="headerlink" title="关于=符号"></a>关于<code>=</code>符号</h4><ol>
+<li>注意区分赋值和初始化，在变量定义时用<code>=</code>号为初始化</li>
+<li>其他为赋值。赋值时，如果两者类型不同，先进行<code>隐式类型转化</code>。</li>
+</ol>
+<h4 id="定义和申明"><a href="#定义和申明" class="headerlink" title="定义和申明"></a>定义和申明</h4><p>申明：用于给编译器产生符号表，可以多次申明<br>定义 = 申明 + 申请内存空间 （不一定立刻分配）</p>
+<h4 id="再看左值和右值"><a href="#再看左值和右值" class="headerlink" title="再看左值和右值"></a>再看<code>左值</code>和<code>右值</code></h4><p>左值：的是这个「变量」所占的<code>内存区域</code><br>右值：这个「变量」所代表的<code>值</code><br>[注]即使不能被赋值，也可以是左值哦。如const对象。</p>
+<h4 id="C-中的自增符号"><a href="#C-中的自增符号" class="headerlink" title="C++中的自增符号"></a>C++中的自增符号</h4><p>与C中略有不同：(C中两个都是右值)<br><code>++i</code>是<code>左值</code>，在表达式中参与计算的时i<code>本身</code><br><code>i++</code>是<code>右值</code>，参与计算的是i在增加前的<code>副本</code></p>
+<hr>
+<h4 id="关于别名"><a href="#关于别名" class="headerlink" title="关于别名"></a>关于别名</h4><p>除了<code>typedef</code>，c++11中增加了新的<code>using new_name = old_name</code>方式，却别不明。<br>[注]对于别名的指针，在理解其类型时，请不要把别名替换成本来的样子以后再去解读，应该把别名看成一个整体类型。<br>例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> *pstring;</span><br><span class="line"><span class="keyword">const</span> pstring var;   <span class="comment">// var是指向char的常量指针（顶层const）</span></span><br><span class="line"><span class="comment">//如果先做名称替换：const char * var;</span></span><br><span class="line"><span class="comment">//则会把var误读成指向const char的变量指针（底层const）</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="NULL和nullptr"><a href="#NULL和nullptr" class="headerlink" title="NULL和nullptr"></a>NULL和nullptr</h4><p>nullptr是c++的<code>关键字</code>，有自己的数据类型，NULL是宏定义常量</p>
+<h5 id="为何需要nullptr？请看例子："><a href="#为何需要nullptr？请看例子：" class="headerlink" title="为何需要nullptr？请看例子："></a>为何需要nullptr？请看例子：</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">void</span>*)</span></span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>)</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    f(<span class="literal">NULL</span>); <span class="comment">// which function will be called?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码编译器表错，因为无法判断该调用哪个函数。有了nullptr后问题解决。</p>
+<hr>
+<h4 id="顶层const和底层const"><a href="#顶层const和底层const" class="headerlink" title="顶层const和底层const"></a>顶层const和底层const</h4><p>主要用于描述指针或者引用。<br>顶层const–<code>top-level const</code>–指针本身是常量<br>底层const–<code>low-level const</code>–指针所指向的对象是const的<br>[注]</p>
+<ol>
+<li>顶层const经常在赋值或传参后丢失，而底层const是不允许丢失的。</li>
+<li>普通对象的const都是顶层const</li>
+</ol>
+<hr>
+<h4 id="auto和decltype"><a href="#auto和decltype" class="headerlink" title="auto和decltype"></a>auto和decltype</h4><p>用途：自动类型推断（实际应用？）<br>谁来推断：编译器</p>
+<h5 id="「auto」"><a href="#「auto」" class="headerlink" title="「auto」:"></a>「auto」:</h5><p>定义变量时，由定义时赋给它的<code>初始值</code>推断变量的类型。<br>[例]<code>auto i = var1 + var2</code><br>[注]忽略顶层const，保留底层const。如需保留顶层const，请<code>const auto</code></p>
+<h5 id="「decltype」"><a href="#「decltype」" class="headerlink" title="「decltype」:"></a>「decltype」:</h5><p>auto在推断类型时，必须给他赋初始值。decltype则仅仅是得到表达式的数据类型。（不计算，也不根据表达式的值来推断）<br>[例]<code>decltype(func()) i = 1</code> （比如func的返回类型为int）（注意不计算func）<br>规则：</p>
+<ol>
+<li>括号内是<code>变量</code>。则直接拷贝变量的类型（原样拷贝，不像auto忽略顶层const）</li>
+<li>括号内是<code>表达式</code>，则要看表达式结果是一个<code>左值</code>和<code>右值</code>。<ul>
+<li>如果是左值：返回这个值的<code>引用</code>类型。</li>
+<li>如果是右值：则直接拷贝这个值的类型。</li>
+</ul>
+</li>
+</ol>
+<p>[注]</p>
+<ol>
+<li>不知道为啥要把左值搞成引用，有待研究</li>
+<li>对于带括号的单个变量，编译器会解释为表达式，所以，<code>decltype((i))</code>这种两层括号的变量，一定会返回一个引用的i的类型。请小心！</li>
+<li>为啥要有「类型推断」？好处在哪里？请研究！</li>
+</ol>
+<hr>
+<h4 id="范围for语句"><a href="#范围for语句" class="headerlink" title="范围for语句"></a>范围for语句</h4><p>对于C++11新增的：<code>for(auto item : contaner)</code><br>实际上处理为：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it = contaner.begin(); it != contaner.end(); ++it)&#123;</span><br><span class="line">    <span class="keyword">auto</span> item = *it;</span><br><span class="line">    <span class="comment">//以下是原来的循环体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以，实质上还是依赖于<code>迭代器</code>–&gt;迭代器可能失效时不能用这种for！</p>
+<hr>
+<h4 id="显示类型转化"><a href="#显示类型转化" class="headerlink" title="显示类型转化"></a>显示类型转化</h4><p>与C语言单一的强制转化不同，C++的类型转化细分为四种，分别完成旧式C强转的功能：</p>
+<h5 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a><code>static_cast</code></h5><p>用途：普通的类型转化，可以调用class的构造函数<br>[注]</p>
+<ol>
+<li>不可转化底层的const。</li>
+<li>比较安全，转化时会翻译二进制。</li>
+</ol>
+<h5 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a><code>dynamic_cast</code></h5><p>用途：把「基类」指针<code>安全地</code>转化为「派生类」指针或引用。</p>
+<h5 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a><code>const_cast</code></h5><p>用途：专门用于转化「底层const」。<br>一般情况下底层const是不允许丢失的，如果强制把底层const去掉，修改指向的常量的话，会发生不可预知的错误。（因为人家常量在编译的时候已经变成数字了。。。）<br>那这东西能用在哪里呢？<br>主要用在函数调用时的参数适配，先把它转成底层const，调用函数，然后再去掉。。。这样可以很方便地用一个写好的const版本函数，重载出一个非const版本的函数（强转，然后调用const版本）。</p>
+<h5 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a><code>reinterpret_cast</code></h5><p>用途：正宗的强制转化。机器级的重新解释二进制。例如把int<em>强转char</em></p>
+<hr>
+<h4 id="调试帮助"><a href="#调试帮助" class="headerlink" title="调试帮助"></a>调试帮助</h4><h5 id="assert断言"><a href="#assert断言" class="headerlink" title="assert断言"></a>assert断言</h5><p><code>assert</code>不是函数，是「宏」。定义在<code>cassert</code>头文件中。<br>[重要]assert可在编译时取消：<br>在头文件中<code>#define NDEBUG</code>即可让assert失效。<br>也可在编译时加入选项：<code>g++ -D NDEBUG xx.cpp</code></p>
+<h5 id="预定义宏"><a href="#预定义宏" class="headerlink" title="预定义宏"></a>预定义宏</h5><p>除了C语言中的<strong>LINE</strong>外，增加一个有用的<code>__func__</code>（注意小写！）</p>
+<hr>
+<h4 id="「直接初始化」和「拷贝初始化」"><a href="#「直接初始化」和「拷贝初始化」" class="headerlink" title="「直接初始化」和「拷贝初始化」"></a>「直接初始化」和「拷贝初始化」</h4><p>举例说明：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> ss = <span class="string">"这是拷贝初始化"</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">ss</span><span class="params">(<span class="string">"这是直接初始化"</span>)</span></span><br><span class="line"><span class="built_in">string</span> <span class="title">ss</span><span class="params">(<span class="number">10</span>, <span class="string">'a'</span>)</span>  <span class="comment">//这也是直接初始化</span></span></span><br></pre></td></tr></table></figure></p>
+<p>区别：<br>直接初始化–直接调用相应类型的构造函数<br>拷贝初始化–先把<code>=</code>号右边的内容用<code>构造函数</code>隐式转化成该类型，再调用<code>拷贝构造函数</code></p>
+<blockquote>
+<p>[注]函数传参的时候，是用「实参」拷贝初始化「形参」的。</p>
+</blockquote>
+<hr>
+<h4 id="重载与函数匹配"><a href="#重载与函数匹配" class="headerlink" title="重载与函数匹配"></a>重载与函数匹配</h4><h5 id="为什么C-能重载而C不能？"><a href="#为什么C-能重载而C不能？" class="headerlink" title="为什么C++能重载而C不能？"></a>为什么C++能重载而C不能？</h5><p>C在编译时的符号表仅有函数名，而C++在函数名的基础上，加上了参数。所以认为，名称相同、参数不同的函数是不同的。</p>
+<h5 id="重载规则"><a href="#重载规则" class="headerlink" title="重载规则"></a>重载规则</h5><ol>
+<li>参数可以重载，返回值不能重载</li>
+<li>参数不可以重载顶层const。 例子：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> i)</span></span>;   <span class="comment">//i在func作用域内为常量，只读</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> i)</span></span>;         <span class="comment">//非法，</span></span><br><span class="line">                          <span class="comment">//因为对于int类型的实参，编译器不知道该调用谁</span></span><br><span class="line"><span class="comment">//底层const重载是合法的。</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="函数匹配"><a href="#函数匹配" class="headerlink" title="函数匹配"></a>函数匹配</h5><p>调用重载的函数时，具体调用哪一个，规则如下：</p>
+<ol>
+<li>没有最佳匹配时，允许参数的隐式转化，但是越少越好</li>
+<li>如果两个都有转化，必须有一个<code>完爆</code>另一个（至少有一项比你强，没有任何一项比你差）</li>
+</ol>
+<hr>
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><h5 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a><code>this</code>指针</h5><p>在「对象」调用成员函数时，<code>隐式传递</code>指向「该对象地址」的this指针。<br>[注]所以，成员函数的参数列表，其实默认多一个指针。</p>
+<h5 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h5><p>因为this指针是隐式传递的，那么对于const对象，this指针的底层const谁来保护呢？答案是const成员函数，写在参数后面的const，实际上是表示传递的this指针是底层const的，即在这个函数中，不能对该对象进行修改。<br>[注]但是可以修改mutable的成员。</p>
+<h5 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h5><ol>
+<li>如果你不管，会默认生成一个无参的版本。</li>
+<li>如果你写了，不管有没有参数，编译器就不会帮你默认生成了</li>
+<li>此时如果还想要默认的，请<code>Class_init()=default</code>（C++11新功能）<br>[注]不能为const，不能private（想想就知道不行）</li>
+</ol>
+<h5 id="构造函数的初始值列表"><a href="#构造函数的初始值列表" class="headerlink" title="构造函数的初始值列表"></a>构造函数的初始值列表</h5><p>初始化时，仅按照类成员的书写顺序，初始化列表的顺序不管的。所以，最好把初始化列表的顺序写得和类成员顺序一致。</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2015/02/14/域名配置/" class="prev">上一篇</a><a href="/2015/02/07/《C和指针》读书笔记/" class="next">下一篇</a></div><div class="copyright"><p>© 2015 - 2016 <a href="http://Rocklu.me">Rock Lu</a>, unless otherwise noted.</p></div></footer><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
