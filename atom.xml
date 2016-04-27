@@ -552,6 +552,76 @@
   </entry>
   
   <entry>
+    <title>iOS9更新后的坑</title>
+    <link href="http://Rocklu.me/2015/10/14/iOS9%E6%9B%B4%E6%96%B0%E5%90%8E%E7%9A%84%E5%9D%91/"/>
+    <id>http://Rocklu.me/2015/10/14/iOS9更新后的坑/</id>
+    <published>2015-10-14T03:34:00.000Z</published>
+    <updated>2016-03-29T09:36:52.000Z</updated>
+    
+    <content type="html">&lt;p&gt;iOS9出现以后，不但swift出了2.0版本，项目中也有很多其他地方做了更改。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h4 id=&quot;Bitcode&quot;&gt;&lt;a href=&quot;#Bitcode&quot; class=&quot;headerlink&quot; title=&quot;Bitcode&quot;&gt;&lt;/a&gt;Bitcode&lt;/h4&gt;&lt;p&gt;Bitcode is an intermediate representation of a compiled program. Apps you upload to iTunes Connect that contain bitcode will be compiled and linked on the App Store. Including bitcode will allow Apple to re-optimize your app binary in the future without the need to submit a new version of your app to the store.&lt;/p&gt;
+&lt;p&gt;Note: For iOS apps, bitcode is the default, but optional. If you provide bitcode, all apps and frameworks in the app bundle need to include bitcode. For watchOS apps, bitcode is required&lt;/p&gt;
+&lt;p&gt;简而言之就是用来支持增量更新的，默认开启，开启后可能会给包含C++库的项目造成无法编译的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;如何关闭？&lt;/code&gt;&lt;/strong&gt;&lt;br&gt;项目配置-〉build option里面&lt;/p&gt;
+&lt;h4 id=&quot;app中的HTTP请求被禁了&quot;&gt;&lt;a href=&quot;#app中的HTTP请求被禁了&quot; class=&quot;headerlink&quot; title=&quot;app中的HTTP请求被禁了&quot;&gt;&lt;/a&gt;app中的HTTP请求被禁了&lt;/h4&gt;&lt;p&gt;错误信息有：&lt;code&gt;App Transport Security&lt;/code&gt;这样的，主要是因为apple建议使用&lt;code&gt;HTTPS&lt;/code&gt;而不是&lt;code&gt;HTTP&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;如何解决？&lt;/code&gt;&lt;/strong&gt;&lt;br&gt;在项目的&lt;code&gt;plist&lt;/code&gt;文件中，新建「字典」&lt;code&gt;NSAppTransportSecurity&lt;/code&gt;，在这个字典中，新建「布尔值」项目&lt;code&gt;NSAllowsArbitraryLoads&lt;/code&gt;，并将其设置为&lt;code&gt;YES&lt;/code&gt;。OK。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;下面是一些其他的坑。&lt;/p&gt;
+&lt;h4 id=&quot;启动图片比你想象得要重要&quot;&gt;&lt;a href=&quot;#启动图片比你想象得要重要&quot; class=&quot;headerlink&quot; title=&quot;启动图片比你想象得要重要&quot;&gt;&lt;/a&gt;启动图片比你想象得要重要&lt;/h4&gt;&lt;p&gt;iOS7闪退因为启动图片不对，app打开后画面不能撑满屏幕因为启动图片在项目中设置得不对。这种诡异的bug浪费了我大量的时间。&lt;/p&gt;
+&lt;h4 id=&quot;签名证书的问题&quot;&gt;&lt;a href=&quot;#签名证书的问题&quot; class=&quot;headerlink&quot; title=&quot;签名证书的问题&quot;&gt;&lt;/a&gt;签名证书的问题&lt;/h4&gt;&lt;p&gt;怪事1: ad-hoc分发给测试人员闪退，且在本机使用真实手机调试（手机连在电脑上测试）说进程丢失。而直接在手机中跑却ok。&lt;br&gt;原因：在building setting里面不是有设置code signing嘛，develop就用develop的证书，release就用release的证书。我本来全都用release的，查了stack overflow才知道这还有讲究。&lt;/p&gt;
+&lt;p&gt;怪事2: 在开发者中心注册、并且下载了最新的证书，在export安装包签名的时候却仍旧默认用老的证书。&lt;br&gt;原因：这是xcode的bug，默认就是使用列表里面的第一个，需要手动把老的证书删除，注意要在xcode里面删除，在文件夹里面删除没用的。&lt;/p&gt;
+&lt;h4 id=&quot;关于Swift与OC混合编程&quot;&gt;&lt;a href=&quot;#关于Swift与OC混合编程&quot; class=&quot;headerlink&quot; title=&quot;关于Swift与OC混合编程&quot;&gt;&lt;/a&gt;关于Swift与OC混合编程&lt;/h4&gt;&lt;p&gt;实际测试下来，混合编程后在iOS7会发生无缘无故的bug导致闪退。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;iOS9出现以后，不但swift出了2.0版本，项目中也有很多其他地方做了更改。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="IOS" scheme="http://Rocklu.me/categories/IOS/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Unity3d使用SqLite的坑</title>
+    <link href="http://Rocklu.me/2015/09/23/Unity3d%E4%BD%BF%E7%94%A8SqLite%E7%9A%84%E5%9D%91/"/>
+    <id>http://Rocklu.me/2015/09/23/Unity3d使用SqLite的坑/</id>
+    <published>2015-09-22T22:19:00.000Z</published>
+    <updated>2016-03-29T09:37:01.000Z</updated>
+    
+    <content type="html">&lt;p&gt;SqLite作为轻量级C语言本地数据库，一直是挺讨我喜欢。这次实验室的Unity项目需要本地数据库，就研究了下怎么在Unity3D中集成sqlite。想不到坑那么多，各种坑，也是醉了。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create new folder under Assets Folder Rename it &lt;code&gt;Plugins&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Copy &lt;code&gt;sqlite3.def&lt;/code&gt; and sqlite3.dll into &lt;code&gt;Assets/Plugins&lt;/code&gt; in your unity project .You can download these files here &lt;code&gt;http://www.sqlite.org/download.html&lt;/code&gt; for windows (Precompiled Binaries for Windows)&lt;/li&gt;
+&lt;li&gt;Download SQLite Browser &lt;code&gt;https://github.com/sqlitebrowser/sqlitebrowser&lt;/code&gt;（GUI数据库编辑器）&lt;/li&gt;
+&lt;li&gt;Create Database in &lt;code&gt;Assets&lt;/code&gt; folder in your unity project using SQLite Browser.（必须先手动创建好）&lt;/li&gt;
+&lt;li&gt;Copy &lt;code&gt;System.Data.dll&lt;/code&gt; and &lt;code&gt;Mono.Data.Sqlite.dll&lt;/code&gt; from &lt;code&gt;C:\Program Files (x86)\Unity \Editor\Data\Mono\lib\mono\2.0*&lt;/code&gt; and paste them in your &lt;code&gt;Assets/Plugins*&lt;/code&gt; folder in your unity project.&lt;/li&gt;
+&lt;li&gt;Add these namespaces &lt;code&gt;using Mono.Data.Sqlite; using System.Data; using System;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;然后，可以写一个helper类，unity里面可以自动引用。核心代码如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;string dbName =  &amp;quot;/testDatabase.db&amp;quot;;   //注意这里很容易出错，小心别漏了/号&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;string tableName = &amp;quot;testTable&amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//开始建立连接&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;string conn = &amp;quot;URI=file:&amp;quot; + Application.dataPath + dbName; //Path to database.         IDbConnection dbconn;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbconn = (IDbConnection)new SqliteConnection(conn);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbconn.Open(); //Open connection to the database.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//准备查询语句&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;IDbCommand dbcmd = dbconn.CreateCommand();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;string sqlQuery = &amp;quot;SELECT * FROM &amp;quot; + tableName;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbcmd.CommandText = sqlQuery;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//执行语句&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;IDataReader reader = dbcmd.ExecuteReader();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//下面开始处理返回数据&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;while (reader.Read())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int ID = reader.GetInt32(0);      //返回一个数组，下标0则第一个字段&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    string text = reader.GetString(1) + &amp;apos;\n&amp;apos;;   //第二个字段&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Debug.Log(&amp;quot;ID= &amp;quot; + ID + &amp;quot;  name =&amp;quot; + name);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//下面开始关闭连接&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;reader.Close();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;reader = null;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbcmd.Dispose();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbcmd = null;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbconn.Close();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dbconn = null;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h5 id=&quot;坑在哪里？&quot;&gt;&lt;a href=&quot;#坑在哪里？&quot; class=&quot;headerlink&quot; title=&quot;坑在哪里？&quot;&gt;&lt;/a&gt;坑在哪里？&lt;/h5&gt;&lt;p&gt;这样子在编辑器里面就OK了，可是！不能编译。。。醉了，查了一下，需要调整Unity项目的设置，如下：&lt;br&gt;&lt;code&gt;PlayerSetting -&amp;gt; Other Settings -&amp;gt; Optimization -&amp;gt; Api Compatibility Level&lt;/code&gt;这个下拉菜单，手动选择为：&lt;code&gt;.NET 2.0&lt;/code&gt;。&lt;br&gt;于是我们终于可以编译了。&lt;/p&gt;
+&lt;h5 id=&quot;别高兴太早，编译好之后的程序访问不了数据库。。。。&quot;&gt;&lt;a href=&quot;#别高兴太早，编译好之后的程序访问不了数据库。。。。&quot; class=&quot;headerlink&quot; title=&quot;别高兴太早，编译好之后的程序访问不了数据库。。。。&quot;&gt;&lt;/a&gt;别高兴太早，编译好之后的程序访问不了数据库。。。。&lt;/h5&gt;&lt;p&gt;经过长时间的反复排查，最后打印了db的路径，终于发现。。。编译的时候没有把数据库复制过去。。。需要&lt;code&gt;手动&lt;/code&gt;把数据库复制到各个平台的运行文件中。&lt;br&gt;具体路径可打印&lt;code&gt;Application.dataPath&lt;/code&gt;获得。&lt;/p&gt;
+&lt;p&gt;真不容易。。。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;SqLite作为轻量级C语言本地数据库，一直是挺讨我喜欢。这次实验室的Unity项目需要本地数据库，就研究了下怎么在Unity3D中集成sqlite。想不到坑那么多，各种坑，也是醉了。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="TOOLS" scheme="http://Rocklu.me/categories/TOOLS/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>读《现代操作系统》</title>
     <link href="http://Rocklu.me/2015/09/09/%E8%AF%BB%E7%8E%B0%E4%BB%A3%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
     <id>http://Rocklu.me/2015/09/09/读现代操作系统/</id>
@@ -1102,138 +1172,6 @@
     </summary>
     
       <category term="基础理论" scheme="http://Rocklu.me/categories/%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>域名配置</title>
-    <link href="http://Rocklu.me/2015/02/14/%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE/"/>
-    <id>http://Rocklu.me/2015/02/14/域名配置/</id>
-    <published>2015-02-14T13:16:00.000Z</published>
-    <updated>2016-03-30T14:27:57.000Z</updated>
-    
-    <content type="html">&lt;p&gt;今天在搞vps的时候无意中发现，Github的学生套装送了一个域名。顺手给这个博客配置了一下。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h4 id=&quot;域名和主机名&quot;&gt;&lt;a href=&quot;#域名和主机名&quot; class=&quot;headerlink&quot; title=&quot;域名和主机名&quot;&gt;&lt;/a&gt;域名和主机名&lt;/h4&gt;&lt;p&gt;比如，&lt;code&gt;www.163.com&lt;/code&gt;里面的WWW，就是主机名（host name），也叫子域名（sub-domain）。一个域名可以配置多个子域名，用于区分各种服务。&lt;/p&gt;
-&lt;h4 id=&quot;关于「记录类型」&quot;&gt;&lt;a href=&quot;#关于「记录类型」&quot; class=&quot;headerlink&quot; title=&quot;关于「记录类型」&quot;&gt;&lt;/a&gt;关于「记录类型」&lt;/h4&gt;&lt;p&gt;配置域名时需要指定，记录类型（recode type）有好几种，最重要的几种如下。&lt;/p&gt;
-&lt;h5 id=&quot;A-address&quot;&gt;&lt;a href=&quot;#A-address&quot; class=&quot;headerlink&quot; title=&quot;A (address)&quot;&gt;&lt;/a&gt;&lt;code&gt;A&lt;/code&gt; (address)&lt;/h5&gt;&lt;p&gt;最主要的就是这个，就是在NDS服务器中注册这个域名的ip地址&lt;/p&gt;
-&lt;h5 id=&quot;URL-redirect&quot;&gt;&lt;a href=&quot;#URL-redirect&quot; class=&quot;headerlink&quot; title=&quot;URL redirect&quot;&gt;&lt;/a&gt;&lt;code&gt;URL redirect&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;URL重定向，HTTP协议里的302跳转，没啥好解释的。。。&lt;/p&gt;
-&lt;h5 id=&quot;CNAME&quot;&gt;&lt;a href=&quot;#CNAME&quot; class=&quot;headerlink&quot; title=&quot;CNAME&quot;&gt;&lt;/a&gt;&lt;code&gt;CNAME&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;别名。就是依旧访问这个ip，但是url的主机名不一样。    &lt;/p&gt;
-&lt;p&gt;[注]host name中，填入&lt;code&gt;@&lt;/code&gt;代表&lt;code&gt;空&lt;/code&gt;，即没有主机名。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天在搞vps的时候无意中发现，Github的学生套装送了一个域名。顺手给这个博客配置了一下。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>小规模C++语法笔记</title>
-    <link href="http://Rocklu.me/2015/02/13/%E5%B0%8F%E8%A7%84%E6%A8%A1C++%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/"/>
-    <id>http://Rocklu.me/2015/02/13/小规模C++语法笔记/</id>
-    <published>2015-02-13T14:00:00.000Z</published>
-    <updated>2016-03-29T09:52:48.000Z</updated>
-    
-    <content type="html">&lt;p&gt;之前虽然有系统学过C++，但还是低估了&lt;code&gt;Primer&lt;/code&gt;的事无巨细。在加上C++11的诸多变化，两三天根本看不完，还是不花太多时间复习语法了，先写起来吧~这里把这三天回顾的要点记录下来。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h4 id=&quot;小Tips&quot;&gt;&lt;a href=&quot;#小Tips&quot; class=&quot;headerlink&quot; title=&quot;小Tips&quot;&gt;&lt;/a&gt;小Tips&lt;/h4&gt;&lt;ol&gt;
-&lt;li&gt;无符号类型和有符号类型计算时，都化成无符号类型。所以切勿混用。&lt;/li&gt;
-&lt;li&gt;字符串字面值相邻，且中间仅有&lt;code&gt;空白字符&lt;/code&gt;时，被编译成一个整体字符串常量&lt;/li&gt;
-&lt;li&gt;局部变量与全局变量重名时，在其生存期内覆盖全局变量，出了生存期消亡，全局变量在此期间不受影响。&lt;/li&gt;
-&lt;li&gt;常量（字面值）在编译期，全部替换成对应的值。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&quot;关于-符号&quot;&gt;&lt;a href=&quot;#关于-符号&quot; class=&quot;headerlink&quot; title=&quot;关于=符号&quot;&gt;&lt;/a&gt;关于&lt;code&gt;=&lt;/code&gt;符号&lt;/h4&gt;&lt;ol&gt;
-&lt;li&gt;注意区分赋值和初始化，在变量定义时用&lt;code&gt;=&lt;/code&gt;号为初始化&lt;/li&gt;
-&lt;li&gt;其他为赋值。赋值时，如果两者类型不同，先进行&lt;code&gt;隐式类型转化&lt;/code&gt;。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&quot;定义和申明&quot;&gt;&lt;a href=&quot;#定义和申明&quot; class=&quot;headerlink&quot; title=&quot;定义和申明&quot;&gt;&lt;/a&gt;定义和申明&lt;/h4&gt;&lt;p&gt;申明：用于给编译器产生符号表，可以多次申明&lt;br&gt;定义 = 申明 + 申请内存空间 （不一定立刻分配）&lt;/p&gt;
-&lt;h4 id=&quot;再看左值和右值&quot;&gt;&lt;a href=&quot;#再看左值和右值&quot; class=&quot;headerlink&quot; title=&quot;再看左值和右值&quot;&gt;&lt;/a&gt;再看&lt;code&gt;左值&lt;/code&gt;和&lt;code&gt;右值&lt;/code&gt;&lt;/h4&gt;&lt;p&gt;左值：的是这个「变量」所占的&lt;code&gt;内存区域&lt;/code&gt;&lt;br&gt;右值：这个「变量」所代表的&lt;code&gt;值&lt;/code&gt;&lt;br&gt;[注]即使不能被赋值，也可以是左值哦。如const对象。&lt;/p&gt;
-&lt;h4 id=&quot;C-中的自增符号&quot;&gt;&lt;a href=&quot;#C-中的自增符号&quot; class=&quot;headerlink&quot; title=&quot;C++中的自增符号&quot;&gt;&lt;/a&gt;C++中的自增符号&lt;/h4&gt;&lt;p&gt;与C中略有不同：(C中两个都是右值)&lt;br&gt;&lt;code&gt;++i&lt;/code&gt;是&lt;code&gt;左值&lt;/code&gt;，在表达式中参与计算的时i&lt;code&gt;本身&lt;/code&gt;&lt;br&gt;&lt;code&gt;i++&lt;/code&gt;是&lt;code&gt;右值&lt;/code&gt;，参与计算的是i在增加前的&lt;code&gt;副本&lt;/code&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;关于别名&quot;&gt;&lt;a href=&quot;#关于别名&quot; class=&quot;headerlink&quot; title=&quot;关于别名&quot;&gt;&lt;/a&gt;关于别名&lt;/h4&gt;&lt;p&gt;除了&lt;code&gt;typedef&lt;/code&gt;，c++11中增加了新的&lt;code&gt;using new_name = old_name&lt;/code&gt;方式，却别不明。&lt;br&gt;[注]对于别名的指针，在理解其类型时，请不要把别名替换成本来的样子以后再去解读，应该把别名看成一个整体类型。&lt;br&gt;例如：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;typedef&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;char&lt;/span&gt; *pstring;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; pstring var;   &lt;span class=&quot;comment&quot;&gt;// var是指向char的常量指针（顶层const）&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//如果先做名称替换：const char * var;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//则会把var误读成指向const char的变量指针（底层const）&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;NULL和nullptr&quot;&gt;&lt;a href=&quot;#NULL和nullptr&quot; class=&quot;headerlink&quot; title=&quot;NULL和nullptr&quot;&gt;&lt;/a&gt;NULL和nullptr&lt;/h4&gt;&lt;p&gt;nullptr是c++的&lt;code&gt;关键字&lt;/code&gt;，有自己的数据类型，NULL是宏定义常量&lt;/p&gt;
-&lt;h5 id=&quot;为何需要nullptr？请看例子：&quot;&gt;&lt;a href=&quot;#为何需要nullptr？请看例子：&quot; class=&quot;headerlink&quot; title=&quot;为何需要nullptr？请看例子：&quot;&gt;&lt;/a&gt;为何需要nullptr？请看例子：&lt;/h5&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt;*)&lt;/span&gt;&lt;/span&gt;&amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    f(&lt;span class=&quot;literal&quot;&gt;NULL&lt;/span&gt;); &lt;span class=&quot;comment&quot;&gt;// which function will be called?&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;上面代码编译器表错，因为无法判断该调用哪个函数。有了nullptr后问题解决。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;顶层const和底层const&quot;&gt;&lt;a href=&quot;#顶层const和底层const&quot; class=&quot;headerlink&quot; title=&quot;顶层const和底层const&quot;&gt;&lt;/a&gt;顶层const和底层const&lt;/h4&gt;&lt;p&gt;主要用于描述指针或者引用。&lt;br&gt;顶层const–&lt;code&gt;top-level const&lt;/code&gt;–指针本身是常量&lt;br&gt;底层const–&lt;code&gt;low-level const&lt;/code&gt;–指针所指向的对象是const的&lt;br&gt;[注]&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;顶层const经常在赋值或传参后丢失，而底层const是不允许丢失的。&lt;/li&gt;
-&lt;li&gt;普通对象的const都是顶层const&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;auto和decltype&quot;&gt;&lt;a href=&quot;#auto和decltype&quot; class=&quot;headerlink&quot; title=&quot;auto和decltype&quot;&gt;&lt;/a&gt;auto和decltype&lt;/h4&gt;&lt;p&gt;用途：自动类型推断（实际应用？）&lt;br&gt;谁来推断：编译器&lt;/p&gt;
-&lt;h5 id=&quot;「auto」&quot;&gt;&lt;a href=&quot;#「auto」&quot; class=&quot;headerlink&quot; title=&quot;「auto」:&quot;&gt;&lt;/a&gt;「auto」:&lt;/h5&gt;&lt;p&gt;定义变量时，由定义时赋给它的&lt;code&gt;初始值&lt;/code&gt;推断变量的类型。&lt;br&gt;[例]&lt;code&gt;auto i = var1 + var2&lt;/code&gt;&lt;br&gt;[注]忽略顶层const，保留底层const。如需保留顶层const，请&lt;code&gt;const auto&lt;/code&gt;&lt;/p&gt;
-&lt;h5 id=&quot;「decltype」&quot;&gt;&lt;a href=&quot;#「decltype」&quot; class=&quot;headerlink&quot; title=&quot;「decltype」:&quot;&gt;&lt;/a&gt;「decltype」:&lt;/h5&gt;&lt;p&gt;auto在推断类型时，必须给他赋初始值。decltype则仅仅是得到表达式的数据类型。（不计算，也不根据表达式的值来推断）&lt;br&gt;[例]&lt;code&gt;decltype(func()) i = 1&lt;/code&gt; （比如func的返回类型为int）（注意不计算func）&lt;br&gt;规则：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;括号内是&lt;code&gt;变量&lt;/code&gt;。则直接拷贝变量的类型（原样拷贝，不像auto忽略顶层const）&lt;/li&gt;
-&lt;li&gt;括号内是&lt;code&gt;表达式&lt;/code&gt;，则要看表达式结果是一个&lt;code&gt;左值&lt;/code&gt;和&lt;code&gt;右值&lt;/code&gt;。&lt;ul&gt;
-&lt;li&gt;如果是左值：返回这个值的&lt;code&gt;引用&lt;/code&gt;类型。&lt;/li&gt;
-&lt;li&gt;如果是右值：则直接拷贝这个值的类型。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;[注]&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;不知道为啥要把左值搞成引用，有待研究&lt;/li&gt;
-&lt;li&gt;对于带括号的单个变量，编译器会解释为表达式，所以，&lt;code&gt;decltype((i))&lt;/code&gt;这种两层括号的变量，一定会返回一个引用的i的类型。请小心！&lt;/li&gt;
-&lt;li&gt;为啥要有「类型推断」？好处在哪里？请研究！&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;范围for语句&quot;&gt;&lt;a href=&quot;#范围for语句&quot; class=&quot;headerlink&quot; title=&quot;范围for语句&quot;&gt;&lt;/a&gt;范围for语句&lt;/h4&gt;&lt;p&gt;对于C++11新增的：&lt;code&gt;for(auto item : contaner)&lt;/code&gt;&lt;br&gt;实际上处理为：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; it = contaner.begin(); it != contaner.end(); ++it)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;auto&lt;/span&gt; item = *it;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;//以下是原来的循环体&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;所以，实质上还是依赖于&lt;code&gt;迭代器&lt;/code&gt;–&amp;gt;迭代器可能失效时不能用这种for！&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;显示类型转化&quot;&gt;&lt;a href=&quot;#显示类型转化&quot; class=&quot;headerlink&quot; title=&quot;显示类型转化&quot;&gt;&lt;/a&gt;显示类型转化&lt;/h4&gt;&lt;p&gt;与C语言单一的强制转化不同，C++的类型转化细分为四种，分别完成旧式C强转的功能：&lt;/p&gt;
-&lt;h5 id=&quot;static-cast&quot;&gt;&lt;a href=&quot;#static-cast&quot; class=&quot;headerlink&quot; title=&quot;static_cast&quot;&gt;&lt;/a&gt;&lt;code&gt;static_cast&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;用途：普通的类型转化，可以调用class的构造函数&lt;br&gt;[注]&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;不可转化底层的const。&lt;/li&gt;
-&lt;li&gt;比较安全，转化时会翻译二进制。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h5 id=&quot;dynamic-cast&quot;&gt;&lt;a href=&quot;#dynamic-cast&quot; class=&quot;headerlink&quot; title=&quot;dynamic_cast&quot;&gt;&lt;/a&gt;&lt;code&gt;dynamic_cast&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;用途：把「基类」指针&lt;code&gt;安全地&lt;/code&gt;转化为「派生类」指针或引用。&lt;/p&gt;
-&lt;h5 id=&quot;const-cast&quot;&gt;&lt;a href=&quot;#const-cast&quot; class=&quot;headerlink&quot; title=&quot;const_cast&quot;&gt;&lt;/a&gt;&lt;code&gt;const_cast&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;用途：专门用于转化「底层const」。&lt;br&gt;一般情况下底层const是不允许丢失的，如果强制把底层const去掉，修改指向的常量的话，会发生不可预知的错误。（因为人家常量在编译的时候已经变成数字了。。。）&lt;br&gt;那这东西能用在哪里呢？&lt;br&gt;主要用在函数调用时的参数适配，先把它转成底层const，调用函数，然后再去掉。。。这样可以很方便地用一个写好的const版本函数，重载出一个非const版本的函数（强转，然后调用const版本）。&lt;/p&gt;
-&lt;h5 id=&quot;reinterpret-cast&quot;&gt;&lt;a href=&quot;#reinterpret-cast&quot; class=&quot;headerlink&quot; title=&quot;reinterpret_cast&quot;&gt;&lt;/a&gt;&lt;code&gt;reinterpret_cast&lt;/code&gt;&lt;/h5&gt;&lt;p&gt;用途：正宗的强制转化。机器级的重新解释二进制。例如把int&lt;em&gt;强转char&lt;/em&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;调试帮助&quot;&gt;&lt;a href=&quot;#调试帮助&quot; class=&quot;headerlink&quot; title=&quot;调试帮助&quot;&gt;&lt;/a&gt;调试帮助&lt;/h4&gt;&lt;h5 id=&quot;assert断言&quot;&gt;&lt;a href=&quot;#assert断言&quot; class=&quot;headerlink&quot; title=&quot;assert断言&quot;&gt;&lt;/a&gt;assert断言&lt;/h5&gt;&lt;p&gt;&lt;code&gt;assert&lt;/code&gt;不是函数，是「宏」。定义在&lt;code&gt;cassert&lt;/code&gt;头文件中。&lt;br&gt;[重要]assert可在编译时取消：&lt;br&gt;在头文件中&lt;code&gt;#define NDEBUG&lt;/code&gt;即可让assert失效。&lt;br&gt;也可在编译时加入选项：&lt;code&gt;g++ -D NDEBUG xx.cpp&lt;/code&gt;&lt;/p&gt;
-&lt;h5 id=&quot;预定义宏&quot;&gt;&lt;a href=&quot;#预定义宏&quot; class=&quot;headerlink&quot; title=&quot;预定义宏&quot;&gt;&lt;/a&gt;预定义宏&lt;/h5&gt;&lt;p&gt;除了C语言中的&lt;strong&gt;LINE&lt;/strong&gt;外，增加一个有用的&lt;code&gt;__func__&lt;/code&gt;（注意小写！）&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;「直接初始化」和「拷贝初始化」&quot;&gt;&lt;a href=&quot;#「直接初始化」和「拷贝初始化」&quot; class=&quot;headerlink&quot; title=&quot;「直接初始化」和「拷贝初始化」&quot;&gt;&lt;/a&gt;「直接初始化」和「拷贝初始化」&lt;/h4&gt;&lt;p&gt;举例说明：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;string&lt;/span&gt; ss = &lt;span class=&quot;string&quot;&gt;&quot;这是拷贝初始化&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ss&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;string&quot;&gt;&quot;这是直接初始化&quot;&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;ss&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&#39;a&#39;&lt;/span&gt;)&lt;/span&gt;  &lt;span class=&quot;comment&quot;&gt;//这也是直接初始化&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;区别：&lt;br&gt;直接初始化–直接调用相应类型的构造函数&lt;br&gt;拷贝初始化–先把&lt;code&gt;=&lt;/code&gt;号右边的内容用&lt;code&gt;构造函数&lt;/code&gt;隐式转化成该类型，再调用&lt;code&gt;拷贝构造函数&lt;/code&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;[注]函数传参的时候，是用「实参」拷贝初始化「形参」的。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;重载与函数匹配&quot;&gt;&lt;a href=&quot;#重载与函数匹配&quot; class=&quot;headerlink&quot; title=&quot;重载与函数匹配&quot;&gt;&lt;/a&gt;重载与函数匹配&lt;/h4&gt;&lt;h5 id=&quot;为什么C-能重载而C不能？&quot;&gt;&lt;a href=&quot;#为什么C-能重载而C不能？&quot; class=&quot;headerlink&quot; title=&quot;为什么C++能重载而C不能？&quot;&gt;&lt;/a&gt;为什么C++能重载而C不能？&lt;/h5&gt;&lt;p&gt;C在编译时的符号表仅有函数名，而C++在函数名的基础上，加上了参数。所以认为，名称相同、参数不同的函数是不同的。&lt;/p&gt;
-&lt;h5 id=&quot;重载规则&quot;&gt;&lt;a href=&quot;#重载规则&quot; class=&quot;headerlink&quot; title=&quot;重载规则&quot;&gt;&lt;/a&gt;重载规则&lt;/h5&gt;&lt;ol&gt;
-&lt;li&gt;参数可以重载，返回值不能重载&lt;/li&gt;
-&lt;li&gt;参数不可以重载顶层const。 例子：&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i)&lt;/span&gt;&lt;/span&gt;;   &lt;span class=&quot;comment&quot;&gt;//i在func作用域内为常量，只读&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i)&lt;/span&gt;&lt;/span&gt;;         &lt;span class=&quot;comment&quot;&gt;//非法，&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                          &lt;span class=&quot;comment&quot;&gt;//因为对于int类型的实参，编译器不知道该调用谁&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//底层const重载是合法的。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h5 id=&quot;函数匹配&quot;&gt;&lt;a href=&quot;#函数匹配&quot; class=&quot;headerlink&quot; title=&quot;函数匹配&quot;&gt;&lt;/a&gt;函数匹配&lt;/h5&gt;&lt;p&gt;调用重载的函数时，具体调用哪一个，规则如下：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;没有最佳匹配时，允许参数的隐式转化，但是越少越好&lt;/li&gt;
-&lt;li&gt;如果两个都有转化，必须有一个&lt;code&gt;完爆&lt;/code&gt;另一个（至少有一项比你强，没有任何一项比你差）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;类&quot;&gt;&lt;a href=&quot;#类&quot; class=&quot;headerlink&quot; title=&quot;类&quot;&gt;&lt;/a&gt;类&lt;/h4&gt;&lt;h5 id=&quot;this指针&quot;&gt;&lt;a href=&quot;#this指针&quot; class=&quot;headerlink&quot; title=&quot;this指针&quot;&gt;&lt;/a&gt;&lt;code&gt;this&lt;/code&gt;指针&lt;/h5&gt;&lt;p&gt;在「对象」调用成员函数时，&lt;code&gt;隐式传递&lt;/code&gt;指向「该对象地址」的this指针。&lt;br&gt;[注]所以，成员函数的参数列表，其实默认多一个指针。&lt;/p&gt;
-&lt;h5 id=&quot;const成员函数&quot;&gt;&lt;a href=&quot;#const成员函数&quot; class=&quot;headerlink&quot; title=&quot;const成员函数&quot;&gt;&lt;/a&gt;const成员函数&lt;/h5&gt;&lt;p&gt;因为this指针是隐式传递的，那么对于const对象，this指针的底层const谁来保护呢？答案是const成员函数，写在参数后面的const，实际上是表示传递的this指针是底层const的，即在这个函数中，不能对该对象进行修改。&lt;br&gt;[注]但是可以修改mutable的成员。&lt;/p&gt;
-&lt;h5 id=&quot;构造函数&quot;&gt;&lt;a href=&quot;#构造函数&quot; class=&quot;headerlink&quot; title=&quot;构造函数&quot;&gt;&lt;/a&gt;构造函数&lt;/h5&gt;&lt;ol&gt;
-&lt;li&gt;如果你不管，会默认生成一个无参的版本。&lt;/li&gt;
-&lt;li&gt;如果你写了，不管有没有参数，编译器就不会帮你默认生成了&lt;/li&gt;
-&lt;li&gt;此时如果还想要默认的，请&lt;code&gt;Class_init()=default&lt;/code&gt;（C++11新功能）&lt;br&gt;[注]不能为const，不能private（想想就知道不行）&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h5 id=&quot;构造函数的初始值列表&quot;&gt;&lt;a href=&quot;#构造函数的初始值列表&quot; class=&quot;headerlink&quot; title=&quot;构造函数的初始值列表&quot;&gt;&lt;/a&gt;构造函数的初始值列表&lt;/h5&gt;&lt;p&gt;初始化时，仅按照类成员的书写顺序，初始化列表的顺序不管的。所以，最好把初始化列表的顺序写得和类成员顺序一致。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;之前虽然有系统学过C++，但还是低估了&lt;code&gt;Primer&lt;/code&gt;的事无巨细。在加上C++11的诸多变化，两三天根本看不完，还是不花太多时间复习语法了，先写起来吧~这里把这三天回顾的要点记录下来。&lt;/p&gt;
-    
-    </summary>
     
     
   </entry>
