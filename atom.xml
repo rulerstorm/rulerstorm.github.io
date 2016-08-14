@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Rocklu.me/"/>
-  <updated>2016-03-29T09:31:14.000Z</updated>
+  <updated>2016-08-14T18:09:20.000Z</updated>
   <id>http://Rocklu.me/</id>
   
   <author>
@@ -14,6 +14,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Git版本回退</title>
+    <link href="http://Rocklu.me/2016/08/14/Git%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/"/>
+    <id>http://Rocklu.me/2016/08/14/Git版本回退/</id>
+    <published>2016-08-13T16:00:00.000Z</published>
+    <updated>2016-08-14T18:09:20.000Z</updated>
+    
+    <content type="html">&lt;h4 id=&quot;git-commit&quot;&gt;&lt;a href=&quot;#git-commit&quot; class=&quot;headerlink&quot; title=&quot;git commit&quot;&gt;&lt;/a&gt;git commit&lt;/h4&gt;&lt;p&gt;commit &lt;code&gt;changes&lt;/code&gt; from staging area, instead of files&lt;br&gt;-a will commit changes from staging area and working dir, but that file should be tracked&lt;br&gt;–amend, amend last commit, &lt;code&gt;local only&lt;/code&gt;, do not do amend after push&lt;/p&gt;
+&lt;h4 id=&quot;git-checkout-gt-walk-around-in-commits-and-branchs&quot;&gt;&lt;a href=&quot;#git-checkout-gt-walk-around-in-commits-and-branchs&quot; class=&quot;headerlink&quot; title=&quot;git checkout =&amp;gt; walk around in commits and branchs&quot;&gt;&lt;/a&gt;git checkout =&amp;gt; walk around in commits and branchs&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;1. checkout &amp;lt;commit&amp;gt;
+2. checkout &amp;lt;commit&amp;gt; &amp;lt;file&amp;gt;
+3. branch
+&amp;gt; only change working dirs
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;git-revert&quot;&gt;&lt;a href=&quot;#git-revert&quot; class=&quot;headerlink&quot; title=&quot;git revert&quot;&gt;&lt;/a&gt;git revert&lt;/h4&gt;&lt;p&gt;create a new commit to pretend a roll back. safe command.&lt;/p&gt;
+&lt;h4 id=&quot;git-reset-gt-delet-history&quot;&gt;&lt;a href=&quot;#git-reset-gt-delet-history&quot; class=&quot;headerlink&quot; title=&quot;git reset =&amp;gt; delet history&quot;&gt;&lt;/a&gt;git reset =&amp;gt; delet history&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;1. git reset &amp;lt;file&amp;gt;  =&amp;gt; unstaging
+    clean up staging area, but leave working directory unchanged
+    --hard will also reset working directory to match last commit
+2. git reset &amp;lt;commit&amp;gt;
+    unstaging + remove commits
+    --hard will also reset working directory
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;do not reset to the commit after a push, use revert! reset is used locally only.&lt;br&gt;danger, reset can’t undo even via reflog!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;compare-them&quot;&gt;&lt;a href=&quot;#compare-them&quot; class=&quot;headerlink&quot; title=&quot;compare them&quot;&gt;&lt;/a&gt;compare them&lt;/h4&gt;&lt;p&gt;checkout just changes the working dir&lt;br&gt;reset removes the commits&lt;br&gt;revert adds a commit to perform like a roll back&lt;br&gt;&lt;code&gt;above three comman only affet tracked files.&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&quot;git-clean-gt-remove-untracked-files&quot;&gt;&lt;a href=&quot;#git-clean-gt-remove-untracked-files&quot; class=&quot;headerlink&quot; title=&quot;git clean =&amp;gt; remove untracked files&quot;&gt;&lt;/a&gt;git clean =&amp;gt; remove untracked files&lt;/h4&gt;&lt;p&gt;always need -f to perform&lt;br&gt;need -d to delete dirs&lt;br&gt;will not delete files listed in .gitignore&lt;/p&gt;
+&lt;h4 id=&quot;git-rebase-gt-facilitates-a-fast-forward-merge&quot;&gt;&lt;a href=&quot;#git-rebase-gt-facilitates-a-fast-forward-merge&quot; class=&quot;headerlink&quot; title=&quot;git rebase =&amp;gt; facilitates a fast-forward merge&quot;&gt;&lt;/a&gt;git rebase =&amp;gt; facilitates a fast-forward merge&lt;/h4&gt;&lt;p&gt;–rebase -i =&amp;gt; squash history&lt;/p&gt;
+&lt;h4 id=&quot;git-reflog-gt-contains-the-history-about-rollback&quot;&gt;&lt;a href=&quot;#git-reflog-gt-contains-the-history-about-rollback&quot; class=&quot;headerlink&quot; title=&quot;git reflog =&amp;gt; contains the history about rollback&quot;&gt;&lt;/a&gt;git reflog =&amp;gt; contains the history about rollback&lt;/h4&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;git-commit&quot;&gt;&lt;a href=&quot;#git-commit&quot; class=&quot;headerlink&quot; title=&quot;git commit&quot;&gt;&lt;/a&gt;git commit&lt;/h4&gt;&lt;p&gt;commit &lt;code&gt;changes&lt;/code&gt; from stagi
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>CPP异常处理</title>
@@ -987,191 +1023,6 @@
     </summary>
     
       <category term="Tools" scheme="http://Rocklu.me/categories/Tools/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式</title>
-    <link href="http://Rocklu.me/2015/04/09/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%A5%E9%97%A8/"/>
-    <id>http://Rocklu.me/2015/04/09/设计模式入门/</id>
-    <published>2015-04-09T15:45:00.000Z</published>
-    <updated>2016-03-29T09:41:23.000Z</updated>
-    
-    <content type="html">&lt;p&gt;有幸听到侯捷老师的面授，不敢懈怠。可惜只有短短8次课，只能做个入门。&lt;br&gt;课件链接：&lt;a style=&quot;text-decoration:none; color:blue;&quot; href=&quot;http://pan.baidu.com/s/1o6625ei&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DesignPatterns_2014.pdf&lt;/a&gt;&lt;br&gt;其中，正红色文字是我自己加的注释。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h4 id=&quot;什么是设计模式？&quot;&gt;&lt;a href=&quot;#什么是设计模式？&quot; class=&quot;headerlink&quot; title=&quot;什么是设计模式？&quot;&gt;&lt;/a&gt;什么是设计模式？&lt;/h4&gt;&lt;p&gt;设计模式，是从既有开发经验中抽取出来的，对于既有问题的解决方法的范式。&lt;br&gt;通常所说的设计模式，是指GOF(gane of four)四个人编写的《Design Patterns》中提到的23个设计模式。&lt;br&gt;设计模式的实现，需要编程语言支持&lt;code&gt;面向对象&lt;/code&gt;的功能。&lt;br&gt;[另外]对于设计模式后面小括号中的数字，通常指这本书的页码。&lt;br&gt;[经典书]&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Design Patterns – GOF&lt;/li&gt;
-&lt;li&gt;Refactoring – Martin Fowler&lt;/li&gt;
-&lt;li&gt;Refactoring to Patterns – Josiua Kerievsky&lt;/li&gt;
-&lt;li&gt;Modern C++ Design – Andrel Alexandrescu&lt;/li&gt;
-&lt;li&gt;Small Memory Software – James Nobles&lt;/li&gt;
-&lt;li&gt;More effective C++ – Scott Meyers&lt;/li&gt;
-&lt;/ol&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Class之间的三种关系&quot;&gt;&lt;a href=&quot;#Class之间的三种关系&quot; class=&quot;headerlink&quot; title=&quot;Class之间的三种关系&quot;&gt;&lt;/a&gt;Class之间的三种关系&lt;/h4&gt;&lt;p&gt;_&lt;/p&gt;
-&lt;h5 id=&quot;composition-复合&quot;&gt;&lt;a href=&quot;#composition-复合&quot; class=&quot;headerlink&quot; title=&quot;composition-复合&quot;&gt;&lt;/a&gt;composition-复合&lt;/h5&gt;&lt;p&gt;A持有B的实体，则AB的关系为复合。&lt;br&gt;[注意]两者的生命期完全相同&lt;/p&gt;
-&lt;h5 id=&quot;Delegation-委托&quot;&gt;&lt;a href=&quot;#Delegation-委托&quot; class=&quot;headerlink&quot; title=&quot;Delegation-委托&quot;&gt;&lt;/a&gt;Delegation-委托&lt;/h5&gt;&lt;p&gt;A持有指向B的指针，则A是&lt;code&gt;委托者&lt;/code&gt;，B是&lt;code&gt;受托者&lt;/code&gt;或&lt;code&gt;代理&lt;/code&gt;。即，A向B传递信息，委托这个任务给代理B处理。&lt;br&gt;[注意]两者生命周期不同&lt;br&gt;[例子]一个窗口（委托者），持有一个绘图类（受托者）的指针，把绘图的这部分任务委托给绘图类做。&lt;code&gt;那么为什么需要用指针而不是直接持有呢？&lt;/code&gt;因为这个指向绘图类的指针，将来是可以指向任何一个该类的&lt;code&gt;子类&lt;/code&gt;的，只要继承自该绘图类的子类，后期都是可以更换使用的！&lt;/p&gt;
-&lt;h5 id=&quot;Inheritance-继承&quot;&gt;&lt;a href=&quot;#Inheritance-继承&quot; class=&quot;headerlink&quot; title=&quot;Inheritance-继承&quot;&gt;&lt;/a&gt;Inheritance-继承&lt;/h5&gt;&lt;p&gt;没啥说的。。。。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;OOP开发的六大守则（课程只提两个）&quot;&gt;&lt;a href=&quot;#OOP开发的六大守则（课程只提两个）&quot; class=&quot;headerlink&quot; title=&quot;OOP开发的六大守则（课程只提两个）&quot;&gt;&lt;/a&gt;OOP开发的六大守则（课程只提两个）&lt;/h4&gt;&lt;p&gt;_&lt;/p&gt;
-&lt;h5 id=&quot;OCP-open-closed-principle-开放封闭守则&quot;&gt;&lt;a href=&quot;#OCP-open-closed-principle-开放封闭守则&quot; class=&quot;headerlink&quot; title=&quot;OCP (open-closed principle, 开放封闭守则)&quot;&gt;&lt;/a&gt;OCP (open-closed principle, 开放封闭守则)&lt;/h5&gt;&lt;p&gt;对扩充开放，对修改封闭。&lt;br&gt;意思是，class写完以后，要能够有灵活度以后能加新的功能，但是不应该需要修改原来写好的代码。&lt;br&gt;[例子]链接库、jar&lt;br&gt;[关键]抽象化&lt;/p&gt;
-&lt;h5 id=&quot;LSP-Liskov-Substitution-principle-里氏替代原则&quot;&gt;&lt;a href=&quot;#LSP-Liskov-Substitution-principle-里氏替代原则&quot; class=&quot;headerlink&quot; title=&quot;LSP (Liskov Substitution principle, 里氏替代原则)&quot;&gt;&lt;/a&gt;LSP (Liskov Substitution principle, 里氏替代原则)&lt;/h5&gt;&lt;p&gt;父类能用的场合，子类一定能用。（子类 &lt;code&gt;is a&lt;/code&gt; 父类）&lt;br&gt;用在什么地方呢？就是有时候考虑要借用一个写好类的功能时，要继承呢？还是要复合呢？的时候考虑这个准则来判定要不要使用继承。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;关于类图&quot;&gt;&lt;a href=&quot;#关于类图&quot; class=&quot;headerlink&quot; title=&quot;关于类图&quot;&gt;&lt;/a&gt;关于类图&lt;/h4&gt;&lt;p&gt;类图有多种流派，这里解释UML风格的类图&lt;/p&gt;
-&lt;h5 id=&quot;类表示&quot;&gt;&lt;a href=&quot;#类表示&quot; class=&quot;headerlink&quot; title=&quot;类表示&quot;&gt;&lt;/a&gt;类表示&lt;/h5&gt;&lt;p&gt;方框，第一行类名，第二行类数据，第三行类方法。&lt;br&gt;不必写全，只写需要描述的部分。&lt;br&gt;如果没有类数据或类方法，空白即可。&lt;br&gt;如果是&lt;code&gt;斜体&lt;/code&gt;的函数，是虚函数&lt;br&gt;如果有&lt;code&gt;下划线&lt;/code&gt;，表示static成员&lt;/p&gt;
-&lt;h5 id=&quot;类关系&quot;&gt;&lt;a href=&quot;#类关系&quot; class=&quot;headerlink&quot; title=&quot;类关系&quot;&gt;&lt;/a&gt;类关系&lt;/h5&gt;&lt;p&gt;&lt;code&gt;菱形&lt;/code&gt;标记代表持有，实心是持有实体（复合），空心是持有指针（委托）&lt;br&gt;&lt;code&gt;剪头&lt;/code&gt;指向一个类，代表继承自这个类&lt;br&gt;&lt;code&gt;实线&lt;/code&gt;拖出来的方块，代表对某个函数的伪代码片段&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Template-Method&quot;&gt;&lt;a href=&quot;#Template-Method&quot; class=&quot;headerlink&quot; title=&quot;Template Method&quot;&gt;&lt;/a&gt;Template Method&lt;/h4&gt;&lt;p&gt;Define the skeleton of an algorithm in an operation, &lt;code&gt;deferring&lt;/code&gt; some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm’s structure.&lt;/p&gt;
-&lt;p&gt;最常见的就是在设计application framework的时候，把大部分通用的流程写好，留出一些需要更改的部分，以&lt;code&gt;虚函数&lt;/code&gt;的方式留在那里，俗称“孔”。然后开发者在使用这些类库的时候，只需要&lt;code&gt;重写&lt;/code&gt;或&lt;code&gt;实现&lt;/code&gt;这些孔，就能做到写很少代码作出一个完整的应用。&lt;br&gt;所谓template，就是类库里面的那种通用流程的函数，template函数里面会调用到孔函数。&lt;/p&gt;
-&lt;p&gt;[实现]某些个性化功能的函数写成virtual，让子类去实现覆盖&lt;br&gt;[另]framwork有很多种，appliation framwork是用来帮助创建apllication的framwork。好像废话。。。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Observer&quot;&gt;&lt;a href=&quot;#Observer&quot; class=&quot;headerlink&quot; title=&quot;Observer&quot;&gt;&lt;/a&gt;Observer&lt;/h4&gt;&lt;p&gt;Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.&lt;br&gt;[侯捷注]上面英文的定义有问题，实际上，notify是一定的，update是可选的。&lt;br&gt;所谓one-to-many，one指被观察者，many指观察者。被观察者发生变化的时候，它有责任告诉所有观察者自己发生了变化，让观察者处理变化。有点像信息推送、报纸订阅。&lt;br&gt;[实现]&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;被观察者需要实现的功能&lt;/strong&gt;&lt;ol&gt;
-&lt;li&gt;存放观察者的容器，如：vector。一般持有指向观察者的&lt;code&gt;指针&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;增加观察者。即让观察者注册，我需要知道你的变化。&lt;/li&gt;
-&lt;li&gt;删除观察者。即，退订&lt;/li&gt;
-&lt;li&gt;通知观察者。push message。这里要调用观察者的某个方法。这个方法是协定好的。&lt;/li&gt;
-&lt;li&gt;一个flag，标记是否发生过变化。changed&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;观察者需要实现：&lt;/strong&gt;&lt;ol&gt;
-&lt;li&gt;实现由被观察者调用的那个方法，对被观察者的变化进行处理。这个函数通常会把指向被观察者的指针当作一个函数传递过来，有时还会传递一个hint，告诉你我具体修改了哪些数据。&lt;br&gt;[使用]&lt;br&gt;一般库函数会写好一个观察者类一个被观察者类，只要从他们继承，然后实现通知方法，就能实现功能。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Adapter&quot;&gt;&lt;a href=&quot;#Adapter&quot; class=&quot;headerlink&quot; title=&quot;Adapter&quot;&gt;&lt;/a&gt;Adapter&lt;/h4&gt;&lt;p&gt;Convert the interface of a class into another interface clients expect. Adapter lets classes work together that couldn’t otherwise because of incompatible interfaces.&lt;br&gt;望文生义，适配器。就是用一些浅层的包装，让以前写好的类能够用到新的地方。&lt;br&gt;从实现方式来说，有Class Adapter（用继承实现）和Object Adapter（用复合或委托实现）&lt;br&gt;[注]那么，我们要继承还是不要继承呢？请参考LSP准则&lt;br&gt;从功能来说，有Container Adapters, Function Adapters, Iterator Adapters。&lt;/p&gt;
-&lt;p&gt;[名词注解]&lt;br&gt;adapter—-适配器&lt;br&gt;adaptee—-原来的对象，被适配的对象&lt;br&gt;adaptable—-可以被适配器适配的能力&lt;/p&gt;
-&lt;h5 id=&quot;Container-Adapters&quot;&gt;&lt;a href=&quot;#Container-Adapters&quot; class=&quot;headerlink&quot; title=&quot;Container Adapters&quot;&gt;&lt;/a&gt;Container Adapters&lt;/h5&gt;&lt;p&gt;例如把dequeue改成一个stack这种简单的应用&lt;br&gt;实现上，可以是继承，也可以是复合。主要是调用原来容器的方法，适配新的方法。&lt;/p&gt;
-&lt;h5 id=&quot;Funcion-Adapters&quot;&gt;&lt;a href=&quot;#Funcion-Adapters&quot; class=&quot;headerlink&quot; title=&quot;Funcion Adapters&quot;&gt;&lt;/a&gt;Funcion Adapters&lt;/h5&gt;&lt;p&gt;重用以前写好的函数，通过绑定某些参数（固定参数的值），或者更换参数的顺序，使其能用于现在的应用。&lt;br&gt;问题在于，函数的实参不是在调用的时候才确定的吗？为什么可以事先绑定呢？&lt;br&gt;答案是这样的：函数适配器其实不是一个函数，也不是一个函数指针。它是一个class，function object，这种类，由于重载了&lt;code&gt;()&lt;/code&gt;小括号运算符，所以&lt;code&gt;表现得像一个函数&lt;/code&gt;。是一个class呢，就能够把预先输入的参数，作为class的data储存起来，当需要调用的时候，就是除法这个小括号重载函数的时候，再把这个预先输入的（绑定的）值拿出来，放到那个需要适配的函数的实参里面去。&lt;/p&gt;
-&lt;p&gt;思路是比较简单的，实现起来还是蛮复杂的。复杂度主要来自于这个适配器是范型的，对于类型的判断和传递挺费劲。&lt;br&gt;[实现]&lt;br&gt;对于适配器来说，我需要最后表现为一个函数，那么就像前面提到的，我需要是一个function object，我要实现：1.持有适配的adaptee函数，2.持有需要绑定的具体的参数，3.一个小括号的重载来使用绑定的参数来调用adaptee函数。&lt;/p&gt;
-&lt;p&gt;但是问题来了，我事先不知道你这个adaptee的参数类型，我怎么知道我要绑定的参数的类型呢？于是adaptee必须要有让adapter查询参数类型的接口。C++STL的解决方案是让所有想adaptable的class全都继承一种很奇怪的struct（如：&lt;code&gt;unary_fuction&lt;/code&gt;, &lt;code&gt;binary_fuction&lt;/code&gt;），这种struct呢，里面只有几个typedef，它自己本身也是范型的。这种struct干什么呢，就是让需要adaptable的class呢，在继承它的时候，就把自己的参数啊、返回值这种类型全都交给它，然后它有几个typedef把这几个类型别名为一组&lt;code&gt;标准的&lt;/code&gt;名字（&lt;code&gt;first_argument_type&lt;/code&gt;），将来供adapter询问（查询）。于是，adapter只要进入adaptee的命名空间，就可以访问到这个adaptee的父类，就是那个怪怪的struct，然后用那个标准的名字就可以知道adaptee的参数类型啊、返回值啊之类的了。[另]得到的这个类型，可以直接用哦，像什么加个小括号就是构造函数可以构造这个类的实例啊之类的。&lt;/p&gt;
-&lt;p&gt;最后呢，这个adapter有可能并不是最终产品啊，或许我们需要再将其适配，所以，它也需要adaptable，于是，它也要继承那个怪怪的struct。&lt;/p&gt;
-&lt;p&gt;[注意]对于范型的function object来说，func&lt;type&gt;()是它的实例，func&lt;type&gt;是它的类型，在形式上还是比较迷惑的。表老把它想成函数指针了，人家是一种class。&lt;/type&gt;&lt;/type&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Composite&quot;&gt;&lt;a href=&quot;#Composite&quot; class=&quot;headerlink&quot; title=&quot;Composite&quot;&gt;&lt;/a&gt;Composite&lt;/h4&gt;&lt;p&gt;Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions of objects &lt;code&gt;uniformly&lt;/code&gt;.&lt;br&gt;复合设计模式的精髓，在于组成树形结构的时候，以&lt;code&gt;一致的方式&lt;/code&gt;对待单一物件和复合物件。&lt;br&gt;[注释]&lt;br&gt;复合物件，指的是单一物件的容器，例如文件夹&lt;br&gt;单一物件，即文件。&lt;br&gt;所谓树形结构，即文件夹内既可以放文件，也可以放文件夹。&lt;br&gt;一致的方式，就是在操作文件夹时，用同一组函数（方法）对待文件夹和普通文件。但是同样的函数，对于单一物件，应该可以直接得到返回值，而对于复合物件，就可能是递归的形式。&lt;/p&gt;
-&lt;p&gt;[例子]&lt;br&gt;File system&lt;br&gt;Windowing system – 窗体内嵌套窗体，也可以增加物件&lt;br&gt;Command – 命令中嵌套命令，也有参数&lt;/p&gt;
-&lt;p&gt;[实现]&lt;br&gt;对于&lt;code&gt;一视同仁&lt;/code&gt;的阐释，又两个方面：&lt;br&gt;首先 ，复合物件里面必须要有容器。容器必须既可以装复合物件又可以装单一物件。&lt;br&gt;其次 ，复合物件和单一物件必须要有相同的API。&lt;/p&gt;
-&lt;p&gt;那么解决方法显而易见：让它们&lt;code&gt;共同继承&lt;/code&gt;一个父类。然后复合物件的容器可以存放&lt;code&gt;指向父类的指针&lt;/code&gt;。再者，两者公共的API可以在父类中定义&lt;code&gt;虚方法&lt;/code&gt;，由两个子类各自去实现自己的版本。&lt;/p&gt;
-&lt;p&gt;[另外]这里有个常见的小技巧，对于个别物件不应该定义的方法（例如增加子物件），也抽离出来，在上层父类中定义，并把这个方法的内容写成&lt;code&gt;抛出异常&lt;/code&gt;。然后，让复合物件重写这个方法。于是，如果个别物件调用了这个方法自然抛出异常。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Iterator&quot;&gt;&lt;a href=&quot;#Iterator&quot; class=&quot;headerlink&quot; title=&quot;Iterator&quot;&gt;&lt;/a&gt;Iterator&lt;/h4&gt;&lt;p&gt;Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.&lt;br&gt;[注释]aggregate：容器，即container&lt;br&gt;迭代器模式，专门用在对容器的遍历。希望把容器的构造抽象，提供给外界&lt;code&gt;统一的接口&lt;/code&gt;，遍历容器。&lt;br&gt;C++的迭代器，是一种行为像指针一样的class。&lt;/p&gt;
-&lt;p&gt;[实现]&lt;br&gt;首先，对于每一种容器，只有它自己才直到要怎么去遍历自己。于是，每个容器都应该定义自己的迭代器。&lt;/p&gt;
-&lt;p&gt;其次，对于一个实际的容器，这个用于遍历的“指针”，对于不同的访问者来说，不应该是唯一的、公用的，而应该是给每个访问者创建一个，你遍历你的，他遍历它的。于是，迭代器不应该写死在容器里，也不应该让容器持有指向迭代器的指针（因为数量是未知的）。那怎么办呢？给每一种容器，特别定义一个专属的迭代器class。Java中，当访问者需要一个迭代器时，由容器为其创造一个。而在C++中，在容器的命名空间中的typedef提供了迭代器的类型名称，由用户手动创建。大同小异。&lt;/p&gt;
-&lt;p&gt;对于迭代器而言，为了表现得像一个指针，则需要重载应用于指针得操作符，对外提供统一得API。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;内存管理-Memory-Pool&quot;&gt;&lt;a href=&quot;#内存管理-Memory-Pool&quot; class=&quot;headerlink&quot; title=&quot;内存管理(Memory Pool)&quot;&gt;&lt;/a&gt;内存管理(Memory Pool)&lt;/h4&gt;&lt;p&gt;Memory Pool并不属于GOF的23种设计模式之列，但是也非常重要。&lt;/p&gt;
-&lt;h5 id=&quot;背景知识－内存分配&quot;&gt;&lt;a href=&quot;#背景知识－内存分配&quot; class=&quot;headerlink&quot; title=&quot;背景知识－内存分配&quot;&gt;&lt;/a&gt;背景知识－内存分配&lt;/h5&gt;&lt;p&gt;[调用的层次关系：]&lt;br&gt;&lt;code&gt;Applications&lt;/code&gt; -&amp;gt; &lt;code&gt;C++Library&lt;/code&gt;(Stl,Boost) -&amp;gt; &lt;code&gt;C++Primitives&lt;/code&gt;(new) -&amp;gt; &lt;code&gt;CRT&lt;/code&gt;(c runtime) -&amp;gt; &lt;code&gt;OS api&lt;/code&gt;(HeapAlloc)&lt;/p&gt;
-&lt;p&gt;[内存管理实现（bookkeeping）]&lt;br&gt;CRT并没有像操作系统那样，对分配出去的内存用专门的数据结构记录管理。那么CRT怎么在free的时候，知道这个指针指向的地址，当初分配了多大空间给他呢？答案是在分配出去指针前面藏一个&lt;code&gt;cookie&lt;/code&gt;，大小一般是4B。于是在free的时候，往前面看下cookie，就知道应该去释放多大的内存了。&lt;br&gt;[注释]忘记在哪里看到的cookie的来源，可能是西方什么故事的典故，主要意思是：小孩子来我家里玩，然后走的时候我把我自己做的cookie给她们带回去吃，每个小孩都给一种不一样的cookie。然后走了就走了，我也不去记住每个小孩的样子。但是以后每当再有小孩来的话，只要他带着我当时给他的cookie，我就知道他曾经来过，也知道他是谁啦～&lt;/p&gt;
-&lt;h5 id=&quot;背景知识－C-中的new操作符&quot;&gt;&lt;a href=&quot;#背景知识－C-中的new操作符&quot; class=&quot;headerlink&quot; title=&quot;背景知识－C++中的new操作符&quot;&gt;&lt;/a&gt;背景知识－C++中的new操作符&lt;/h5&gt;&lt;p&gt;在C++中，new操作会被编译器翻译为三个动作：（以new className()为例）&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;调用&lt;code&gt;::operator new()&lt;/code&gt;分配一块内存。（参数是sizeof(className)）&lt;/li&gt;
-&lt;li&gt;把返回的指针&lt;code&gt;static_cast&lt;/code&gt;至className类型&lt;/li&gt;
-&lt;li&gt;调用className的&lt;code&gt;构造函数&lt;/code&gt;&lt;br&gt;[另外]&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;::operator new()&lt;/code&gt;这个全局函数是可以重载的，既可以是全局重载，也可以是在某个特定的class里面重载。&lt;/li&gt;
-&lt;li&gt;所有的内存分配操作，最后都会调用&lt;code&gt;malloc()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;上面三个步骤如果失败，会抛出异常std::bad_alloc&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;[关于&lt;code&gt;delete[]&lt;/code&gt;中的方括号]&lt;br&gt;这叫&lt;code&gt;array new&lt;/code&gt;、&lt;code&gt;array delete&lt;/code&gt;&lt;br&gt;加了方括号，会对地址内每个元素调用析构函数。不加，则仅对第一个元素调析构。&lt;br&gt;所以问题就是出在要析构的class上。对于持有指向heap指针的class，仅仅调用free释放这个class本身是不够的。对于这种类型的数组，delete的时候务必加方括号。一个好习惯是：new的时候有方括号，那么delete的时候也要有。&lt;/p&gt;
-&lt;p&gt;不加方括号也正确的例子：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;* p = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;[&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;delete&lt;/span&gt;[] p;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;首先明确，delete和new类似，最后调用的是free()。对于由array new产生的p指向的空间，p前面的cookie会正确纪录分配给p的空间大小，是3份的int。所以无论这个delete加不加方括号，只要调用了free，free就会读取cookie，得到正确的空间大小，就能正确释放。&lt;/p&gt;
-&lt;h5 id=&quot;Memory-Pool&quot;&gt;&lt;a href=&quot;#Memory-Pool&quot; class=&quot;headerlink&quot; title=&quot;Memory Pool&quot;&gt;&lt;/a&gt;Memory Pool&lt;/h5&gt;&lt;p&gt;[为啥要有memory pool]?&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;对于小型class，4B的cookie代价太大&lt;/li&gt;
-&lt;li&gt;虽然malloc的实现各不相同，对于各种&lt;code&gt;不同的大小&lt;/code&gt;的内存分配／归还，产生大量碎片。&lt;/li&gt;
-&lt;li&gt;系统调用的成本&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;[memory pool思想]（focus on &lt;code&gt;SGI allocator&lt;/code&gt;）&lt;br&gt;回想一下操作系统中的内存管理，其实思想有点类似于&lt;code&gt;分页存储&lt;/code&gt;。&lt;br&gt;虽然用户提出的内存要求是不确定的，但是我们把内存以&lt;code&gt;固定大小的block&lt;/code&gt;来配给内存。把外碎片变成内碎片。同时，由于大小是固定的，那我也不用cookie来纪录当时给了多大。这样可以解决前两个问题。&lt;br&gt;对于频繁的系统调用，请回想&lt;code&gt;printf,scanf&lt;/code&gt;不管你要多少数据，我先读一大片进缓冲区，当你下次再要的时候，就不用再系统调用了。memory pool也是这个缓冲的思想，只不过pool是那种用完了还可以放进去循环利用的感觉，buffer就是一次性的。&lt;/p&gt;
-&lt;p&gt;[SGI allocator的实现概要]&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;大于128B的请求，直接调用malloc。小于128B的，按照8、16、24…120、128这16种大小分配最合适的一块。&lt;/li&gt;
-&lt;li&gt;用一个数组，存放16个free_list（单链表）。这每个list，用来纪录对应的16种大小的block的分配情况。另外有两个指针纪录pool的开始和末尾。&lt;/li&gt;
-&lt;li&gt;分配策略如下：根据请求大小，可知应该去找哪个list要。先看list有没余量block，如果没有，就把pool全都那过来用。如果pool里面的空间都不够，就像系统请求40个当前block大小的内存，20个给list，20个给pool。&lt;/li&gt;
-&lt;li&gt;关于归还，客户把block还给list，然后就结束了。这个allocator并不归还内存给系统。&lt;/li&gt;
-&lt;li&gt;对于向系统请求失败的情况，分配器会看看有没有更大的list里面有空block，如果有的话可以借一块过来。&lt;br&gt;&lt;strong&gt;注意：&lt;/strong&gt;具体实现的细节很多，请看源码。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;[SGI allocator的缺陷]&lt;br&gt;内存不归还。。。其实是没法归还，因为单链表结构在反复使用后，已经无法判定block们是不是在一块连续的内存空间里面了。&lt;br&gt;[改进]例子：Loki small object allocator，参考书：&lt;morden c++=&quot;&quot; design=&quot;&quot;&gt;&lt;br&gt;block们用&lt;code&gt;静态链表&lt;/code&gt;连接，而且少量block就规划为一个chunk。静态链表解决了空间不连续的问题，而对比整个free_list，chunck较小，比较容易形成全空的情况，此时就可以回收归还给OS。&lt;br&gt;提一个细节，这种pool，即使归还内存，一般也会留存一个chunk在手里，以备客户需要。&lt;/morden&gt;&lt;/p&gt;
-&lt;p&gt;[应用]&lt;br&gt;其实，有的malloc实现中，也采用了pool的思想，但毕竟是通用的、对各种个样大小都要适合的服务。而allocator用的memory pool，则是对&lt;code&gt;固定大小&lt;/code&gt;内存请求的优化（所以经常用在&lt;code&gt;容器&lt;/code&gt;中）。&lt;/p&gt;
-&lt;p&gt;[嗯，那个。。。我不会写这个pool，可是我也想用这个allocator，可以嘛？]&lt;br&gt;可以的哦，亲～方法如下：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//方法一：重载全局::operator new()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt;* &lt;span class=&quot;keyword&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(size_t size)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; alloc::allocate(size); &lt;span class=&quot;comment&quot;&gt;// get from free-list&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt;* p, size_t size)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    alloc::deallocate(p, size); &lt;span class=&quot;comment&quot;&gt;// return to free-list&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//方法二：重载某个class的operator new()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//注意这个class只有小于128B，才有意义&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; MyClass&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt;* &lt;span class=&quot;keyword&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(size_t size)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; alloc::allocate(size); &lt;span class=&quot;comment&quot;&gt;// get from free-list&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;operator&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt;* p, size_t size)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        alloc::deallocate(p, size); &lt;span class=&quot;comment&quot;&gt;// return to free-list&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//其他成员&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Factory-Method&quot;&gt;&lt;a href=&quot;#Factory-Method&quot; class=&quot;headerlink&quot; title=&quot;Factory Method&quot;&gt;&lt;/a&gt;Factory Method&lt;/h4&gt;&lt;p&gt;Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class &lt;code&gt;defer&lt;/code&gt; instantiation to subclasses.&lt;br&gt;又是defer！与Template Method相比，Factory Method延缓的是&lt;code&gt;实例化&lt;/code&gt;的动作。主要的应用是在大型框架。大型框架的运作，需要预先对用户派生的子类进行操作。但是用户具体定义的类name预先是不可能知道的。所以这里必须进行抽象化延缓。&lt;br&gt;[注释]Factory Method中，method指的是一个用来创建子类的&lt;code&gt;虚函数&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;[问题是什么呢？]&lt;br&gt;框架现在需要实例化这个不知道名字的子类，怎么new呢？[注释]这个动作叫做&lt;code&gt;dynamic creation&lt;/code&gt;&lt;br&gt;由于C++语言本身的限制，通过一个string变量来制定需要实例化对象的名字是禁止的。我们唯一能做的，就是预先设定好需要实例化的这个class，然后比较后期需要创建class的名字（string），如果string相同，则创建对应的class。可以看出，这个用来比较class name的string，也需要是预先设定好的。&lt;/p&gt;
-&lt;p&gt;除此之外，就算你的字符串比对成功匹配了，就算现在就是可以调用这个预先写好的new语句了，那这句new写在哪里呢？写框架的人可能有本事把这句话写死再框架代码里吗？不可能，显然必须是写在用户代码里的。写在用户代码里？难道让那个class自己new自己？是的，你没有听错。&lt;br&gt;但是可能吗？我框架连你得class都找不到，怎么去找你class里面写的new？况且，你都没有实例化，怎么调用new函数？&lt;/p&gt;
-&lt;p&gt;[解决方案]–&amp;gt;隔一层&lt;br&gt;第一个问题，我不是没办法写死那个比较的string嘛？那我可以加一个中间物件，比如一个表，一个list。我去从这个表里吗取名字，而这个表，是deffer到用户那里去填写的。意思就是，我新派生了一个子类，于是我把我子类的名字（string）注册到那个表里面去，然后框架在需要new我的时候，就例行公事去那个表里面检查。good！解决第一个问题。&lt;br&gt;第二个问题，怎么new。这个简单，把这个new语句，写成&lt;code&gt;static方法&lt;/code&gt;，则不用实例化也可调用。&lt;br&gt;那怎么调用呢？ 嗯。。。调用函数呢，需要函数的入口地址，对吧？要么，给class name，是一个入口。或者，直接给这个函数地址，也OK，对不？。。。。嗯，有点怪，然后呢？简单啊，把这个自己创建自己的函数指针，直接放到前面提到的那张表里啊！查表，名字对上，取出自己new自己的函数地址，然后调用&lt;code&gt;用户写的&lt;/code&gt;new语句，new出来的实例返回给框架，搞定！&lt;/p&gt;
-&lt;p&gt;[总结]&lt;br&gt;所谓“工厂方法”，指的是一套&lt;code&gt;接口&lt;/code&gt;，包括框架维护的一个数据结构，让用户注册。以及用户自己书写的自己new自己的方法。（在框架的中，用户派生类的父类需要定义一个抽象函数强制要求用户定义这个函数。）&lt;br&gt;另外：这个“注册”和“自己创建自己”的动作，由于比较制式，经常由一个常规的宏函数实现（回想QT）。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Prototype&quot;&gt;&lt;a href=&quot;#Prototype&quot; class=&quot;headerlink&quot; title=&quot;Prototype&quot;&gt;&lt;/a&gt;Prototype&lt;/h4&gt;&lt;p&gt;Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.&lt;br&gt;模板模式也是解决用户子类实例化的问题。但是我不能明白这么做的用意，可能是与工厂方法模式解决类似的问题。但是给出的例子，主要在客户端那边的实例化，不理解。&lt;/p&gt;
-&lt;p&gt;[什么意思呢]&lt;br&gt;prototype意思是原型，意思是，新定义的子类，在程序开始创建的时候，就&lt;code&gt;自动创建一个“原型”实例&lt;/code&gt;，放在父类的容器里。虽然子类可以变化增加，但是因为父类是预先写好的嘛，如果想实例化子类，只要通过找到父类的容器里面的原型，就可以让这个原型new一个新的子类出来（美其名曰：clone函数，其实就是自己new自己）。好像是一个比较优雅的解法？不是嘛？～&lt;/p&gt;
-&lt;p&gt;[实现]&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;首先，在程序启动时自动创建实例，能做到？可以的，叼的不行了。在子类定义里面，放一个static的自己（static就不算循环定义了？需要复习static）。然后static成员是有一次赋初值的机会的，写在class外面就行，这个动作不需要有人去手动调用它。于是这个初值就构造一个自己。（简直匪夷所思！）实例化好了对吧，然后更happy的来了，在构造函数里面，调用父类的某个函数，把自己放到父类的原型容器里去。天哪，代码还没开始跑，每个子类都已经各就各位了！&lt;/li&gt;
-&lt;li&gt;于是你也发现了，每个子类都会copy一份父类，如果这个容器不是static的，那么大家会在各自不同的容器里面，这就不happy了。&lt;/li&gt;
-&lt;li&gt;于是呢，用户拿到父类，容器在手，再无他求啊！&lt;/li&gt;
-&lt;li&gt;对于框架来说，也是可以通过父类的容器比对或者找到需要实例化的子类的。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;[另外]&lt;br&gt;具体实现时，常把子类的构造函数写为&lt;code&gt;私有&lt;/code&gt;，这样做的想法，可能是想统一用父类的接口，不要让用户去处理子类。美其名曰：解偶。decouple。用户一切的子类创建必须通过父类的容器。&lt;/p&gt;
-&lt;p&gt;总之呢，是不太理解这个设计模式啦。。。只是觉得手段很精妙！&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Reference-Counting&quot;&gt;&lt;a href=&quot;#Reference-Counting&quot; class=&quot;headerlink&quot; title=&quot;Reference Counting&quot;&gt;&lt;/a&gt;Reference Counting&lt;/h4&gt;&lt;p&gt;引用计数，非GOF的23个设计模式之一。主要的目的就是想省内存，即对于需要&lt;code&gt;深拷贝&lt;/code&gt;来管理内存的物件，使用&lt;code&gt;写时复制&lt;/code&gt;(copy on write)的技术，让用户看上去是深拷贝，而实际上是浅拷贝。只有当用户对拷贝的物件实际进行修改动作时，才真正深拷贝。&lt;/p&gt;
-&lt;p&gt;[应用]&lt;br&gt;STL的string。swift里面好像都是引用计数啊，还有vfork不知道是不是。&lt;br&gt;另外，引用计数在内存管理中也用到。没有指针指向自己时自动销毁。&lt;/p&gt;
-&lt;p&gt;[困难]-&amp;gt;我怎么知道有几个人持有指向我的指针呢？&lt;br&gt;一个比较自然的想法，是搞一个用户列表在我自己的这个class里面，每个实例拥有一个表(不要搞成static)，这个表里面纪录着持有自己的对象。&lt;/p&gt;
-&lt;p&gt;这样做可以达到目的，但是对于使用者来说，需要增加额外的操作，比如在拷贝时，要去你的表里面增加自己，或者在销毁时，检查自己是不是表里面的最后一个，等等。&lt;br&gt;同时也不能做到自己销毁自己。&lt;/p&gt;
-&lt;p&gt;[解决]&lt;br&gt;我们又想到可以再包装一层，把&lt;code&gt;实际的value&lt;/code&gt;与&lt;code&gt;对引用的manager&lt;/code&gt;分成两个class，以string为例，把实际的字符串内容单独写到一个class里面，同时这个class再附加一个int字段来纪录自己的引用者。（这样与上面的table做法相比更省事）&lt;br&gt;而另外一个manager，则持有一个value类的引用，让外界持有这个manager，然后这个manager对外只要表现的像一个实际的value就行了（重载相关操作符嘛）。&lt;br&gt;当这个manager被copy时，仅仅做对manager的浅copy，然后让value类的引用计数＋1即可。同样的，manager销毁时，检查value类的引用计数，如果是1，那么除了销毁自己，顺手也把value类销毁掉。&lt;/p&gt;
-&lt;p&gt;[那么问题来了]-&amp;gt;这样的浅copy，用户是不知道的，如果被改动不是错误了嘛？&lt;br&gt;是的，我们需要实现&lt;code&gt;copy_on_write&lt;/code&gt;。&lt;br&gt;那么，我们怎么知道别人要write我了呢？还是重载操作符，对于可能&lt;code&gt;暴露自己handler&lt;/code&gt;的，或者&lt;code&gt;直接修改&lt;/code&gt;自己的，全都copy一份，再进行相应操作即可。&lt;/p&gt;
-&lt;p&gt;[问题]&lt;br&gt;你可能注意到了，上面需要真实copy的情况，直接修改自己是没商量的，而对于暴露自己handler的情况，可能用户并没有要修改，此时盲目copy造成资源浪费。但是对于C++语言功能来说，在传出自己handler时，并不能用户是否要进行修改，以决定是否要copy。只能是悲观得认为用户要改，保守操作。&lt;/p&gt;
-&lt;p&gt;这个问题可用proxy解决。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;Proxy&quot;&gt;&lt;a href=&quot;#Proxy&quot; class=&quot;headerlink&quot; title=&quot;Proxy&quot;&gt;&lt;/a&gt;Proxy&lt;/h4&gt;&lt;p&gt;Provide a surrogate or placeholder for another object to &lt;code&gt;control access to it&lt;/code&gt;.&lt;br&gt;[注释]surrogate：代理人&lt;br&gt;我觉得代理人模式也是又deffering的意思，我们不是直接对某个目标物件操作，而是通过这个proxy类来获取、操作目标物件。&lt;/p&gt;
-&lt;p&gt;有点属性值里面的setter和getter的意思，对代理操作，然后进行相关处理后，再又代理对实际的值进行处理。&lt;br&gt;这样多了一个中间层，可以有很多机会判断。比如在需要的时候再实例化目标啊之类的。&lt;/p&gt;
-&lt;p&gt;[另外]&lt;br&gt;对于上面引用计数不能解决的问题。（即暴露handler时无法判断用户是不是要修改）。我们可以不返回真实的value类出去，而是返回一个proxy给用户，也是表现的像一个value就行了。然后当这个proxy被修改的时候，再进行真实的copy。这样问题就解决了。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;总结和反思&quot;&gt;&lt;a href=&quot;#总结和反思&quot; class=&quot;headerlink&quot; title=&quot;总结和反思&quot;&gt;&lt;/a&gt;总结和反思&lt;/h4&gt;&lt;p&gt;学完了这门课，给我最深刻的印象是，反反复复出现的&lt;code&gt;中间层&lt;/code&gt;和&lt;code&gt;统一化&lt;/code&gt;的思想。&lt;br&gt;中间层，把变化的、不确定的、暂时不知道的情况，先放置一个中间层，一端确定下来。然后把剩下的另一端不确定的，&lt;code&gt;推迟&lt;/code&gt;到实际确定的时候再写清楚。或者一端确定，另一端发生的变化，并不会影响确定的那一端。&lt;br&gt;统一化的处理，可以大大简化工程的难度。&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;关于语言的零散笔记&quot;&gt;&lt;a href=&quot;#关于语言的零散笔记&quot; class=&quot;headerlink&quot; title=&quot;关于语言的零散笔记&quot;&gt;&lt;/a&gt;关于语言的零散笔记&lt;/h4&gt;&lt;p&gt;C++中reference的实现底层用的指针&lt;/p&gt;
-&lt;p&gt;java的方法全是虚函数，class全是引用&lt;/p&gt;
-&lt;p&gt;什么时候需要用虚函数？&lt;br&gt;设计父类时，如果某个方法需要由子类定义，或重新定义，那么应该被设计为虚函数&lt;/p&gt;
-&lt;p&gt;临时对象的生存期？待深入&lt;/p&gt;
-&lt;p&gt;java容器能放所有类型，是因为java有单根的继承体系，指向根的指针能指向任何类型&lt;/p&gt;
-&lt;p&gt;关于const成员函数&lt;br&gt;非const的class，也可以调用const的成员函数。但是会优先调用非const版本。&lt;/p&gt;
-&lt;p&gt;静态成员变量不会增加实例的size&lt;/p&gt;
-&lt;p&gt;变量最好在使用的前一刻再定义，特别是迭代器&lt;br&gt;比如：容器空间不够时，会重新分配一块空间（搬家），原来的迭代器指向的内存可能已经废弃。&lt;/p&gt;
-&lt;p&gt;operator char() const;   //这是重载的类型转换函数，当环境需要char类型时，它调用此函数。注意没有返回值，因为一定是char&lt;/p&gt;
-&lt;hr&gt;
-&lt;h4 id=&quot;附录：GOF的23种设计模式&quot;&gt;&lt;a href=&quot;#附录：GOF的23种设计模式&quot; class=&quot;headerlink&quot; title=&quot;附录：GOF的23种设计模式&quot;&gt;&lt;/a&gt;附录：GOF的23种设计模式&lt;/h4&gt;&lt;p&gt;_&lt;/p&gt;
-&lt;h5 id=&quot;Creational-Patterns&quot;&gt;&lt;a href=&quot;#Creational-Patterns&quot; class=&quot;headerlink&quot; title=&quot;Creational Patterns&quot;&gt;&lt;/a&gt;Creational Patterns&lt;/h5&gt;&lt;p&gt;&lt;strong&gt;Abstract Factory:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Provide an interface for creating families of related or dependent objects without specifying their concrete classes.&lt;/em&gt;&lt;br&gt;提供一个创建一系列相关或相互依赖对象的接口,而无需指定它们具体的类。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Builder:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Separate the construction of a complex object from its representation so that the same construction process can create different representations.&lt;/em&gt;&lt;br&gt;将一个复杂对象的构建与它的表示分离，这样使得同样的构建过程可以创建不同的表示。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Factory Method:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.&lt;/em&gt;&lt;br&gt;定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂方法模式使一个类的实例化延迟到子类。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Prototype:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.&lt;/em&gt;&lt;br&gt;用原型实例指定创建对象的种类,并且通过拷贝这个原型来创建新的对象。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Singleton:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Ensure a class only has one instance, and provide a global point of access to it.&lt;/em&gt;&lt;br&gt;保证一个类仅有一个实例,并提供一个访问它的全局访问点。&lt;/p&gt;
-&lt;h5 id=&quot;Structual-Patterns&quot;&gt;&lt;a href=&quot;#Structual-Patterns&quot; class=&quot;headerlink&quot; title=&quot;Structual Patterns&quot;&gt;&lt;/a&gt;Structual Patterns&lt;/h5&gt;&lt;p&gt;&lt;strong&gt;Adapter:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Convert the interface of a class into another interface clients expect. Adapter lets classes work together that couldn’t otherwise because of incompatible interfaces.&lt;/em&gt;&lt;br&gt;将一个类的接口转换成客户希望的另外一个接口。Adapter模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Bridge:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Decouple an abstraction from its implementation so that the two can vary independently.&lt;/em&gt;&lt;br&gt;将抽象部分与它的实现部分分离,使它们都可以独立地变化。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Composite:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Compose objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly.&lt;/em&gt;&lt;br&gt;把物件组合成树形结构，以表示“部分－整体”的层次结构。复合模式使得用户一致地对待复合物件和单一物件。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Decorator:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Attach additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.&lt;/em&gt;&lt;br&gt;將額外的「职责、任務、负担」以动态方式附著於物件身上,使不必進行subclassing就能扩展功能。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Facade:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Provide a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.&lt;/em&gt;&lt;br&gt;为子系统中的一组接口提供一个一致的界面,Facade模式定义了一个高层接口,这个接口使得这一子系统更加容易使用。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Proxy:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Provide a surrogate or placeholder for another object to control access to it.&lt;/em&gt;&lt;br&gt;为其他对象提供一个代理以控制对这个对象的访问。&lt;/p&gt;
-&lt;h5 id=&quot;Behavioral-Patterns&quot;&gt;&lt;a href=&quot;#Behavioral-Patterns&quot; class=&quot;headerlink&quot; title=&quot;Behavioral Patterns&quot;&gt;&lt;/a&gt;Behavioral Patterns&lt;/h5&gt;&lt;p&gt;&lt;strong&gt;Chain of Responsibility:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request. Chain the receiving objects and pass the request along the chain until an object handles it.&lt;/em&gt;&lt;br&gt;为解除请求的发送者和接收者之间耦合,而使多个对象都有机会处理这个请求。将这些对象连成一条链,并沿着这条链传递该请求,直到有一个对象处理它。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Command:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Encapsulate a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations.&lt;/em&gt;&lt;br&gt;将一个请求封装为一个对象,从而使你可用不同的请求对客户进行参数化;对请求排队或记录请求日志,以及支持可取消的操作。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interpreter:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Given a language, define a represention for its grammar along with an interpreter that uses the representation to interpret sentences in the language.&lt;/em&gt;&lt;br&gt;给定一个语言,定义它的文法的一种表示,并定义一个解释器,该解释器使用该表示来解释语言中的句子。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Iterator:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.&lt;/em&gt;&lt;br&gt;提供一种方法顺序访问一个聚合对象中各个元素,而又不需暴露该对象的内部表示。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Mediator:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Define an object that encapsulates how a set of objects interact. Mediator promotes loose coupling by keeping objects from referring to each other explicitly, and it lets you vary their interaction independently.&lt;/em&gt;&lt;br&gt;用一个中介对象来封装一系列的对象交互。中介者使各对象不需要显式地相互引用,从而使其耦合松散,而且可以独立地改变它们之间的交互。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Memeneto:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Without violating encapsulation, capture and externalize an object’s internal state so that the object can be restored to this state later.&lt;/em&gt;&lt;br&gt;在不破坏封装性的前提下,捕获一个对象的内部状态,并在该对象之外保存这个状态。这样以后就可将该对象恢复到保存的状态。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Observer:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.&lt;/em&gt;&lt;br&gt;定义对象间的一种一对多的依赖关系,以便当一个对象的状态发生改变时,所有依赖于它的对象都得到通知并自动刷新。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;State:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Allow an object to alter its behavior when its internal state changes. The object will appear to change its class.&lt;/em&gt;&lt;br&gt;允许一个对象在其内部状态改变时改变它的行为。让这个对象看起来似乎修改了它所属的类。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Strategy:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.&lt;/em&gt;&lt;br&gt;定义一系列的算法,把它们一个个封装起来,并且使它们可相互替换。本模式使得算法的变化可独立于使用它的客户。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Template Method:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Define the skeleton of an algorithm in an operation, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm’s structure.&lt;/em&gt;&lt;br&gt;定义一个操作中的算法的骨架,而将一些步骤延迟到子类中。Template Method使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Visitor:&lt;/strong&gt;&lt;br&gt;&lt;em&gt;Represent an operation to be performed on the elements of an object structure. Visitor lets you define a new operation without changing the classes of the elements on which it operates.&lt;/em&gt;&lt;br&gt;表示一个作用于某对象结构中的各元素的操作。它使你可以在不改变各元素的类的前提下定义作用于这些元素的新操作。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;有幸听到侯捷老师的面授，不敢懈怠。可惜只有短短8次课，只能做个入门。&lt;br&gt;课件链接：&lt;a style=&quot;text-decoration:none; color:blue;&quot; href=&quot;http://pan.baidu.com/s/1o6625ei&quot;&gt;DesignPatterns_2014.pdf&lt;/a&gt;&lt;br&gt;其中，正红色文字是我自己加的注释。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="基础理论" scheme="http://Rocklu.me/categories/%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/"/>
     
     
   </entry>
