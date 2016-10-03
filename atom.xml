@@ -493,6 +493,38 @@
   </entry>
   
   <entry>
+    <title>iOS毛玻璃效果</title>
+    <link href="http://Rocklu.me/2015/11/10/iOS%E6%AF%9B%E7%8E%BB%E7%92%83%E6%95%88%E6%9E%9C/"/>
+    <id>http://Rocklu.me/2015/11/10/iOS毛玻璃效果/</id>
+    <published>2015-11-10T10:40:00.000Z</published>
+    <updated>2016-03-29T09:36:37.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>自从iOS8，apple官方开放了「毛玻璃」特效的API，用起来有点奇怪。</p>
+<a id="more"></a>
+<p>方法如下：</p>
+<ol>
+<li>要使用UIView的子类<code>UIVisualEffectView</code></li>
+<li>这个view的<code>backgroundColor</code>必须是<code>clearColor</code>，否则无效</li>
+<li>这个view的subView都会被模糊，如果只想背景模糊，其他部件需要与之平级，不要添加为它的subView！</li>
+<li>所以需要一个容器view用来存放这个view和其他部件，这个容器也应该是clearColor，注意alpha不要小于1，否则所有子view都会受影响。</li>
+<li>设置这个view的<code>effect</code>属性，值为：<code>[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]</code>。注意有light，dark，extraLight三种可选。</li>
+<li>如果觉得默认的太透明了，想要一点<code>白底</code>，请不要改变上述的颜色。正确做法是在毛玻璃特效的后面（平级）加入一个半透明的view（alpha0.3），这个view的颜色设置为乳白色或者灰色会有不错的效果。</li>
+</ol>
+<p>[注意]带有毛玻璃特效的view最好不要参与动画，特效在动画中不会被渲染，只有停下来才有效果。如果有动画会一下次出现背景比较突兀。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;自从iOS8，apple官方开放了「毛玻璃」特效的API，用起来有点奇怪。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="IOS" scheme="http://Rocklu.me/categories/IOS/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>App服务端搭建</title>
     <link href="http://Rocklu.me/2015/10/22/app%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%90%AD%E5%BB%BA/"/>
     <id>http://Rocklu.me/2015/10/22/app服务端搭建/</id>
@@ -516,6 +548,76 @@
     <summary type="html">
     
       &lt;p&gt;搭建一个简单的app后端其实并没有太大的技术含量，但是这个过程中还是遇到一些坑的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="TOOLS" scheme="http://Rocklu.me/categories/TOOLS/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>iOS9更新后的坑</title>
+    <link href="http://Rocklu.me/2015/10/14/iOS9%E6%9B%B4%E6%96%B0%E5%90%8E%E7%9A%84%E5%9D%91/"/>
+    <id>http://Rocklu.me/2015/10/14/iOS9更新后的坑/</id>
+    <published>2015-10-14T03:34:00.000Z</published>
+    <updated>2016-03-29T09:36:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>iOS9出现以后，不但swift出了2.0版本，项目中也有很多其他地方做了更改。</p>
+<a id="more"></a>
+<h4 id="Bitcode"><a href="#Bitcode" class="headerlink" title="Bitcode"></a>Bitcode</h4><p>Bitcode is an intermediate representation of a compiled program. Apps you upload to iTunes Connect that contain bitcode will be compiled and linked on the App Store. Including bitcode will allow Apple to re-optimize your app binary in the future without the need to submit a new version of your app to the store.</p>
+<p>Note: For iOS apps, bitcode is the default, but optional. If you provide bitcode, all apps and frameworks in the app bundle need to include bitcode. For watchOS apps, bitcode is required</p>
+<p>简而言之就是用来支持增量更新的，默认开启，开启后可能会给包含C++库的项目造成无法编译的问题。</p>
+<p><strong><code>如何关闭？</code></strong><br>项目配置-〉build option里面</p>
+<h4 id="app中的HTTP请求被禁了"><a href="#app中的HTTP请求被禁了" class="headerlink" title="app中的HTTP请求被禁了"></a>app中的HTTP请求被禁了</h4><p>错误信息有：<code>App Transport Security</code>这样的，主要是因为apple建议使用<code>HTTPS</code>而不是<code>HTTP</code>。</p>
+<p><strong><code>如何解决？</code></strong><br>在项目的<code>plist</code>文件中，新建「字典」<code>NSAppTransportSecurity</code>，在这个字典中，新建「布尔值」项目<code>NSAllowsArbitraryLoads</code>，并将其设置为<code>YES</code>。OK。</p>
+<hr>
+<p>下面是一些其他的坑。</p>
+<h4 id="启动图片比你想象得要重要"><a href="#启动图片比你想象得要重要" class="headerlink" title="启动图片比你想象得要重要"></a>启动图片比你想象得要重要</h4><p>iOS7闪退因为启动图片不对，app打开后画面不能撑满屏幕因为启动图片在项目中设置得不对。这种诡异的bug浪费了我大量的时间。</p>
+<h4 id="签名证书的问题"><a href="#签名证书的问题" class="headerlink" title="签名证书的问题"></a>签名证书的问题</h4><p>怪事1: ad-hoc分发给测试人员闪退，且在本机使用真实手机调试（手机连在电脑上测试）说进程丢失。而直接在手机中跑却ok。<br>原因：在building setting里面不是有设置code signing嘛，develop就用develop的证书，release就用release的证书。我本来全都用release的，查了stack overflow才知道这还有讲究。</p>
+<p>怪事2: 在开发者中心注册、并且下载了最新的证书，在export安装包签名的时候却仍旧默认用老的证书。<br>原因：这是xcode的bug，默认就是使用列表里面的第一个，需要手动把老的证书删除，注意要在xcode里面删除，在文件夹里面删除没用的。</p>
+<h4 id="关于Swift与OC混合编程"><a href="#关于Swift与OC混合编程" class="headerlink" title="关于Swift与OC混合编程"></a>关于Swift与OC混合编程</h4><p>实际测试下来，混合编程后在iOS7会发生无缘无故的bug导致闪退。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;iOS9出现以后，不但swift出了2.0版本，项目中也有很多其他地方做了更改。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="IOS" scheme="http://Rocklu.me/categories/IOS/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Unity3d使用SqLite的坑</title>
+    <link href="http://Rocklu.me/2015/09/23/Unity3d%E4%BD%BF%E7%94%A8SqLite%E7%9A%84%E5%9D%91/"/>
+    <id>http://Rocklu.me/2015/09/23/Unity3d使用SqLite的坑/</id>
+    <published>2015-09-22T22:19:00.000Z</published>
+    <updated>2016-03-29T09:37:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>SqLite作为轻量级C语言本地数据库，一直是挺讨我喜欢。这次实验室的Unity项目需要本地数据库，就研究了下怎么在Unity3D中集成sqlite。想不到坑那么多，各种坑，也是醉了。</p>
+<a id="more"></a>
+<p>步骤如下：</p>
+<ol>
+<li>Create new folder under Assets Folder Rename it <code>Plugins</code>.</li>
+<li>Copy <code>sqlite3.def</code> and sqlite3.dll into <code>Assets/Plugins</code> in your unity project .You can download these files here <code>http://www.sqlite.org/download.html</code> for windows (Precompiled Binaries for Windows)</li>
+<li>Download SQLite Browser <code>https://github.com/sqlitebrowser/sqlitebrowser</code>（GUI数据库编辑器）</li>
+<li>Create Database in <code>Assets</code> folder in your unity project using SQLite Browser.（必须先手动创建好）</li>
+<li>Copy <code>System.Data.dll</code> and <code>Mono.Data.Sqlite.dll</code> from <code>C:\Program Files (x86)\Unity \Editor\Data\Mono\lib\mono\2.0*</code> and paste them in your <code>Assets/Plugins*</code> folder in your unity project.</li>
+<li>Add these namespaces <code>using Mono.Data.Sqlite; using System.Data; using System;</code></li>
+</ol>
+<p>然后，可以写一个helper类，unity里面可以自动引用。核心代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">string dbName =  &quot;/testDatabase.db&quot;;   //注意这里很容易出错，小心别漏了/号</div><div class="line">string tableName = &quot;testTable&quot;;</div><div class="line"></div><div class="line">//开始建立连接</div><div class="line">string conn = &quot;URI=file:&quot; + Application.dataPath + dbName; //Path to database.         IDbConnection dbconn;</div><div class="line">dbconn = (IDbConnection)new SqliteConnection(conn);</div><div class="line">dbconn.Open(); //Open connection to the database.</div><div class="line"></div><div class="line">//准备查询语句</div><div class="line">IDbCommand dbcmd = dbconn.CreateCommand();</div><div class="line">string sqlQuery = &quot;SELECT * FROM &quot; + tableName;</div><div class="line">dbcmd.CommandText = sqlQuery;</div><div class="line">//执行语句</div><div class="line">IDataReader reader = dbcmd.ExecuteReader();</div><div class="line"></div><div class="line"></div><div class="line">//下面开始处理返回数据</div><div class="line">while (reader.Read())</div><div class="line">&#123;</div><div class="line">    int ID = reader.GetInt32(0);      //返回一个数组，下标0则第一个字段</div><div class="line">    string text = reader.GetString(1) + &apos;\n&apos;;   //第二个字段</div><div class="line">    Debug.Log(&quot;ID= &quot; + ID + &quot;  name =&quot; + name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//下面开始关闭连接</div><div class="line">reader.Close();</div><div class="line">reader = null;</div><div class="line">dbcmd.Dispose();</div><div class="line">dbcmd = null;</div><div class="line">dbconn.Close();</div><div class="line">dbconn = null;</div></pre></td></tr></table></figure>
+<h5 id="坑在哪里？"><a href="#坑在哪里？" class="headerlink" title="坑在哪里？"></a>坑在哪里？</h5><p>这样子在编辑器里面就OK了，可是！不能编译。。。醉了，查了一下，需要调整Unity项目的设置，如下：<br><code>PlayerSetting -&gt; Other Settings -&gt; Optimization -&gt; Api Compatibility Level</code>这个下拉菜单，手动选择为：<code>.NET 2.0</code>。<br>于是我们终于可以编译了。</p>
+<h5 id="别高兴太早，编译好之后的程序访问不了数据库。。。。"><a href="#别高兴太早，编译好之后的程序访问不了数据库。。。。" class="headerlink" title="别高兴太早，编译好之后的程序访问不了数据库。。。。"></a>别高兴太早，编译好之后的程序访问不了数据库。。。。</h5><p>经过长时间的反复排查，最后打印了db的路径，终于发现。。。编译的时候没有把数据库复制过去。。。需要<code>手动</code>把数据库复制到各个平台的运行文件中。<br>具体路径可打印<code>Application.dataPath</code>获得。</p>
+<p>真不容易。。。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;SqLite作为轻量级C语言本地数据库，一直是挺讨我喜欢。这次实验室的Unity项目需要本地数据库，就研究了下怎么在Unity3D中集成sqlite。想不到坑那么多，各种坑，也是醉了。&lt;/p&gt;
     
     </summary>
     
@@ -1075,231 +1177,6 @@
     </summary>
     
       <category term="基础理论" scheme="http://Rocklu.me/categories/%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>域名配置</title>
-    <link href="http://Rocklu.me/2015/02/14/%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE/"/>
-    <id>http://Rocklu.me/2015/02/14/域名配置/</id>
-    <published>2015-02-14T13:16:00.000Z</published>
-    <updated>2016-03-30T14:27:57.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天在搞vps的时候无意中发现，Github的学生套装送了一个域名。顺手给这个博客配置了一下。</p>
-<a id="more"></a>
-<h4 id="域名和主机名"><a href="#域名和主机名" class="headerlink" title="域名和主机名"></a>域名和主机名</h4><p>比如，<code>www.163.com</code>里面的WWW，就是主机名（host name），也叫子域名（sub-domain）。一个域名可以配置多个子域名，用于区分各种服务。</p>
-<h4 id="关于「记录类型」"><a href="#关于「记录类型」" class="headerlink" title="关于「记录类型」"></a>关于「记录类型」</h4><p>配置域名时需要指定，记录类型（recode type）有好几种，最重要的几种如下。</p>
-<h5 id="A-address"><a href="#A-address" class="headerlink" title="A (address)"></a><code>A</code> (address)</h5><p>最主要的就是这个，就是在NDS服务器中注册这个域名的ip地址</p>
-<h5 id="URL-redirect"><a href="#URL-redirect" class="headerlink" title="URL redirect"></a><code>URL redirect</code></h5><p>URL重定向，HTTP协议里的302跳转，没啥好解释的。。。</p>
-<h5 id="CNAME"><a href="#CNAME" class="headerlink" title="CNAME"></a><code>CNAME</code></h5><p>别名。就是依旧访问这个ip，但是url的主机名不一样。    </p>
-<p>[注]host name中，填入<code>@</code>代表<code>空</code>，即没有主机名。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天在搞vps的时候无意中发现，Github的学生套装送了一个域名。顺手给这个博客配置了一下。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>小规模C++语法笔记</title>
-    <link href="http://Rocklu.me/2015/02/13/%E5%B0%8F%E8%A7%84%E6%A8%A1C++%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/"/>
-    <id>http://Rocklu.me/2015/02/13/小规模C++语法笔记/</id>
-    <published>2015-02-13T14:00:00.000Z</published>
-    <updated>2016-03-29T09:52:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前虽然有系统学过C++，但还是低估了<code>Primer</code>的事无巨细。在加上C++11的诸多变化，两三天根本看不完，还是不花太多时间复习语法了，先写起来吧~这里把这三天回顾的要点记录下来。</p>
-<a id="more"></a>
-<h4 id="小Tips"><a href="#小Tips" class="headerlink" title="小Tips"></a>小Tips</h4><ol>
-<li>无符号类型和有符号类型计算时，都化成无符号类型。所以切勿混用。</li>
-<li>字符串字面值相邻，且中间仅有<code>空白字符</code>时，被编译成一个整体字符串常量</li>
-<li>局部变量与全局变量重名时，在其生存期内覆盖全局变量，出了生存期消亡，全局变量在此期间不受影响。</li>
-<li>常量（字面值）在编译期，全部替换成对应的值。</li>
-</ol>
-<h4 id="关于-符号"><a href="#关于-符号" class="headerlink" title="关于=符号"></a>关于<code>=</code>符号</h4><ol>
-<li>注意区分赋值和初始化，在变量定义时用<code>=</code>号为初始化</li>
-<li>其他为赋值。赋值时，如果两者类型不同，先进行<code>隐式类型转化</code>。</li>
-</ol>
-<h4 id="定义和申明"><a href="#定义和申明" class="headerlink" title="定义和申明"></a>定义和申明</h4><p>申明：用于给编译器产生符号表，可以多次申明<br>定义 = 申明 + 申请内存空间 （不一定立刻分配）</p>
-<h4 id="再看左值和右值"><a href="#再看左值和右值" class="headerlink" title="再看左值和右值"></a>再看<code>左值</code>和<code>右值</code></h4><p>左值：的是这个「变量」所占的<code>内存区域</code><br>右值：这个「变量」所代表的<code>值</code><br>[注]即使不能被赋值，也可以是左值哦。如const对象。</p>
-<h4 id="C-中的自增符号"><a href="#C-中的自增符号" class="headerlink" title="C++中的自增符号"></a>C++中的自增符号</h4><p>与C中略有不同：(C中两个都是右值)<br><code>++i</code>是<code>左值</code>，在表达式中参与计算的时i<code>本身</code><br><code>i++</code>是<code>右值</code>，参与计算的是i在增加前的<code>副本</code></p>
-<hr>
-<h4 id="关于别名"><a href="#关于别名" class="headerlink" title="关于别名"></a>关于别名</h4><p>除了<code>typedef</code>，c++11中增加了新的<code>using new_name = old_name</code>方式，却别不明。<br>[注]对于别名的指针，在理解其类型时，请不要把别名替换成本来的样子以后再去解读，应该把别名看成一个整体类型。<br>例如：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> *pstring;</div><div class="line"><span class="keyword">const</span> pstring var;   <span class="comment">// var是指向char的常量指针（顶层const）</span></div><div class="line"><span class="comment">//如果先做名称替换：const char * var;</span></div><div class="line"><span class="comment">//则会把var误读成指向const char的变量指针（底层const）</span></div></pre></td></tr></table></figure></p>
-<hr>
-<h4 id="NULL和nullptr"><a href="#NULL和nullptr" class="headerlink" title="NULL和nullptr"></a>NULL和nullptr</h4><p>nullptr是c++的<code>关键字</code>，有自己的数据类型，NULL是宏定义常量</p>
-<h5 id="为何需要nullptr？请看例子："><a href="#为何需要nullptr？请看例子：" class="headerlink" title="为何需要nullptr？请看例子："></a>为何需要nullptr？请看例子：</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">void</span>*)</span></span>&#123;&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span>)</span></span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">    f(<span class="literal">NULL</span>); <span class="comment">// which function will be called?</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码编译器表错，因为无法判断该调用哪个函数。有了nullptr后问题解决。</p>
-<hr>
-<h4 id="顶层const和底层const"><a href="#顶层const和底层const" class="headerlink" title="顶层const和底层const"></a>顶层const和底层const</h4><p>主要用于描述指针或者引用。<br>顶层const–<code>top-level const</code>–指针本身是常量<br>底层const–<code>low-level const</code>–指针所指向的对象是const的<br>[注]</p>
-<ol>
-<li>顶层const经常在赋值或传参后丢失，而底层const是不允许丢失的。</li>
-<li>普通对象的const都是顶层const</li>
-</ol>
-<hr>
-<h4 id="auto和decltype"><a href="#auto和decltype" class="headerlink" title="auto和decltype"></a>auto和decltype</h4><p>用途：自动类型推断（实际应用？）<br>谁来推断：编译器</p>
-<h5 id="「auto」"><a href="#「auto」" class="headerlink" title="「auto」:"></a>「auto」:</h5><p>定义变量时，由定义时赋给它的<code>初始值</code>推断变量的类型。<br>[例]<code>auto i = var1 + var2</code><br>[注]忽略顶层const，保留底层const。如需保留顶层const，请<code>const auto</code></p>
-<h5 id="「decltype」"><a href="#「decltype」" class="headerlink" title="「decltype」:"></a>「decltype」:</h5><p>auto在推断类型时，必须给他赋初始值。decltype则仅仅是得到表达式的数据类型。（不计算，也不根据表达式的值来推断）<br>[例]<code>decltype(func()) i = 1</code> （比如func的返回类型为int）（注意不计算func）<br>规则：</p>
-<ol>
-<li>括号内是<code>变量</code>。则直接拷贝变量的类型（原样拷贝，不像auto忽略顶层const）</li>
-<li>括号内是<code>表达式</code>，则要看表达式结果是一个<code>左值</code>和<code>右值</code>。<ul>
-<li>如果是左值：返回这个值的<code>引用</code>类型。</li>
-<li>如果是右值：则直接拷贝这个值的类型。</li>
-</ul>
-</li>
-</ol>
-<p>[注]</p>
-<ol>
-<li>不知道为啥要把左值搞成引用，有待研究</li>
-<li>对于带括号的单个变量，编译器会解释为表达式，所以，<code>decltype((i))</code>这种两层括号的变量，一定会返回一个引用的i的类型。请小心！</li>
-<li>为啥要有「类型推断」？好处在哪里？请研究！</li>
-</ol>
-<hr>
-<h4 id="范围for语句"><a href="#范围for语句" class="headerlink" title="范围for语句"></a>范围for语句</h4><p>对于C++11新增的：<code>for(auto item : contaner)</code><br>实际上处理为：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it = contaner.begin(); it != contaner.end(); ++it)&#123;</div><div class="line">    <span class="keyword">auto</span> item = *it;</div><div class="line">    <span class="comment">//以下是原来的循环体</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>所以，实质上还是依赖于<code>迭代器</code>–&gt;迭代器可能失效时不能用这种for！</p>
-<hr>
-<h4 id="显示类型转化"><a href="#显示类型转化" class="headerlink" title="显示类型转化"></a>显示类型转化</h4><p>与C语言单一的强制转化不同，C++的类型转化细分为四种，分别完成旧式C强转的功能：</p>
-<h5 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a><code>static_cast</code></h5><p>用途：普通的类型转化，可以调用class的构造函数<br>[注]</p>
-<ol>
-<li>不可转化底层的const。</li>
-<li>比较安全，转化时会翻译二进制。</li>
-</ol>
-<h5 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a><code>dynamic_cast</code></h5><p>用途：把「基类」指针<code>安全地</code>转化为「派生类」指针或引用。</p>
-<h5 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a><code>const_cast</code></h5><p>用途：专门用于转化「底层const」。<br>一般情况下底层const是不允许丢失的，如果强制把底层const去掉，修改指向的常量的话，会发生不可预知的错误。（因为人家常量在编译的时候已经变成数字了。。。）<br>那这东西能用在哪里呢？<br>主要用在函数调用时的参数适配，先把它转成底层const，调用函数，然后再去掉。。。这样可以很方便地用一个写好的const版本函数，重载出一个非const版本的函数（强转，然后调用const版本）。</p>
-<h5 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a><code>reinterpret_cast</code></h5><p>用途：正宗的强制转化。机器级的重新解释二进制。例如把int<em>强转char</em></p>
-<hr>
-<h4 id="调试帮助"><a href="#调试帮助" class="headerlink" title="调试帮助"></a>调试帮助</h4><h5 id="assert断言"><a href="#assert断言" class="headerlink" title="assert断言"></a>assert断言</h5><p><code>assert</code>不是函数，是「宏」。定义在<code>cassert</code>头文件中。<br>[重要]assert可在编译时取消：<br>在头文件中<code>#define NDEBUG</code>即可让assert失效。<br>也可在编译时加入选项：<code>g++ -D NDEBUG xx.cpp</code></p>
-<h5 id="预定义宏"><a href="#预定义宏" class="headerlink" title="预定义宏"></a>预定义宏</h5><p>除了C语言中的<strong>LINE</strong>外，增加一个有用的<code>__func__</code>（注意小写！）</p>
-<hr>
-<h4 id="「直接初始化」和「拷贝初始化」"><a href="#「直接初始化」和「拷贝初始化」" class="headerlink" title="「直接初始化」和「拷贝初始化」"></a>「直接初始化」和「拷贝初始化」</h4><p>举例说明：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">string</span> ss = <span class="string">"这是拷贝初始化"</span></div><div class="line"><span class="built_in">string</span> ss(<span class="string">"这是直接初始化"</span>)</div><div class="line"><span class="built_in">string</span> ss(<span class="number">10</span>, <span class="string">'a'</span>)  <span class="comment">//这也是直接初始化</span></div></pre></td></tr></table></figure></p>
-<p>区别：<br>直接初始化–直接调用相应类型的构造函数<br>拷贝初始化–先把<code>=</code>号右边的内容用<code>构造函数</code>隐式转化成该类型，再调用<code>拷贝构造函数</code></p>
-<blockquote>
-<p>[注]函数传参的时候，是用「实参」拷贝初始化「形参」的。</p>
-</blockquote>
-<hr>
-<h4 id="重载与函数匹配"><a href="#重载与函数匹配" class="headerlink" title="重载与函数匹配"></a>重载与函数匹配</h4><h5 id="为什么C-能重载而C不能？"><a href="#为什么C-能重载而C不能？" class="headerlink" title="为什么C++能重载而C不能？"></a>为什么C++能重载而C不能？</h5><p>C在编译时的符号表仅有函数名，而C++在函数名的基础上，加上了参数。所以认为，名称相同、参数不同的函数是不同的。</p>
-<h5 id="重载规则"><a href="#重载规则" class="headerlink" title="重载规则"></a>重载规则</h5><ol>
-<li>参数可以重载，返回值不能重载</li>
-<li>参数不可以重载顶层const。 例子：<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> i)</span></span>;   <span class="comment">//i在func作用域内为常量，只读</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> i)</span></span>;         <span class="comment">//非法，</span></div><div class="line">                          <span class="comment">//因为对于int类型的实参，编译器不知道该调用谁</span></div><div class="line"><span class="comment">//底层const重载是合法的。</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h5 id="函数匹配"><a href="#函数匹配" class="headerlink" title="函数匹配"></a>函数匹配</h5><p>调用重载的函数时，具体调用哪一个，规则如下：</p>
-<ol>
-<li>没有最佳匹配时，允许参数的隐式转化，但是越少越好</li>
-<li>如果两个都有转化，必须有一个<code>完爆</code>另一个（至少有一项比你强，没有任何一项比你差）</li>
-</ol>
-<hr>
-<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><h5 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a><code>this</code>指针</h5><p>在「对象」调用成员函数时，<code>隐式传递</code>指向「该对象地址」的this指针。<br>[注]所以，成员函数的参数列表，其实默认多一个指针。</p>
-<h5 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h5><p>因为this指针是隐式传递的，那么对于const对象，this指针的底层const谁来保护呢？答案是const成员函数，写在参数后面的const，实际上是表示传递的this指针是底层const的，即在这个函数中，不能对该对象进行修改。<br>[注]但是可以修改mutable的成员。</p>
-<h5 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h5><ol>
-<li>如果你不管，会默认生成一个无参的版本。</li>
-<li>如果你写了，不管有没有参数，编译器就不会帮你默认生成了</li>
-<li>此时如果还想要默认的，请<code>Class_init()=default</code>（C++11新功能）<br>[注]不能为const，不能private（想想就知道不行）</li>
-</ol>
-<h5 id="构造函数的初始值列表"><a href="#构造函数的初始值列表" class="headerlink" title="构造函数的初始值列表"></a>构造函数的初始值列表</h5><p>初始化时，仅按照类成员的书写顺序，初始化列表的顺序不管的。所以，最好把初始化列表的顺序写得和类成员顺序一致。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;之前虽然有系统学过C++，但还是低估了&lt;code&gt;Primer&lt;/code&gt;的事无巨细。在加上C++11的诸多变化，两三天根本看不完，还是不花太多时间复习语法了，先写起来吧~这里把这三天回顾的要点记录下来。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《C和指针》读书笔记</title>
-    <link href="http://Rocklu.me/2015/02/07/%E3%80%8AC%E5%92%8C%E6%8C%87%E9%92%88%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    <id>http://Rocklu.me/2015/02/07/《C和指针》读书笔记/</id>
-    <published>2015-02-06T23:46:00.000Z</published>
-    <updated>2016-03-29T09:53:16.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>之所以再学C语言，目的是希望编写<code>跨平台可移植的C语言</code>。听起来似乎有点奇怪，C语言不是高级语言吗？难道本来就不该是跨平台可移植的吗？<br>答案显然不是，C语言仍然不够“高级”，涉及到底层的细节时，往往会由于编译器、机器的差异，在移植的时候出现问题。另外关于跨平台，其实是我自己的问题，之前学得时候和Linux网络编程一块儿学的，于是就有点分不清哪些是Linux的特有函数，哪些是ANSI C的通用函数。导致写出来得东西在Windows上面编译不动。</p>
-<a id="more"></a>
-<h4 id="可移植性建议"><a href="#可移植性建议" class="headerlink" title="可移植性建议"></a>可移植性建议</h4><p>也包含一些防止出错的细节。</p>
-<h5 id="一、数据类型"><a href="#一、数据类型" class="headerlink" title="一、数据类型"></a>一、数据类型</h5><p>不同的编译器和机器上数据定义有差异，了提高可移植性：</p>
-<ol>
-<li>数据类型的长度可能不同—用<code>int32_t</code>、<code>uint8_t</code>代替原来的<code>int</code>和<code>unsigned char</code>。</li>
-<li>char不确定是不是有符号—不超过127时安全，否则强制申明有没有符号<br>另外：</li>
-<li>本机数据类型的最大值，在<code>limits.h</code>和<code>float.h</code>中有宏定义（如：INT_MAX、FLT_MAX）</li>
-<li>「数字常量」默认是int，存不下就unsigned int、long往上加。（<code>EOF = -1</code> 是int类型！）</li>
-</ol>
-<h5 id="二、底层操作"><a href="#二、底层操作" class="headerlink" title="二、底层操作"></a>二、底层操作</h5><ol>
-<li>「移位操作」究竟是<code>算数移位</code>还是<code>逻辑移位</code>不一定。但两者仅在<code>有符号数</code>的<code>右移</code>操作有差异。（有符号补符号位，无符号补0）</li>
-<li>「位段」数据类型是不可移植的。</li>
-</ol>
-<h5 id="三、溢出"><a href="#三、溢出" class="headerlink" title="三、溢出"></a>三、溢出</h5><ol>
-<li>小心无符号数减法</li>
-<li>大数字「加法」和「乘法」时，在运算前就强转为大数据类型比较安全</li>
-</ol>
-<h5 id="四、类型转化"><a href="#四、类型转化" class="headerlink" title="四、类型转化"></a>四、类型转化</h5><p>「截短」是直接取长数据的低位。<br>「扩展」是根据短数据是否有符号，无符号补0，有符号补符号位。<br><code>隐式类型转化一定要小心！！</code></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">看一个经典的例子：</div><div class="line"><span class="comment">//关于char转int可能发生的问题</span></div><div class="line"><span class="keyword">char</span> buf;</div><div class="line"><span class="keyword">while</span>( ( buf = getchar() ) != EOF )&#123;</div><div class="line"><span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面这个while循环可能永远不能退出。因为EOF是-1，所以getchar()返回值是int。当读到EOF时，先被先截断到char，再扩展到int类型于EOF比较。如果这个char是无符号的，那么这个EOF被截断再扩展后就不等于EOF了。。。</p>
-<p>下面是个实验：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">signed</span> <span class="keyword">char</span> s_cha = <span class="number">0xFF</span>;      <span class="comment">//EOF, -1</span></div><div class="line">    <span class="keyword">int</span> s_integer = s_cha;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"int converted form signed char: "</span> &lt;&lt; s_integer &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> us_cha = <span class="number">0xFF</span>;</div><div class="line">    s_integer = us_cha;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"int converted form unsigned char: "</span> &lt;&lt; s_integer &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line"><span class="comment">//输出：</span></div><div class="line"><span class="comment">//      int converted form signed char: -1</span></div><div class="line"><span class="comment">//      int converted form unsigned char: 255</span></div><div class="line"></div><div class="line">    <span class="comment">//所以短字节数向长字节数扩展时，务必注意是否带符号！</span></div><div class="line"></div><div class="line"><span class="comment">//-------------------------------------------------------------</span></div><div class="line"><span class="comment">//再看这个例子：同样是上面的两个char的0xFF</span></div><div class="line"></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> us_integer = s_cha;    <span class="comment">//这里改成无符号int</span></div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"unsigned int converted form signed char: "</span> &lt;&lt; us_integer &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">    us_integer = us_cha;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"unsigned int converted form unsigned char: "</span> &lt;&lt; s_integer &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line"><span class="comment">//输出：</span></div><div class="line"><span class="comment">//      unsigned int converted form signed char: 4294967295</span></div><div class="line"><span class="comment">//      unsigned int converted form unsigned char: 255</span></div><div class="line"></div><div class="line">    <span class="comment">//可见，在扩展时接收的变量是否有符号是不影响的，只不过解释的方式不同而已。</span></div><div class="line">    <span class="comment">//注释：4294967295就是0xFFFFFFFF，解释成普通int就是-1</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<hr>
-<h4 id="有关指针"><a href="#有关指针" class="headerlink" title="有关指针"></a>有关指针</h4><p>_</p>
-<h5 id="指针的申明"><a href="#指针的申明" class="headerlink" title="指针的申明"></a>指针的申明</h5><p>对于<code>int * a;</code>，应该理解为：a变量「解引用」后是int。（这对于理解函数指针等复杂指针很有帮助）<br>所以<code>*</code>号是跟着a一边的，而不是int一边的。（例子：<code>int * a, b, c;</code> 只有a是指针，另两个都是int）</p>
-<h5 id="「数组名」就是「指针常量」吗？"><a href="#「数组名」就是「指针常量」吗？" class="headerlink" title="「数组名」就是「指针常量」吗？"></a>「数组名」就是「指针常量」吗？</h5><p>不是。数组名在参与表达式运算以及函数传参时，被<code>隐式转化</code>成指针常量。一个好的例子是<code>sizeof()</code>运算符应用于数组名时，返回的是整个数组的长度。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//一个奇怪的例子：</span></div><div class="line"><span class="comment">//--------------------</span></div><div class="line"><span class="comment">//文件a.c中：</span></div><div class="line">    <span class="keyword">int</span> a[<span class="number">10</span>];</div><div class="line"></div><div class="line"><span class="comment">//文件b.c中：</span></div><div class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> * a;</div><div class="line"><span class="comment">//然后在b.c中执行：会发生什么？</span></div><div class="line">    a[<span class="number">3</span>] = <span class="number">1</span> ;</div><div class="line"></div><div class="line"><span class="comment">//--------------------</span></div><div class="line"><span class="comment">//C语言解析`a[3]`时，采用`*(a+3)`计算。b.c文件编译时，认为a是指针，于是去a地址取出指针的值。在链接时，a在a.c中定义的是数组名，a不是指针`变量`（间接取值），常量在编译期直接替换为「直接量」(字面值)。a的地址就是a[0]的地址，于是b.c取到的是a[0]的值，而不是数组的起始地址！最后，*(a+3)计算出来的，是一个由a[0]值决定的未知位置。</span></div></pre></td></tr></table></figure></p>
-<h4 id="链接属性"><a href="#链接属性" class="headerlink" title="链接属性"></a>链接属性</h4><p><code>extern</code>—链接时，当做同一个实体。<br><code>static</code>—仅在本文件有效。</p>
-<h4 id="存储属性"><a href="#存储属性" class="headerlink" title="存储属性"></a>存储属性</h4><p><code>register</code>—强制要求这个变量存在寄存器内<br><code>static</code>—强制要求这个变量存在静态内存区</p>
-<h4 id="再看「-x」与「x-」"><a href="#再看「-x」与「x-」" class="headerlink" title="再看「++x」与「x++」"></a>再看「++x」与「x++」</h4><ol>
-<li>自增运算符，参与运算的，是x值的拷贝，而不是x本身。所以<code>a++ = 1</code>是非法的，a++是一个临时常量，不可以当「左值」。</li>
-<li>在同一句语句中，用了自增就别再用这个变量了。<code>a + --a</code>这样的语句的结果是取决于编译器的。虽然自增优先级高，的确会先自增，但是无法确定左边那个a是在自增前取值还是自增后取值。（另：操作符的优先级，仅对相邻的操作符起作用。不相邻的取决于编译器）</li>
-</ol>
-<hr>
-<h4 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h4><p>_</p>
-<h5 id="预定义符号"><a href="#预定义符号" class="headerlink" title="预定义符号"></a>预定义符号</h5><p><strong>FILE</strong>—文件名<br><strong>LINE</strong>—当前行数<br><strong>DATE</strong>—编译日期<br><strong>TIME</strong>—编译时间</p>
-<h5 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h5><p><code>#define SYMBOL value</code><br>[注]NAME中间不可以有空格，value中间不能有回车，如果要，请在回车前加<code>\</code>转义</p>
-<p>带参数：<br><code>#define SYMBOL(parameter_list) stuff</code><br>[注]</p>
-<ol>
-<li>有点类似于「内联函数」但也有区别，1. 这里的参数没有指定类型。2. 这里甚至可以用类型作为参数。（预处理是文本替换，它不管你的文本是什么含义）</li>
-<li>后面内容如果有数值计算的，请注意它是文本替换，并没有计算出结果。文本替换后小心由于运算符优先级带来的bug，请加括号。</li>
-<li>#define里面不可以有#if，反之可以</li>
-<li>#define里面可以有定义好的符号，但是不可以递归</li>
-<li>#undef 可以取消一个符号的定义</li>
-</ol>
-<p>[另]在stuff中：<br><code>#argument</code>会被替换成<code>&quot;argument&quot;</code>就是给它加对引号<br><code>##</code>会把它两边的预定义变量连在一起（为什么需要这个？因为直接连在一起就认不出来了嘛。。。）</p>
-<p>cocos2d-x示例：<br>这个宏函数功能是生成一个成员变量，并配套一套存取器方法。<br><code>注意两个##号的使用</code></p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function">define <span class="title">CC_SYNTHESIZE</span>(<span class="params">varType, varName, funcName</span>)\</span></div><div class="line"><span class="keyword">protected</span>: varType varName;\</div><div class="line"><span class="keyword">public</span>: varType <span class="keyword">get</span><span class="meta">##funcName(void) const &#123; return varName;&#125;\</span></div><div class="line"><span class="keyword">public</span>: <span class="keyword">void</span> <span class="keyword">set</span><span class="meta">##fucnName(varType newValue) &#123;varName = newValue;&#125;</span></div><div class="line"></div><div class="line"><span class="comment">//如何使用：</span></div><div class="line"><span class="keyword">class</span> <span class="title">foo</span>&#123;</div><div class="line">    CC_SYNTHESIZE(<span class="keyword">int</span>, _innerMember, innerMember);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>这样就可以有一个_innerMember成员，一对getinnerMember(),setinnerMember()，成员函数了。</p>
-<h5 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">if</span>  constant-expression</span></div><div class="line">    statement</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
-<p>常量表达式是「真」，就插入中间的表达式，否则整段删除。<br>[注]</p>
-<ol>
-<li>也可以由<code>#elif</code>、<code>#else</code>逻辑</li>
-<li><code>#ifndef SYMBOL</code>就是<code>#if !defined(SYMBOL)</code></li>
-</ol>
-<p>例子：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">//example_about_CONDITIONAL_COMPILATION</div><div class="line"></div><div class="line">#define NO_DEBUG 0</div><div class="line"></div><div class="line">#if NO_DEBUG</div><div class="line">    #define PRINT(x)</div><div class="line">    #define OK</div><div class="line">#else</div><div class="line">    #define PRINT(x)  \</div><div class="line">            cout &lt;&lt; #x" = " &lt;&lt; x \</div><div class="line">            &lt;&lt; "    line: " &lt;&lt; __LINE__ &lt;&lt; endl</div><div class="line">    #define OK \</div><div class="line">            cout &lt;&lt; "OK!    line: " &lt;&lt; __LINE__ &lt;&lt; endl</div><div class="line">#endif</div></pre></td></tr></table></figure></p>
-<p>加上这段以后，在代码中可以用<code>PRINT(变量)</code>和<code>OK</code>调试，在不需要时，把<code>NO_DEBUG</code>设为1就没有这些调试信息了。</p>
-<h5 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h5><p>防止文件重复包含：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> _HEADFILENEME_H</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _HEADFILENEME_H</span></div><div class="line"></div><div class="line"><span class="comment">//你的头文件，名字和上面保持一致：headfileneme.h</span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure></p>
-<hr>
-<h4 id="关于I-O"><a href="#关于I-O" class="headerlink" title="关于I/O"></a>关于I/O</h4><p>ANSI C的io是比较高层的，在各个操作系统中会调用不同的底层io函数。大多数f开头的io函数都是ANSI C的标准io函数，通用。</p>
-<h5 id="关于缓冲区"><a href="#关于缓冲区" class="headerlink" title="关于缓冲区"></a>关于缓冲区</h5><p>标准io库函数在执行io操作时，默认会申请一片内存作为缓冲区。缓冲方式有两种：<code>全缓冲</code>和<code>行缓冲</code>。<br>「读操作」<br>对于全缓冲，每次读整个缓冲区的大小的文件，行缓冲读到换行符为止。然后根据程序需求从缓冲区取数据，通过指针便宜读取而不改变缓冲区的内容。当指针移到缓冲区末尾时，清空缓冲区，重新去文件中取一片数据回来。<br>「写操作」<br>类似，写满了，再真正写入文件。提前写入，请<code>fflush()</code></p>
-<p>[另]<br>缓冲区的指定<br><code>setvbuf()</code>函数可以手动指定一个io文件的「缓冲方式」以及「缓冲区位置」。</p>
-<h5 id="二进制IO与字符IO区别"><a href="#二进制IO与字符IO区别" class="headerlink" title="二进制IO与字符IO区别"></a>二进制IO与字符IO区别</h5><ol>
-<li>字符io要负责<code>数字</code>「补码」与「ASCII码」的转换</li>
-<li>字符io能识别换行符<br>所以二进制io更快</li>
-</ol>
-<hr>
-<h4 id="有用的库函数"><a href="#有用的库函数" class="headerlink" title="有用的库函数"></a>有用的库函数</h4><p><code>clock()</code>—函数执行消耗的cpu时间<br><code>qsort()</code>—高效的排序<br><code>signal.h</code>—信号处理（这个竟然是标准库）</p>
-<hr>
-<p>最后附上去年刚学C语言时的笔记作为备份（可能有错仅作备份）</p>
-<h4 id="c语言Tips："><a href="#c语言Tips：" class="headerlink" title="c语言Tips："></a>c语言Tips：</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">##1. 关于printf。</span></div><div class="line">* 可以有返回值，为打印计数（包括空格）。用于检查非屏幕打印</div><div class="line">* 打印内容过长时，可在两行间，暂时用一对双引号断开。</div><div class="line">* 当要求输出”/n”时，将强制清空缓冲区，在屏幕输出</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"><span class="comment">##2. 关于scanf。</span></div><div class="line">* 默认时，遇到［空格］、［tab］或［换行符］停止当此输入</div><div class="line">* 可用数字表示最大宽度。</div><div class="line">	如：%<span class="number">10</span>S，代表最多扫描<span class="number">10</span>个字符就结束。但如果中间遇到空格等还是要提前结束</div><div class="line">* 返回值是成功读入的项目计数。</div><div class="line">* 输入`control + z`，即为EOF, 值为<span class="bullet">-1</span></div><div class="line">* 当读入格式与要求格式不同时，打断。</div><div class="line">	如：要求%d，而输入为字符，则返回空。且下次扫描时，仍然从该字符开始。</div><div class="line">* **重要！！-----关于缓冲区**</div><div class="line">    当这些扫描输入的函数需要输入时，它们首先去检查缓冲区，如果有内容，就直接取。如果没有，则中断，要求用户输入。此事，无论用户输入多少内容，当且仅当用户输入“回车”时，才会一次性把刚刚输入的内容push进缓冲区。（此时是系统调用，程序处于“阻塞”状态）</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##3. “逗号”运算符</span></div><div class="line"><span class="number">1.</span>  在for语句中，使用逗号运算符隔开两句，可一次进行两次动作。</div><div class="line">    例如：`for(i=<span class="number">1</span>, j=<span class="number">1</span>; i&lt;=<span class="number">10</span>; j++);`</div><div class="line"></div><div class="line"><span class="number">2.</span>  逗号运算得最终取值为右边得表达式。 注：附值符号返回值为左值。</div><div class="line">如：`i = ( <span class="number">40</span>, <span class="number">50</span>)`; 此时i被附值为<span class="number">50</span> 。</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line">		</div><div class="line"><span class="comment">##4. 函数式宏定义</span></div><div class="line">范例：</div><div class="line"></div><div class="line">	<span class="comment">#define HTON(host) \</span></div><div class="line">	(host &amp; <span class="number">0xff000000</span>) &gt;&gt; <span class="number">24</span> | (host &amp; <span class="number">0x00ff0000</span>) &gt;&gt; <span class="number">8</span> | \</div><div class="line">	(host &amp; <span class="number">0x0000ff00</span>) &lt;&lt; <span class="number">8</span> | (host &amp; <span class="number">0x000000ff</span>) &lt;&lt; <span class="number">24</span></div><div class="line"></div><div class="line">关键点：<span class="number">1.</span> 最后的反斜杠是续行符，注意反斜杠后面不能加任何内容，只能立即回车</div><div class="line">		<span class="number">2.</span> HTON(host) 中间不能有空格（宏定义原样替换嘛）</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##5. 关于getchar</span></div><div class="line">* 从用户输入回车的那一刻起，每次抓取一个字符，什么都抓！</div><div class="line">**包括[回车][tab]等！（注：scanf和gets会忽略回车等）**</div><div class="line">* 可以被用作清空缓冲区（因为什么都抓嘛）</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##6. 关于fgets(point, maxsize, stdin)</span></div><div class="line">* 每次抓一整行字符，不包含末尾的回车</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##7. 关于char类型</span></div><div class="line">* 占<span class="number">1</span>个字节</div><div class="line">* 可以等同与int操作，例如两个字符可以直接比大小，不用直接转为ASCII码</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##9. 未定义变量的默认值：</span></div><div class="line">堆栈内变量默认值全为`cc`，静态变量、全局变量默认值全`cd`</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##10.理解++i 和 i++</span></div><div class="line">亲，不要去考虑优先级。即使++i的优先级是最高的，也不会每次都最优先运行。</div><div class="line">请看范例：`int j = <span class="number">1</span>;`，`i = j - ++j;`，运算结束后，i=<span class="bullet">-1</span>，说明左++并没有在整个式子中最优先，仅表示在使用后一个j时，先把j增<span class="number">1</span>，而已。</div><div class="line"></div><div class="line">同样的，`i = j++ -j;`,结果i也等于－<span class="number">1</span>。说明并不是在整个式子结束以后再j增<span class="number">1</span>，其实是在把j放入式子以后立马给j增<span class="number">1</span>。</div><div class="line"></div><div class="line">&gt; **从硬件角度考虑，怎么解释呢？有待研究。**</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##11. main函数的参数</span></div><div class="line">main函数的规范申明：`int main(int argc, char const *argv[])`，其中：</div><div class="line"></div><div class="line">* argv[o]指向该文件的绝对路径</div><div class="line">* argv[<span class="number">1</span>]、argv[<span class="number">2</span>]....分别是终端中输入的参数，string * 类型，以“空格”分开。</div><div class="line">	例： test.exe hello world   其中，hello是argv[<span class="number">1</span>]，world是argv[<span class="number">2</span>]</div><div class="line">* argc参数计数器</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##12. 关于数组在函数中的参数传递</span></div><div class="line">数组在参数传递中，默认传递的就是指针（地址），并`<span class="number">100</span>%丢失`数组长度信息。</div><div class="line"></div><div class="line">例如：`func(int a[])`等价于`func(int * a)`等价于`func(int a[<span class="number">10</span>])`</div><div class="line"></div><div class="line">值得注意的是：`int a[<span class="number">10</span>]; sizeof(a);` 得<span class="number">40</span></div><div class="line">而如果a作为参数传递到函数中时，`sizeof(a)`;得<span class="number">4</span>。 （int的长度）（说明长度信息丢失）</div><div class="line"></div><div class="line">另外，二维和三维数组定义为形参数时，除第一维外都需显示指定，如`func(a[][<span class="number">10</span>])`</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##13. 指向数组的指针</span></div><div class="line">定义： `int (* name)[MAX]`，其中MAX为指向的数组长度。</div><div class="line">如何使用：</div><div class="line"></div><div class="line">* `name++`相当于二维数组跳到下一行。</div><div class="line">* `name[<span class="number">1</span>]`指向第二行的首元素，类型为**`int *`**！！！即指向int的指针。</div><div class="line"></div><div class="line">注意！ `int *a[<span class="number">10</span>]`指针的数组。 `int (*a)[<span class="number">10</span>]`指向数组的指针。</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##14. 指向指针的指针</span></div><div class="line">定义：`int * (*name)`</div><div class="line">如何使用：一般在需要在调用函数后**`返回指针`**时定义在形参中，调用该函数时，传入指针的地址即可。</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##15. 关于static</span></div><div class="line">用法一：</div><div class="line"></div><div class="line">* 作用于**函数** 和**全局变量**时，表示该全局变量变量、函数仅对**本文件**有效</div><div class="line"></div><div class="line">用法二：</div><div class="line"></div><div class="line">* 作用于**局部变量**时，表示该局部变量在函数调用结束后仍然不销毁。</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##16. 多文件的全局变量申明</span></div><div class="line"></div><div class="line">由于include的特性，全局变量的定义在被include两次后会报错（重复定义）。需要把定义改为**申明**。</div><div class="line">用法：在**头文件**中，`extern int name`。 在**主文件**中：`int name = <span class="number">1</span>`即可。</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##17. 关于malloc</span></div><div class="line"></div><div class="line">malloc的空间在`堆`内，系统不会自动释放。局部变量在`栈`，调用完函数后自动销毁。全局变量在`系统常量区`。</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##18. 移位操作</span></div><div class="line">注意，移位操作**`不考虑`**“小端”，认为二进制就是顺着的！</div><div class="line"></div><div class="line"><span class="meta">---</span></div><div class="line"></div><div class="line"><span class="comment">##19. 函数指针</span></div><div class="line">**定义**为：指向`特定参数、特定返回值`的一类函数的指针。定义的语法比较奇怪，参考：&lt;http://stackoverflow.com/questions/<span class="number">4295432</span>/typedef-function-pointer<span class="string">&gt;</span></div><div class="line"></div><div class="line">**存在的价值：** 可以在定义函数时，把特定的功能分离出去，`把函数作为参数`！</div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line">##20. 关于定义const类型</div><div class="line">**关键点1：**加了const的类型其实也是变量，只是编译器会保护这个值不被更改。</div><div class="line">**关键点2：**传入普通的变量，编译器会自动转化为const的，不会警告。</div><div class="line">**关键点3：**建议用const替代define定义常量， 因为const拥有变量类型，可以调整</div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line">##21. C的文件函数特点</div><div class="line">**关键点1：**C的文件函数是对系统(linux/windows)的文件函数的封装，增加了用户级缓冲区。通过缓冲区，一次性读取一个文件块，减少实际的系统调用／读取文件的次数。</div><div class="line">**关键点2：**C的文件函数拥有ASCII模式，这个模式可以辨识字符流中的回车(win-\r\n, linux-\r)，实现按行读取。而系统的底层文件函数只知道二进制数据流。</div><div class="line"></div><div class="line"></div><div class="line">##22. struct的大小内存对齐</div><div class="line">32位以4B为单位对齐，因为内存里一次读取四个字节，如果不对齐，读取一个数据时可能要多次读取内存，降低效率。</div></pre></td></tr></table></figure>
-<h4 id="小技巧"><a href="#小技巧" class="headerlink" title="小技巧"></a>小技巧</h4><figure class="highlight vala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line"></div><div class="line"><span class="meta">###1. 指定内存空间的初始化</span></div><div class="line">`<span class="keyword">void</span> * memset ( <span class="keyword">void</span> * ptr, <span class="keyword">int</span> value, size_t num );`</div><div class="line"></div><div class="line">- 需要include &lt;<span class="keyword">string</span>.h&gt;</div><div class="line">- 填充方式：以<span class="keyword">int</span>型填充，每次以`<span class="number">1</span>个字节`的补码，所以只能填充<span class="number">0</span>，或－<span class="number">1</span>（补码为全<span class="number">0</span>和全<span class="number">1</span>），否则以其他类型读取时会出问题。</div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line"><span class="meta">###2. 一种对整数数量级的试探技巧</span></div><div class="line">`<span class="keyword">while</span>(w/i) i*=<span class="number">10</span>;` 退出时，i即比最高位多<span class="number">1.</span></div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line"><span class="meta">###3. 简易随机数生成</span></div><div class="line">`#include &lt;time.h&gt;`</div><div class="line">`#include &lt;stdlib.h&gt;`</div><div class="line">`srand(time(<span class="number">0</span>))`</div><div class="line">`rand()%<span class="number">100</span>`  其中<span class="number">100</span>是范围上限，<span class="number">0</span>是默认下限。</div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line"><span class="meta">###4. 想给int赋一个默认的最小值？</span></div><div class="line">`<span class="number">0x8000</span> <span class="number">0000</span>` （补码）</div><div class="line"></div><div class="line">---</div><div class="line"></div><div class="line"><span class="meta">###5. 怎么取一个数字得某几位？</span></div><div class="line">方法一：`按位“与”`（掩码）！</div><div class="line">方法二：用更小号的指针（<span class="keyword">char</span> *玩<span class="keyword">int</span>）操作它！`注意小端机的内存中的存放逆序！`</div><div class="line"></div><div class="line"><span class="meta">###6. c语言库中的万能排序`qsort`</span></div><div class="line">详参：&lt;http:<span class="comment">//en.cppreference.com/w/c/algorithm/qsort&gt;</span></div><div class="line"></div><div class="line"><span class="meta">###7. **`sprintf`** ,**`sscanf`**格式化输入/输出去不同的目标（文件、字符串）</span></div><div class="line"></div><div class="line"><span class="meta">###8. malloc的替代？`calloc`分配空间并初始化为**0**</span></div><div class="line">参考：&lt;http:<span class="comment">//en.cppreference.com/w/c/memory/calloc&gt;</span></div><div class="line"></div><div class="line"><span class="meta">###9. 整型和字符串转换</span></div><div class="line">`itoa`，`atoi`  ASCII to Integer</div><div class="line"></div><div class="line"><span class="meta">###10. 比较字符串的前n个字符，strncmp</span></div><div class="line"></div><div class="line"><span class="meta">###11.无限从屏幕输入</span></div><div class="line"></div><div class="line">`<span class="keyword">while</span>(memset(send_buf,<span class="number">0</span>,<span class="number">1024</span>),fgets(send_buf,<span class="number">1024</span>,<span class="keyword">stdin</span>)!=NULL)`</div><div class="line"></div><div class="line"><span class="meta">###12.读取整个文件</span></div><div class="line"></div><div class="line">`<span class="keyword">while</span>(memset(buff, <span class="number">0</span>, <span class="number">4096</span>), fread(buff,<span class="number">1</span>,<span class="number">4096</span>,fp)&gt;<span class="number">0</span>)`</div><div class="line"></div><div class="line">`<span class="keyword">while</span>(memset(buff, <span class="number">0</span>, <span class="number">4096</span>), fgets(buff, <span class="number">1024</span>,fp) != NULL)`</div><div class="line"></div><div class="line"><span class="meta">###13.精确的sleep()－－－－usleep()</span></div><div class="line"></div><div class="line"><span class="meta">###14.计时器</span></div><div class="line">- alarm(<span class="number">3</span>)   三秒后向自己发SIGALRM类型<span class="keyword">signal</span></div><div class="line">- setitimer()  函数比较复杂，高级计时器，也向自己发送SIGALRM类型<span class="keyword">signal</span></div></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">如何动态申请二维数组</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 3 * 4</span></div><div class="line">    <span class="keyword">int</span> ** arr = (<span class="keyword">int</span> **)<span class="built_in">malloc</span>(<span class="number">3</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span> *));</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i != <span class="number">3</span>; ++i)&#123;</div><div class="line">        arr[i] = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="number">4</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">二维数组传参技巧</div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * 把数组封装到结构体中，用m和n指定维度</div><div class="line"> */</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> M 10</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> N 10</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="number">_</span>Array &#123;</div><div class="line">    <span class="keyword">int</span> A_[M][N];</div><div class="line">    <span class="keyword">int</span> m_;</div><div class="line">    <span class="keyword">int</span> n_;</div><div class="line">&#125;Array;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(Array *arr)</span></span>&#123;</div><div class="line">    <span class="keyword">int</span> i, j;</div><div class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i != arr-&gt;m_; ++i)&#123;</div><div class="line">        <span class="keyword">for</span>(j = <span class="number">0</span>; j != arr-&gt;n_; ++j)&#123;</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"%d "</span>, arr-&gt;A_[i][j]);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">    Array arr;</div><div class="line">    arr.m_ = <span class="number">3</span>;</div><div class="line">    arr.n_ = <span class="number">4</span>;</div><div class="line">    print(&amp;arr);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;之所以再学C语言，目的是希望编写&lt;code&gt;跨平台可移植的C语言&lt;/code&gt;。听起来似乎有点奇怪，C语言不是高级语言吗？难道本来就不该是跨平台可移植的吗？&lt;br&gt;答案显然不是，C语言仍然不够“高级”，涉及到底层的细节时，往往会由于编译器、机器的差异，在移植的时候出现问题。另外关于跨平台，其实是我自己的问题，之前学得时候和Linux网络编程一块儿学的，于是就有点分不清哪些是Linux的特有函数，哪些是ANSI C的通用函数。导致写出来得东西在Windows上面编译不动。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="C" scheme="http://Rocklu.me/categories/C/"/>
     
     
   </entry>
