@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://Rocklu.me/"/>
-  <updated>2016-11-16T18:07:45.000Z</updated>
+  <updated>2017-02-16T14:38:48.000Z</updated>
   <id>http://Rocklu.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://Rocklu.me/2016/08/14/Git%E7%89%88%E6%9C%AC%E5%9B%9E%E9%80%80/"/>
     <id>http://Rocklu.me/2016/08/14/Git版本回退/</id>
     <published>2016-08-13T16:00:00.000Z</published>
-    <updated>2016-11-16T18:07:45.000Z</updated>
+    <updated>2017-02-16T14:38:48.000Z</updated>
     
     <content type="html"><![CDATA[<p>draft, need to orgnize</p>
 <a id="more"></a>
@@ -41,8 +41,11 @@
 </blockquote>
 <h4 id="compare-them"><a href="#compare-them" class="headerlink" title="compare them"></a>compare them</h4><p>checkout just changes the working dir<br>reset removes the commits<br>revert adds a commit to perform like a roll back<br><code>above three comman only affet tracked files.</code></p>
 <h4 id="git-clean-gt-remove-untracked-files"><a href="#git-clean-gt-remove-untracked-files" class="headerlink" title="git clean =&gt; remove untracked files"></a>git clean =&gt; remove untracked files</h4><p>always need -f to perform<br>need -d to delete dirs<br>will not delete files listed in .gitignore</p>
+<h4 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge "></a>git merge <branch></branch></h4><p>merge the <branch> to current branch, if nothing is added into current branch, git will conduct a ‘fast-forward’ merge, which just add the <branch> following current branch. If both branch have some commits, git will add a merge commit. </branch></branch></p>
+<h4 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h4><p>git pull == git fatch + git merge remote/master</p>
 <h4 id="git-rebase-gt-facilitates-a-fast-forward-merge"><a href="#git-rebase-gt-facilitates-a-fast-forward-merge" class="headerlink" title="git rebase =&gt; facilitates a fast-forward merge"></a>git rebase =&gt; facilitates a fast-forward merge</h4><p>–rebase -i =&gt; squash history</p>
-<h4 id="git-reflog-gt-contains-the-history-about-rollback"><a href="#git-reflog-gt-contains-the-history-about-rollback" class="headerlink" title="git reflog =&gt; contains the history about rollback"></a>git reflog =&gt; contains the history about rollback</h4>]]></content>
+<h4 id="git-reflog-gt-contains-the-history-about-rollback"><a href="#git-reflog-gt-contains-the-history-about-rollback" class="headerlink" title="git reflog =&gt; contains the history about rollback"></a>git reflog =&gt; contains the history about rollback</h4><h4 id="in-case-of-conflict"><a href="#in-case-of-conflict" class="headerlink" title="in case of conflict"></a>in case of conflict</h4><p>relax, just re-edit the conflict files, and commit again~</p>
+]]></content>
     
     <summary type="html">
     
